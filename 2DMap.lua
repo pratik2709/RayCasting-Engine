@@ -25,6 +25,40 @@ function _init()
         { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
         { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
     };
+    pi = 3.14
+    twopi = 6.28
+    player = {
+        x = 16,
+        y = 10,
+        dir = 10,
+        rot = 0,
+        speed = 0,
+        moveSpeed = 0.18,
+        rotSpeed = 6 * pi / 180
+    }
+
+    mapWidth = 0
+    mapHeight = 0
+    minMapScale = 9
+    screenWidth = 128
+    stripWidth = 4
+    fov = 60 * pi / 180
+    numRays =ceil(screenWidth/stripWidth)
+--    viewDist = (screenWidth/2) /
+    mapWidth = 32
+    mapHeight = 24
+    test()
 end
 
+function test()
+    for i=1,24 do
+        for j = 1,32 do
+            print(map[i][j])
+        end
+    end
+end
+
+function ceil(x)
+    return flr(x)
+end
 
