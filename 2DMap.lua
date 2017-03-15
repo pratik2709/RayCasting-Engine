@@ -47,7 +47,9 @@ function _init()
 --    viewDist = (screenWidth/2) /
     mapWidth = 32
     mapHeight = 24
-    test()
+end
+
+function _update()
 end
 
 function test()
