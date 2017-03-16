@@ -47,6 +47,7 @@ function _init()
     viewDist = (screenWidth/2) / (sin(fov/2)/cos(fov/2))
     mapWidth = 32
     mapHeight = 24
+    print(asin(0.57)*180/3.14)
 end
 
 function _update()
@@ -71,8 +72,7 @@ function castRays()
         --understand?
         rayScreenPos = (-numRays + i) * stripWidth
         rayViewDist = sqrt(rayScreenPos*rayScreenPos + viewDist*viewDist)
-        rayAngle = asin()
-
+--        rayAngle = asin()
     end
 
 end
@@ -82,8 +82,18 @@ function acos(x)
  return atan2(x,-sqrt(1-x*x))
 end
 
-function asin(y)
-     return atan2(sqrt(1-y*y),-y)
+function asin(x)
+  if x<0 then negate=1 else negate=0 end
+  x = abs(x);
+  ret = -0.0187293;
+  ret *= x;
+  ret += 0.0742610;
+  ret *= x;
+  ret -= 0.2121144;
+  ret *= x;
+  ret += 1.5707288;
+  ret = 3.14159265358979*0.5 - sqrt(1.0 - x)*ret;
+  return ret - 2 * negate * ret;
 end
 
 function test()
@@ -97,4 +107,3 @@ end
 function ceil(x)
     return flr(x)
 end
-
