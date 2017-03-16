@@ -44,7 +44,7 @@ function _init()
     stripWidth = 4
     fov = 60 * pi / 180
     numRays =ceil(screenWidth/stripWidth)
---    viewDist = (screenWidth/2) /
+    viewDist = (screenWidth/2) / (sin(fov/2)/cos(fov/2))
     mapWidth = 32
     mapHeight = 24
 end
@@ -66,7 +66,24 @@ function _update()
 end
 
 function castRays()
+    local stripIdx = 0
+    for i=numRays, 0, 1 do
+        --understand?
+        rayScreenPos = (-numRays + i) * stripWidth
+        rayViewDist = sqrt(rayScreenPos*rayScreenPos + viewDist*viewDist)
+        rayAngle = asin()
 
+    end
+
+end
+
+
+function acos(x)
+ return atan2(x,-sqrt(1-x*x))
+end
+
+function asin(y)
+     return atan2(sqrt(1-y*y),-y)
 end
 
 function test()
