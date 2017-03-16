@@ -50,6 +50,23 @@ function _init()
 end
 
 function _update()
+    if btn(0) then
+        player.dir = -1;
+    end
+    if btn(1) then
+        player.dir = 1;
+    end
+    if btn(2) then
+        player.speed = 1;
+    end
+    if btn(3) then
+        player.speed = -1;
+    end
+    castRays()
+end
+
+function castRays()
+
 end
 
 function test()
