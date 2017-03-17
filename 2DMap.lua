@@ -46,7 +46,7 @@ function _init()
     mapWidth = 32
     mapHeight = 24
     miniMapScale = 3
---    drawMiniMap()
+    drawMiniMap()
 end
 
 function drawMiniMap()
@@ -80,7 +80,7 @@ function _update()
     end
 
     move();
-    castRays()
+--    castRays()
 end
 
 function castRays()
@@ -137,7 +137,7 @@ function castSingleRay(rayAngle)
 
     local y = player.y + (x - player.x) * slope
 
-    while(x >= 0 and x < mapWidth and y >=0 and y < mapHeight)
+    while(x >= 1 and x < mapWidth and y >=1 and y < mapHeight)
         do
         local wallX
         local wallY
@@ -202,7 +202,7 @@ function castSingleRay(rayAngle)
 
     x = player.x + (y - player.y) * slope
 
-    while(x >= 0 and x < mapWidth and y >=0 and y < mapHeight)
+    while(x >= 1 and x < mapWidth and y >=1 and y < mapHeight)
         do
         local wallX
         local wallY
@@ -228,7 +228,7 @@ function castSingleRay(rayAngle)
         print(wallY)
         print(map[wallY][wallX])
     end
-        if wallX and wallY and (map[wallY][wallX] > 0)
+        if (map[wallY][wallX] > 0)
             then
             local distX = x - player.x
             local distY = y - player.y
