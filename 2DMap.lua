@@ -107,17 +107,18 @@ function castSingleRay(rayAngle)
 
     local angleSin = sin(rayAngle)
     local angleCos = cos(rayAngle)
-
     local dist = 0
     local xHit = 0
     local yHit = 0
 
     local textureX
-    local wallX
-    local wallY
 
     --vertical run
     local slope = angleSin / angleCos
+    local dX
+    local dY
+    local y
+    local x
     if right then
         dX = 1
     else
@@ -127,15 +128,17 @@ function castSingleRay(rayAngle)
     local dY = dX * slope
     if right
         then
-        local x = ceil(player.x)
+        x = ceil(player.x)
     else
-        local x = floor(player.x)
+        x = floor(player.x)
     end
 
     local y = player.y + (x - player.x) * slope
 
     while(x >= 0 and x < mapWidth and y >=0 and y < mapHeight)
         do
+        local wallX
+        local wallY
         if right then
             wallX = floor(x)
         else
@@ -145,6 +148,18 @@ function castSingleRay(rayAngle)
         wallY = floor(y)
 
         -- why opposite?? YX?
+--    if not wallY or not wallX
+--        then
+--        print("her")
+--        print(wallX)
+--        print(wallY)
+--        print(map[wallY][wallX])
+--    else
+--        print(wallX)
+--        print(wallY)
+--    print(map[wallY][wallX])
+--    return
+--    end
         if(map[wallY][wallX] > 0)
             then
             local distX = x - player.x
@@ -164,6 +179,10 @@ function castSingleRay(rayAngle)
 
     --horizontal run
     local slope = angleCos / angleSin
+    local dX
+    local dY
+    local y
+    local x
     if up then
         dY = -1
     else
@@ -173,15 +192,17 @@ function castSingleRay(rayAngle)
     local dX = dY * slope
     if up
         then
-        local y = floor(player.y)
+        y = floor(player.y)
     else
-        local y = ceil(player.y)
+        y = ceil(player.y)
     end
 
     local x = player.x + (y - player.y) * slope
 
     while(x >= 0 and x < mapWidth and y >=0 and y < mapHeight)
         do
+        local wallX
+        local wallY
         if right then
             wallY = floor(y - 1)
         else
@@ -191,6 +212,7 @@ function castSingleRay(rayAngle)
         wallX = floor(x)
 
         -- why opposite?? YX?
+
         if(map[wallY][wallX] > 0)
             then
             local distX = x - player.x
@@ -253,9 +275,9 @@ function move()
 end
 
 function isBlocking(x,y)
-    print "inside is blocking"
-    print(x)
-    print(y)
+--    print "inside is blocking"
+--    print(x)
+--    print(y)
     if y < 0 or y >= mapHeight or x < 0 or x >= mapWidth
         then
         return true
@@ -265,19 +287,19 @@ end
 
 
 
---function asin(x)
---  if x<0 then negate=1 else negate=0 end
---  x = abs(x);
---  ret = -0.0187293;
---  ret *= x;
---  ret += 0.0742610;
---  ret *= x;
---  ret -= 0.2121144;
---  ret *= x;
---  ret += 1.5707288;
---  ret = 3.14159265358979*0.5 - sqrt(1.0 - x)*ret;
---  return ret - 2 * negate * ret;
---end
+function asin(x)
+  if x<0 then negate=1 else negate=0 end
+  x = abs(x);
+  ret = -0.0187293;
+  ret *= x;
+  ret += 0.0742610;
+  ret *= x;
+  ret -= 0.2121144;
+  ret *= x;
+  ret += 1.5707288;
+  ret = 3.14159265358979*0.5 - sqrt(1.0 - x)*ret;
+  return ret - 2 * negate * ret;
+end
 
 function test()
     for i=1,24 do
