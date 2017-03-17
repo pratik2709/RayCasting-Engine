@@ -46,7 +46,7 @@ function _init()
     mapWidth = 32
     mapHeight = 24
     miniMapScale = 3
-    drawMiniMap()
+
 end
 
 function drawMiniMap()
@@ -65,7 +65,8 @@ function drawMiniMap()
 end
 
 function _update()
-
+    cls()
+    drawMiniMap()
     if btn(0) then
         player.dir = -1;
     end
@@ -79,7 +80,8 @@ function _update()
         player.speed = -1;
     end
 
-    move();
+    move()
+    updateMiniMap()
 --    castRays()
 end
 
@@ -149,14 +151,6 @@ function castSingleRay(rayAngle)
 
         wallY = floor(y)
 
-        -- why opposite?? YX?
---    if not wallY or not wallX
---        then
---        print("her")
---        print(wallX)
---        print(wallY)
---        print(map[wallY][wallX])
---    end
         if wallX and wallY
             then
             print(wallX)
@@ -287,6 +281,10 @@ function move()
 
     player.x = newX
     player.y = newY
+end
+
+function updateMiniMap(x,y)
+    spr(2, player.x*miniMapScale, player.y*miniMapScale)
 end
 
 function isBlocking(x,y)
