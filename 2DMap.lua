@@ -225,7 +225,21 @@ function move()
     local newX = player.x + cos(player.rot) * moveStep
     local newX = player.y + sin(player.rot) * moveStep
 
+    if isBlocking(newX, newY)
+        then
+        return
+    end
 
+    player.x = newX
+    player.y = newY
+end
+
+function isBlocking(x,y)
+    if y < 0 or y >= mapHeight or x < 0 or x >= mapWidth
+        then
+        return true
+    end
+    return (not map[Math.floor(y)][Math.floor(x)] == 0)
 end
 
 function asin(x)
