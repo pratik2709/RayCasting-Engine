@@ -46,7 +46,7 @@ function _init()
     mapWidth = 32
     mapHeight = 24
     miniMapScale = 3
-    drawMiniMap()
+--    drawMiniMap()
 end
 
 function drawMiniMap()
@@ -78,7 +78,9 @@ function _update()
     if btn(3) then
         player.speed = -1;
     end
---    castRays()
+
+    move();
+    castRays()
 end
 
 function castRays()
@@ -239,7 +241,7 @@ function move()
     end
 
     local newX = player.x + cos(player.rot) * moveStep
-    local newX = player.y + sin(player.rot) * moveStep
+    local newY = player.y + sin(player.rot) * moveStep
 
     if isBlocking(newX, newY)
         then
@@ -251,11 +253,14 @@ function move()
 end
 
 function isBlocking(x,y)
+    print "inside is blocking"
+    print(x)
+    print(y)
     if y < 0 or y >= mapHeight or x < 0 or x >= mapWidth
         then
         return true
     end
-    return (not map[Math.floor(y)][Math.floor(x)] == 0)
+    return (not map[flr(y)][flr(x)] == 0)
 end
 
 
@@ -282,11 +287,13 @@ function test()
     end
 end
 
+
+
+function floor(x)
+    return flr(x)
+end
+
 --issues
 function ceil(num)
   return flr(num+0x0.ffff)
-end
-
-function floor(x)
-    return flr(num)
 end
