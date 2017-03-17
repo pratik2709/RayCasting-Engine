@@ -30,7 +30,7 @@ function _init()
     player = {
         x = 16,
         y = 10,
-        dir = 10,
+        dir = 0,
         rot = 0,
         speed = 0,
         moveSpeed = 0.18,
@@ -195,6 +195,35 @@ function castSingleRay(rayAngle)
         then
         drawRay(xHit, yHit)
     end
+
+end
+
+function drawRay(rayX, rayY)
+    --how to draw?
+    line(player.x, player.y, rayX, rayY, "red")
+end
+
+function move()
+    -- moveSpeed: step in map units each update dist/time
+    -- speed : foward or backward
+    local moveStep = player.speed * player.moveSpeed
+    -- player dir 1 right and -1 left
+    -- player ro speed: speed at which player can turn
+    -- player rot:  current angle
+    player.rot = player.rot + player.dir * player.rotSpeed;
+
+    --unclear
+    while player.rot < 0
+        do
+        player.rot += twopi
+    end
+    while player.rot >= twopi
+        do
+        player.rot -= twopi
+    end
+
+    local newX = player.x + cos(player.rot) * moveStep
+    local newX = player.y + sin(player.rot) * moveStep
 
 
 end
