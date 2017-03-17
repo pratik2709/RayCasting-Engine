@@ -98,11 +98,12 @@ function castSingleRay(rayAngle)
     local wallX
     local wallY
 
+    --vertical run
     local slope = angleSin / angleCos
     if right then
         dX = 1
     else
-        dx = -1
+        dX = -1
     end
 
     local dY = dX * slope
@@ -138,9 +139,63 @@ function castSingleRay(rayAngle)
 
             break
         end
-        x = x+ dX
+        x = x + dX
         y = y+ dY
     end
+
+
+    --horizontal run
+    local slope = angleCos / angleSin
+    if up then
+        dY = -1
+    else
+        dY = 1
+    end
+
+    local dX = dY * slope
+    if up
+        then
+        local y = floor(player.y)
+    else
+        local y = ceil(player.y)
+    end
+
+    local x = player.x + (y - player.y) * slope
+
+    while(x >= 0 and x < mapWidth and y >=0 and y < mapHeight)
+        do
+        if right then
+            wallY = floor(y - 1)
+        else
+            wallY = floor(y)
+        end
+
+        wallX = floor(x)
+
+        -- why opposite?? YX?
+        if(map[wallY][wallX] > 0)
+            then
+            local distX = x - player.x
+            local distY = y - player.y
+
+            blockdist = distX*distX + distY*distY
+            if not dist or blockdist < dist
+                then
+                dist = blockdist
+                xHit = x
+                yHit = y
+            end
+            break
+        end
+        x = x + dX
+        y = y+ dY
+    end
+
+    if dist
+        then
+        drawRay(xHit, yHit)
+    end
+
 
 end
 
