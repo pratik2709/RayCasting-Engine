@@ -122,9 +122,25 @@ function castSingleRay(rayAngle)
         else
             wallX = floor(x - 1)
         end
+
+        wallY = floor(y)
+
+        -- why opposite?? YX?
+        if(map[wallY][wallX] > 0)
+            then
+            local distX = x - player.x
+            local distY = y - player.y
+
+            dist = distX*distX + distY*distY
+            -- skipping texture
+            xHit = x
+            yHit = y
+
+            break
+        end
+        x = x+ dX
+        y = y+ dY
     end
-
-
 
 end
 
