@@ -45,6 +45,23 @@ function _init()
     viewDist = (screenWidth/2) / (sin(fov/2)/cos(fov/2))
     mapWidth = 32
     mapHeight = 24
+    miniMapScale = 3
+    drawMiniMap()
+end
+
+function drawMiniMap()
+    cls()
+    for y=1,mapHeight,1
+        do
+        for x=1,mapWidth,1
+            do
+            local wall = map[y][x]
+            if wall > 0
+                then
+                spr(1, x*miniMapScale, y*miniMapScale)
+            end
+        end
+    end
 end
 
 function _update()
@@ -62,7 +79,6 @@ function _update()
         player.speed = -1;
     end
 --    castRays()
-    drawMiniMap()
 end
 
 function castRays()
@@ -242,34 +258,21 @@ function isBlocking(x,y)
     return (not map[Math.floor(y)][Math.floor(x)] == 0)
 end
 
-function drawMiniMap()
-    for y=0,mapHeight,1
-        do
-        for x=0,mapWidth,1
-            do
-            local wall = map[y][x]
-            if wall > 0
-                then
-                spr(1, 10, 10)
-            end
 
-        end
-    end
-end
 
-function asin(x)
-  if x<0 then negate=1 else negate=0 end
-  x = abs(x);
-  ret = -0.0187293;
-  ret *= x;
-  ret += 0.0742610;
-  ret *= x;
-  ret -= 0.2121144;
-  ret *= x;
-  ret += 1.5707288;
-  ret = 3.14159265358979*0.5 - sqrt(1.0 - x)*ret;
-  return ret - 2 * negate * ret;
-end
+--function asin(x)
+--  if x<0 then negate=1 else negate=0 end
+--  x = abs(x);
+--  ret = -0.0187293;
+--  ret *= x;
+--  ret += 0.0742610;
+--  ret *= x;
+--  ret -= 0.2121144;
+--  ret *= x;
+--  ret += 1.5707288;
+--  ret = 3.14159265358979*0.5 - sqrt(1.0 - x)*ret;
+--  return ret - 2 * negate * ret;
+--end
 
 function test()
     for i=1,24 do
