@@ -47,7 +47,6 @@ function _init()
     viewDist = (screenWidth/2) / (sin(fov/2)/cos(fov/2))
     mapWidth = 32
     mapHeight = 24
-    print(asin(0.57)*180/3.14)
 end
 
 function _update()
@@ -72,14 +71,61 @@ function castRays()
         --understand?
         rayScreenPos = (-numRays + i) * stripWidth
         rayViewDist = sqrt(rayScreenPos*rayScreenPos + viewDist*viewDist)
---        rayAngle = asin()
+        rayAngle = asin(rayScreenPos/rayViewDist)
+        castSingleRay(player.rot + rayAngle) --slightly confusing
     end
 
 end
 
+function castSingleRay(rayAngle)
+    rayAngle = rayAngle%twopi
+    if rayAngle < 0
+        then
+        rayAngle = rayAngle + twopi
+    end
 
-function acos(x)
- return atan2(x,-sqrt(1-x*x))
+    local right = (rayAngle > twopi * 0.75 or rayAngle > twopi * 0.25)
+    local up = rayAngle < 0 or rayAngle > pi
+
+    local angleSin = sin(rayAngle)
+    local angleCos = cos(rayAngle)
+
+    local dist = 0
+    local xHit = 0
+    local yHit = 0
+
+    local textureX
+    local wallX
+    local wallY
+
+    local slope = angleSin / angleCos
+    if right then
+        dX = 1
+    else
+        dx = -1
+    end
+
+    local dY = dX * slope
+    if right
+        then
+        local x = ceil(player.x)
+    else
+        local x = floor(player.x)
+    end
+
+    local y = player.y + (x - player.x) * slope
+
+    while(x >= 0 and x < mapWidth and y >=0 and y < mapHeight)
+        do
+        if right then
+            wallX = floor(x)
+        else
+            wallX = floor(x - 1)
+        end
+    end
+
+
+
 end
 
 function asin(x)
@@ -104,6 +150,11 @@ function test()
     end
 end
 
-function ceil(x)
-    return flr(x)
+--issues
+function ceil(num)
+  return flr(num+0x0.ffff)
+end
+
+function floor(x)
+    return flr(num)
 end
