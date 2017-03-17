@@ -37,8 +37,6 @@ function _init()
         rotSpeed = 6 * pi / 180
     }
 
-    mapWidth = 0
-    mapHeight = 0
     minMapScale = 9
     screenWidth = 128
     stripWidth = 4
@@ -50,6 +48,7 @@ function _init()
 end
 
 function _update()
+
     if btn(0) then
         player.dir = -1;
     end
@@ -62,12 +61,13 @@ function _update()
     if btn(3) then
         player.speed = -1;
     end
-    castRays()
+--    castRays()
+    drawMiniMap()
 end
 
 function castRays()
     local stripIdx = 0
-    for i=numRays, 0, 1 do
+    for i=0,numRays, 1 do
         --understand?
         rayScreenPos = (-numRays + i) * stripWidth
         rayViewDist = sqrt(rayScreenPos*rayScreenPos + viewDist*viewDist)
@@ -240,6 +240,21 @@ function isBlocking(x,y)
         return true
     end
     return (not map[Math.floor(y)][Math.floor(x)] == 0)
+end
+
+function drawMiniMap()
+    for y=0,mapHeight,1
+        do
+        for x=0,mapWidth,1
+            do
+            local wall = map[y][x]
+            if wall > 0
+                then
+                spr(1, 10, 10)
+            end
+
+        end
+    end
 end
 
 function asin(x)
