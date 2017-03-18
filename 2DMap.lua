@@ -40,24 +40,22 @@ function _init()
     screenWidth = 128
     stripWidth = 4
     fov = 60 * pi / 180
-    numRays =ceil(screenWidth/stripWidth)
-    viewDist = (screenWidth/2) / (sin(fov/2)/cos(fov/2))
+    numRays = ceil(screenWidth / stripWidth)
+    viewDist = (screenWidth / 2) / (sin(fov / 2) / cos(fov / 2))
     mapWidth = 32
     mapHeight = 24
     miniMapScale = 3
-
 end
 
 function drawMiniMap()
     cls()
-    for y=1,mapHeight,1
+    for y = 1, mapHeight, 1
+    do
+        for x = 1, mapWidth, 1
         do
-        for x=1,mapWidth,1
-            do
             local wall = map[y][x]
-            if wall > 0
-                then
-                spr(1, x*miniMapScale, y*miniMapScale)
+            if wall > 0 then
+                spr(1, x * miniMapScale, y * miniMapScale)
             end
         end
     end
@@ -66,62 +64,57 @@ end
 function _update()
     cls()
     drawMiniMap()
-    if not btn(2) and not btn(3)
-        then
+    if not btn(2) and not btn(3) then
         player.speed = 0
     end
 
-    if not btn(0) and not btn(1)
-        then
+    if not btn(0) and not btn(1) then
         player.dir = 0
     end
---left
+    --left
     if btn(0) then
-        print "left press"
         player.dir = -1;
     end
---right
+    --right
     if btn(1) then
         player.dir = 1;
     end
---up
+    --up
     if btn(2) then
         player.speed = -1;
     end
---down
+    --down
     if btn(3) then
         player.speed = 1;
     end
 
---z
+    --z
     if btn(4) then
         player.speed = 0;
         player.dir = 0;
     end
---    if not btn(2) and not btn(3) then
---        player.dir = 0;
---    end
+    --    if not btn(2) and not btn(3) then
+    --        player.dir = 0;
+    --    end
     move()
     updateMiniMap()
---    castRays()
+    --    castRays()
 end
 
 function castRays()
     local stripIdx = 0
-    for i=0,numRays, 1 do
+    for i = 0, numRays, 1 do
         --understand?
         rayScreenPos = (-numRays + i) * stripWidth
-        rayViewDist = sqrt(rayScreenPos*rayScreenPos + viewDist*viewDist)
-        rayAngle = asin(rayScreenPos/rayViewDist)
+        rayViewDist = sqrt(rayScreenPos * rayScreenPos + viewDist * viewDist)
+        rayAngle = asin(rayScreenPos / rayViewDist)
         castSingleRay(player.rot + rayAngle) --slightly confusing
     end
-
 end
 
 function castSingleRay(rayAngle)
-    rayAngle = rayAngle%twopi
-    if rayAngle < 0
-        then
+    rayAngle = rayAngle % twopi
+    if rayAngle < 0 then
         rayAngle = rayAngle + twopi
     end
 
@@ -151,8 +144,7 @@ function castSingleRay(rayAngle)
     end
 
     dY = dX * slope
-    if right
-        then
+    if right then
         x = ceil(player.x)
     else
         x = flr(player.x)
@@ -160,8 +152,8 @@ function castSingleRay(rayAngle)
 
     local y = player.y + (x - player.x) * slope
 
-    while(x >= 1 and x < mapWidth and y >=1 and y < mapHeight)
-        do
+    while (x >= 1 and x < mapWidth and y >= 1 and y < mapHeight)
+    do
         local wallX
         local wallY
         if right then
@@ -172,15 +164,13 @@ function castSingleRay(rayAngle)
 
         wallY = floor(y)
 
-        if wallX and wallY
-            then
+        if wallX and wallY then
 
-            if(map[wallY][wallX] > 0)
-                then
+            if (map[wallY][wallX] > 0) then
                 local distX = x - player.x
                 local distY = y - player.y
 
-                dist = distX*distX + distY*distY
+                dist = distX * distX + distY * distY
                 -- skipping texture
                 xHit = x
                 yHit = y
@@ -207,8 +197,7 @@ function castSingleRay(rayAngle)
     end
 
     dX = dY * slope
-    if up
-        then
+    if up then
         y = floor(player.y)
     else
         y = ceil(player.y)
@@ -216,8 +205,8 @@ function castSingleRay(rayAngle)
 
     x = player.x + (y - player.y) * slope
 
-    while(x >= 1 and x < mapWidth and y >=1 and y < mapHeight)
-        do
+    while (x >= 1 and x < mapWidth and y >= 1 and y < mapHeight)
+    do
         local wallX
         local wallY
         if right then
@@ -229,27 +218,24 @@ function castSingleRay(rayAngle)
         wallX = floor(x)
 
         -- why opposite?? YX?
-    print "**"
-        print(wallX)
-    print "--"
-        print(wallY)
-    print "##"
+        --    print "**"
+        --        print(wallX)
+        --    print "--"
+        --        print(wallY)
+        --    print "##"
 
-    if not wallY or not wallX
-        then
-        print("her")
-        print(wallX)
-        print(wallY)
-        print(map[wallY][wallX])
-    end
-        if (map[wallY][wallX] > 0)
-            then
+        if not wallY or not wallX then
+            --        print("her")
+            --        print(wallX)
+            --        print(wallY)
+            print(map[wallY][wallX])
+        end
+        if (map[wallY][wallX] > 0) then
             local distX = x - player.x
             local distY = y - player.y
 
-            local blockdist = distX*distX + distY*distY
-            if not dist or blockdist < dist
-                then
+            local blockdist = distX * distX + distY * distY
+            if not dist or blockdist < dist then
                 dist = blockdist
                 xHit = x
                 yHit = y
@@ -257,19 +243,17 @@ function castSingleRay(rayAngle)
             break
         end
         x = x + dX
-        y = y+ dY
+        y = y + dY
     end
 
-    if dist
-        then
+    if dist then
         drawRay(xHit, yHit)
     end
-
 end
 
 function drawRay(rayX, rayY)
     --how to draw?
-    line(player.x, player.y, rayX, rayY, "red")
+    line(player.x * miniMapScale, player.y * miniMapScale, rayX * miniMapScale, rayY * miniMapScale)
 end
 
 function move()
@@ -283,19 +267,18 @@ function move()
 
     --unclear
     while player.rot < 0
-        do
+    do
         player.rot += twopi
     end
     while player.rot >= twopi
-        do
+    do
         player.rot -= twopi
     end
 
     local newX = player.x + cos(player.rot) * moveStep
     local newY = player.y + sin(player.rot) * moveStep
 
-    if isBlocking(newX, newY)
-        then
+    if isBlocking(newX, newY) then
         return
     end
 
@@ -304,47 +287,46 @@ function move()
 end
 
 function updateMiniMap()
-    spr(2, player.x*miniMapScale, player.y*miniMapScale)
+    line(player.x * miniMapScale,
+        player.y * miniMapScale,
+        (player.x + cos(player.rot) * 4) * miniMapScale,
+        (player.y + sin(player.rot) * 4) * miniMapScale)
 end
 
-function isBlocking(x,y)
---    print "inside is blocking"
---    print(x)
---    print(y)
-    if y < 0 or y >= mapHeight or x < 0 or x >= mapWidth
-        then
+function isBlocking(x, y)
+    --    print "inside is blocking"
+    --    print(x)
+    --    print(y)
+    if y < 0 or y >= mapHeight or x < 0 or x >= mapWidth then
         return true
     end
 
-    if flr(y) > 0 and flr(x) > 0
-        then
-        if map[flr(y)][flr(x)] > 0
-            then
+    if flr(y) > 0 and flr(x) > 0 then
+        if map[flr(y)][flr(x)] > 0 then
             return true
         end
     end
-
 end
 
 
 
 function asin(x)
-  if x<0 then negate=1 else negate=0 end
-  x = abs(x);
-  ret = -0.0187293;
-  ret *= x;
-  ret += 0.0742610;
-  ret *= x;
-  ret -= 0.2121144;
-  ret *= x;
-  ret += 1.5707288;
-  ret = 3.14159265358979*0.5 - sqrt(1.0 - x)*ret;
-  return ret - 2 * negate * ret;
+    if x < 0 then negate = 1 else negate = 0 end
+    x = abs(x);
+    ret =-0.0187293;
+    ret *= x;
+    ret += 0.0742610;
+    ret *= x;
+    ret -= 0.2121144;
+    ret *= x;
+    ret += 1.5707288;
+    ret = 3.14159265358979 * 0.5 - sqrt(1.0 - x) * ret;
+    return ret - 2 * negate * ret;
 end
 
 function test()
-    for i=1,24 do
-        for j = 1,32 do
+    for i = 1, 24 do
+        for j = 1, 32 do
             print(map[i][j])
         end
     end
@@ -358,5 +340,5 @@ end
 
 --issues
 function ceil(num)
-  return flr(num+0x0.ffff)
+    return flr(num + 0x0.ffff)
 end
