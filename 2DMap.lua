@@ -316,7 +316,7 @@ function isBlocking(x,y)
         return true
     end
 
-    if flr(y) > 0 or flr(x) > 0
+    if flr(y) > 0 and flr(x) > 0
         then
         if map[flr(y)][flr(x)] > 0
             then
