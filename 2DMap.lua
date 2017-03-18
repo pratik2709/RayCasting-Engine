@@ -34,7 +34,7 @@ function _init()
         rot = 0,
         speed = 0,
         moveSpeed = 0.18,
-        rotSpeed = 6 * pi / 180
+        rotSpeed = 1 * pi / 180
     }
 
     screenWidth = 128
@@ -81,11 +81,11 @@ function _update()
     end
     --up
     if btn(2) then
-        player.speed = -1;
+        player.speed = 1;
     end
     --down
     if btn(3) then
-        player.speed = 1;
+        player.speed = -1;
     end
 
     --z
