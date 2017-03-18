@@ -82,17 +82,14 @@ function _update()
     end
 --right
     if btn(1) then
-        print "right press"
         player.dir = 1;
     end
 --up
     if btn(2) then
-        print "up press"
         player.speed = -1;
     end
 --down
     if btn(3) then
-        print "down press"
         player.speed = 1;
     end
 
@@ -297,14 +294,13 @@ function move()
     local newX = player.x + cos(player.rot) * moveStep
     local newY = player.y + sin(player.rot) * moveStep
 
---    if isBlocking(newX, newY)
---        then
---        return
---    end
+    if isBlocking(newX, newY)
+        then
+        return
+    end
 
     player.x = newX
     player.y = newY
-    print(player.rot)
 end
 
 function updateMiniMap()
@@ -319,7 +315,15 @@ function isBlocking(x,y)
         then
         return true
     end
-    return (not map[flr(y)][flr(x)] == 0)
+
+    if flr(y) > 0 or flr(x) > 0
+        then
+        if map[flr(y)][flr(x)] > 0
+            then
+            return true
+        end
+    end
+
 end
 
 
