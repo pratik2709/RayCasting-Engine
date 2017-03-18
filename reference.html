@@ -300,6 +300,7 @@ function move() {
 	var moveStep = player.speed * player.moveSpeed;	// player will move this far along the current direction vector
 
 	player.rot += player.dir * player.rotSpeed; // add rotation if player is rotating (player.dir != 0)
+    console.log(player.rot)
 
 	// make sure the angle is between 0 and 360 degrees
 	while (player.rot < 0) player.rot += twoPI;

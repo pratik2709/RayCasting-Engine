@@ -37,7 +37,6 @@ function _init()
         rotSpeed = 6 * pi / 180
     }
 
-    minMapScale = 9
     screenWidth = 128
     stripWidth = 4
     fov = 60 * pi / 180
@@ -67,19 +66,44 @@ end
 function _update()
     cls()
     drawMiniMap()
-    if btn(0) then
-        player.dir = -1;
-    end
-    if btn(1) then
-        player.dir = 1;
-    end
-    if btn(2) then
-        player.speed = 1;
-    end
-    if btn(3) then
-        player.speed = -1;
+    if not btn(2) and not btn(3)
+        then
+        player.speed = 0
     end
 
+    if not btn(0) and not btn(1)
+        then
+        player.dir = 0
+    end
+--left
+    if btn(0) then
+        print "left press"
+        player.dir = -1;
+    end
+--right
+    if btn(1) then
+        print "right press"
+        player.dir = 1;
+    end
+--up
+    if btn(2) then
+        print "up press"
+        player.speed = -1;
+    end
+--down
+    if btn(3) then
+        print "down press"
+        player.speed = 1;
+    end
+
+--z
+    if btn(4) then
+        player.speed = 0;
+        player.dir = 0;
+    end
+--    if not btn(2) and not btn(3) then
+--        player.dir = 0;
+--    end
     move()
     updateMiniMap()
 --    castRays()
@@ -153,8 +177,7 @@ function castSingleRay(rayAngle)
 
         if wallX and wallY
             then
-            print(wallX)
-            print(wallY)
+
             if(map[wallY][wallX] > 0)
                 then
                 local distX = x - player.x
@@ -259,7 +282,7 @@ function move()
     -- player dir 1 right and -1 left
     -- player ro speed: speed at which player can turn
     -- player rot:  current angle
-    player.rot = player.rot + player.dir * player.rotSpeed;
+    player.rot += (player.dir * player.rotSpeed)
 
     --unclear
     while player.rot < 0
@@ -274,16 +297,17 @@ function move()
     local newX = player.x + cos(player.rot) * moveStep
     local newY = player.y + sin(player.rot) * moveStep
 
-    if isBlocking(newX, newY)
-        then
-        return
-    end
+--    if isBlocking(newX, newY)
+--        then
+--        return
+--    end
 
     player.x = newX
     player.y = newY
+    print(player.rot)
 end
 
-function updateMiniMap(x,y)
+function updateMiniMap()
     spr(2, player.x*miniMapScale, player.y*miniMapScale)
 end
 
