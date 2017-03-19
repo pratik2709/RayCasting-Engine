@@ -1,3 +1,6 @@
+cos1 = cos function cos(angle) return cos1(angle/(3.1415*2)) end
+sin1 = sin function sin(angle) return sin1(-angle/(3.1415*2)) end
+
 function _init()
     map = {
         { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
@@ -6,7 +9,7 @@ function _init()
         { 1, 0, 0, 3, 0, 3, 0, 0, 1, 1, 1, 2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
         { 1, 0, 0, 3, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
         { 1, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-        { 1, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 1, 1, 1, 1, 1 },
+        { 1, 0, 0, 0,    0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 1, 1, 1, 1, 1 },
         { 1, 0, 0, 3, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
         { 1, 0, 0, 3, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2 },
         { 1, 0, 0, 3, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
@@ -38,7 +41,7 @@ function _init()
     }
 
     screenWidth = 128
-    stripWidth = 4
+    stripWidth = 10
     fov = 60 * pi / 180
     numRays = ceil(screenWidth / stripWidth)
     viewDist = (screenWidth / 2) / (sin(fov / 2) / cos(fov / 2))
@@ -98,7 +101,7 @@ function _update()
     --    end
     move()
     updateMiniMap()
-    --    castRays()
+    castRays()
 end
 
 function castRays()
@@ -253,7 +256,12 @@ end
 
 function drawRay(rayX, rayY)
     --how to draw?
-    line(player.x * miniMapScale, player.y * miniMapScale, rayX * miniMapScale, rayY * miniMapScale)
+    --still need to understand
+    line(player.x * miniMapScale,
+        player.y * miniMapScale,
+        rayX * miniMapScale,
+        rayY * miniMapScale, color(8)
+)
 end
 
 function move()
@@ -290,7 +298,7 @@ function updateMiniMap()
     line(player.x * miniMapScale,
         player.y * miniMapScale,
         (player.x + cos(player.rot) * 4) * miniMapScale,
-        (player.y + sin(player.rot) * 4) * miniMapScale)
+        (player.y + sin(player.rot) * 4) * miniMapScale, color(7))
 end
 
 function isBlocking(x, y)
