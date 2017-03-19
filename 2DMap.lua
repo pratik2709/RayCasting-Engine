@@ -37,7 +37,7 @@ function _init()
         rot = 0,
         speed = 0,
         moveSpeed = 0.18,
-        rotSpeed = 1 * pi / 180 --diff
+        rotSpeed = 6 * pi / 180 --diff
     }
 
     screenWidth = 128 --diff
@@ -57,6 +57,7 @@ function drawMiniMap()
         do
             local wall = map[y][x]
             if wall > 0 then
+                -- need to draw properly instead of sprite ?
                 spr(1, x * miniMapScale, y * miniMapScale)
             end
         end
@@ -154,7 +155,7 @@ function castSingleRay(rayAngle)
 
     local y = player.y + (x - player.x) * slope
 
-    while (x >= 1 and x < mapWidth and y >= 1 and y < mapHeight)
+    while (x >= 0 and x < mapWidth and y >= 0 and y < mapHeight)
     do
         local wallX
         local wallY
@@ -166,9 +167,8 @@ function castSingleRay(rayAngle)
 
         wallY = floor(y)
 
-        if wallX and wallY then
 
-            if (map[wallY][wallX] > 0) then
+            if (map[wallY+1][wallX+1] > 0) then
                 local distX = x - player.x
                 local distY = y - player.y
 
@@ -179,7 +179,6 @@ function castSingleRay(rayAngle)
 
                 break
             end
-        end
         x = x + dX
         y = y + dY
     end
@@ -207,7 +206,7 @@ function castSingleRay(rayAngle)
 
     x = player.x + (y - player.y) * slope
 
-    while (x >= 1 and x < mapWidth and y >= 1 and y < mapHeight)
+    while (x >= 0 and x < mapWidth and y >= 0 and y < mapHeight)
     do
         local wallX
         local wallY
@@ -232,7 +231,7 @@ function castSingleRay(rayAngle)
             --        print(wallY)
             print(map[wallY][wallX])
         end
-        if (map[wallY][wallX] > 0) then
+        if (map[wallY+1][wallX+1] > 0) then
             local distX = x - player.x
             local distY = y - player.y
 
@@ -301,17 +300,12 @@ function updateMiniMap()
 end
 
 function isBlocking(x, y)
-    --    print "inside is blocking"
-    --    print(x)
-    --    print(y)
     if y < 0 or y >= mapHeight or x < 0 or x >= mapWidth then
         return true
     end
-
-    if flr(y) > 0 and flr(x) > 0 then
-        if map[flr(y)][flr(x)] > 0 then
-            return true
-        end
+--needs better detection
+    if map[flr(y)][flr(x)] > 0 then
+        return true
     end
 end
 
