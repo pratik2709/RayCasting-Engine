@@ -102,8 +102,8 @@ function _update()
 end
 
 function castRays()
-    local stripIdx = 0
-    for i = 0, numRays, 1 do
+    local stripIdx = 1
+    for i = 1, numRays+1, 1 do
         --understand?
         rayScreenPos = (-numRays + i) * stripWidth
         rayViewDist = sqrt(rayScreenPos * rayScreenPos + viewDist * viewDist)
@@ -352,7 +352,7 @@ function isBlocking(x, y)
 end
 
 
-
+-- close but not precise -- check
 function asin(x)
     if x < 0 then negate = 1 else negate = 0 end
     x = abs(x);
