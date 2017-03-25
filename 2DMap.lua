@@ -37,7 +37,7 @@ function _init()
         rot = 0,
         speed = 0,
         moveSpeed = 0.18,
-        rotSpeed = 6 * pi / 180 --diff
+        rotSpeed = 6 * pi / 180
     }
 
     screenWidth = 128 --diff
@@ -57,8 +57,7 @@ function drawMiniMap()
         do
             local wall = map[y][x]
             if wall > 0 then
-                -- need to draw properly instead of sprite ?
-                spr(1, x * miniMapScale, y * miniMapScale)
+                rectfill(x * miniMapScale, y * miniMapScale, x * miniMapScale + miniMapScale, y * miniMapScale + miniMapScale)
             end
         end
     end
@@ -96,9 +95,7 @@ function _update()
         player.speed = 0;
         player.dir = 0;
     end
-    --    if not btn(2) and not btn(3) then
-    --        player.dir = 0;
-    --    end
+
     move()
     updateMiniMap()
     castRays()
@@ -111,11 +108,11 @@ function castRays()
         rayScreenPos = (-numRays + i) * stripWidth
         rayViewDist = sqrt(rayScreenPos * rayScreenPos + viewDist * viewDist)
         rayAngle = asin(rayScreenPos / rayViewDist)
-        castSingleRay(player.rot + rayAngle) --slightly confusing
+        castSingleRay(player.rot + rayAngle, viewDist) --slightly confusing
     end
 end
 
-function castSingleRay(rayAngle)
+function castSingleRay(rayAngle, viewDist)
     rayAngle = rayAngle % twopi
     if rayAngle < 0 then
         rayAngle = rayAngle + twopi
@@ -130,7 +127,8 @@ function castSingleRay(rayAngle)
     local xHit = 0
     local yHit = 0
 
-    local textureX
+    local texttureX
+    local wallType = 0
 
     --vertical run
     local slope = angleSin / angleCos
@@ -173,6 +171,7 @@ function castSingleRay(rayAngle)
                 local distY = y - player.y
 
                 dist = distX * distX + distY * distY
+                wallType = map[wallY+1][wallX+1];
                 -- skipping texture
                 xHit = x
                 yHit = y
@@ -188,8 +187,8 @@ function castSingleRay(rayAngle)
     local slope = angleCos / angleSin
     local dX
     local dY
-    local y
-    local x
+--    local y
+--    local x
 
     if up then
         dY = -1
@@ -240,6 +239,7 @@ function castSingleRay(rayAngle)
                 dist = blockdist
                 xHit = x
                 yHit = y
+                wallType = map[wallY+1][wallX+1];
             end
             break
         end
@@ -249,7 +249,49 @@ function castSingleRay(rayAngle)
 
     if dist then
         drawRay(xHit, yHit)
+        -- render walls here
+--        dist = sqrt(dist);
+--        dist = dist * cos(player.rot - rayAngle);
+--        local c
+--        if(wallType == 1)
+--            then
+--            c = 8
+--        elseif(wallType == 2)
+--            then
+--            c = 9
+--        elseif(wallType == 3)
+--            then
+--            c = 3
+--        elseif(wallType == 4)
+--            then
+--            c = 12
+--        else
+--            c = 13
+--        end
+--        render_walls(x,y, viewDist, dist, c)
     end
+end
+
+function render_walls(x,y, viewDist, dist, c)
+    local h = 128
+    local height = floor(viewDist / dist);
+    local width = height * stripWidth;
+
+    local lineHeight = floor(h / height);
+--    local drawStart = -lineHeight / 2 + h / 2;
+--    if(drawStart < 0)
+--    then
+--        drawStart = 0;
+--    end
+--    local drawEnd = lineHeight / 2 + h / 2;
+--    if(drawEnd >= h)
+--    then
+--        drawEnd = h - 1;
+--    end
+     rectfill(x, y, x + width, y+height, c)
+
+--     line(x, drawStart, x, drawEnd, color(c))
+
 end
 
 function drawRay(rayX, rayY)
@@ -272,14 +314,14 @@ function move()
     player.rot += (player.dir * player.rotSpeed)
 
     --unclear
-    while player.rot < 0
-    do
-        player.rot += twopi
-    end
-    while player.rot >= twopi
-    do
-        player.rot -= twopi
-    end
+--    while player.rot < 0
+--    do
+--        player.rot += twopi
+--    end
+--    while player.rot >= twopi
+--    do
+--        player.rot -= twopi
+--    end
 
     local newX = player.x + cos(player.rot) * moveStep
     local newY = player.y + sin(player.rot) * moveStep
