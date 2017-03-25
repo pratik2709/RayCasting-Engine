@@ -41,14 +41,19 @@ function _init()
     }
 
     screenWidth = 128 --diff
-    stripWidth = 10 --diff
+    screenHeight = 128
+    stripWidth = 1 --diff
     fov = 60 * pi / 180
     numRays = ceil(screenWidth / stripWidth)
     viewDist = (screenWidth / 2) / (sin(fov / 2) / cos(fov / 2))
     mapWidth = 32 --diff
     mapHeight = 24
     miniMapScale = 3
+    index = 0
+    screenStrips = {}
+    init_screen()
 end
+
 
 function drawMiniMap()
     for y = 1, mapHeight, 1
@@ -57,7 +62,7 @@ function drawMiniMap()
         do
             local wall = map[y][x]
             if wall > 0 then
-                rectfill(x * miniMapScale, y * miniMapScale, x * miniMapScale + miniMapScale, y * miniMapScale + miniMapScale)
+                rectfill(x * miniMapScale, y * miniMapScale, x * miniMapScale + miniMapScale, y * miniMapScale + miniMapScale, color(7))
             end
         end
     end
@@ -102,17 +107,30 @@ function _update()
 end
 
 function castRays()
-    local stripIdx = 1
+    local stripIdx = 0
     for i = 1, numRays+1, 1 do
         --understand?
         rayScreenPos = (-numRays + i) * stripWidth
         rayViewDist = sqrt(rayScreenPos * rayScreenPos + viewDist * viewDist)
         rayAngle = asin(rayScreenPos / rayViewDist)
-        castSingleRay(player.rot + rayAngle) --slightly confusing
+        stripIdx += 1
+        castSingleRay(player.rot + rayAngle, stripIdx, i) --slightly confusing
     end
 end
 
-function castSingleRay(rayAngle)
+function init_screen()
+    for i=0,screenWidth, 1
+        do
+        add(screenstrips, {
+            left=i,
+            width= stripWidth,
+            height= 0,
+            colour= color(7)
+        })
+        end
+end
+
+function castSingleRay(rayAngle, stripIdx, index)
     rayAngle = rayAngle % twopi
     if rayAngle < 0 then
         rayAngle = rayAngle + twopi
@@ -129,7 +147,7 @@ function castSingleRay(rayAngle)
     local xHit = 0
     local yHit = 0
 
-    local texttureX
+    local textureX
     local wallX
     local wallY
 
@@ -175,7 +193,14 @@ function castSingleRay(rayAngle)
 
                 dist = distX * distX + distY * distY
                 wallType = map[wallY+1][wallX+1];
+
                 -- skipping texture
+                textureX = y % 1;
+            if not right
+            then
+                textureX = 1 - textureX
+            end
+
                 xHit = x
                 yHit = y
 
@@ -231,6 +256,12 @@ function castSingleRay(rayAngle)
                 xHit = x
                 yHit = y
                 wallType = map[wallY+1][wallX+1];
+
+                textureX = x % 1
+                if up then
+                    textureX = 1 - textureX
+                end
+
             end
             break
         end
@@ -241,34 +272,42 @@ function castSingleRay(rayAngle)
     if dist then
         drawRay(xHit, yHit)
         -- render walls here
---        dist = sqrt(dist);
---        dist = dist * cos(player.rot - rayAngle);
---        local c
---        if(wallType == 1)
---            then
---            c = 8
---        elseif(wallType == 2)
---            then
---            c = 9
---        elseif(wallType == 3)
---            then
---            c = 3
---        elseif(wallType == 4)
---            then
---            c = 12
---        else
---            c = 13
---        end
---        render_walls(x,y, viewDist, dist, c)
-    end
-end
+        local strip = screenStrips[stripIdx]
+        dist = sqrt(dist);
+        dist = dist * cos(player.rot - rayAngle);
+        local height = round(viewDist/dist)
+        local xx = height * stripWidth
+        local yy = round((screenHeight - height)/2)
 
-function render_walls(x,y, viewDist, dist, c)
-    local h = 128
-    local height = floor(viewDist / dist);
-    local width = height * stripWidth;
+        local c
+        if(wallType == 1)
+            then
+            c = 8
+        elseif(wallType == 2)
+            then
+            c = 9
+        elseif(wallType == 3)
+            then
+            c = 3
+        elseif(wallType == 4)
+            then
+            c = 12
+        else
+            c = 13
+        end
 
-    local lineHeight = floor(h / height);
+        strip.height = height
+        strip.top = top
+
+        rectfill(xx, yy, xx + stripWidth, yy+height, color(c))
+        --
+        --index
+        --Math.sqrt(dist_h), texturex_h, wallType_h, xHit_h, yHit_h
+        --i, dist, res[1], res[2], res[3], res[4], rayAngle
+
+
+--    local h = 128
+--    local lineHeight = floor(h / height);
 --    local drawStart = -lineHeight / 2 + h / 2;
 --    if(drawStart < 0)
 --    then
@@ -279,11 +318,47 @@ function render_walls(x,y, viewDist, dist, c)
 --    then
 --        drawEnd = h - 1;
 --    end
-     rectfill(x, y, x + width, y+height, c)
-
---     line(x, drawStart, x, drawEnd, color(c))
-
+--        spr(1, xHit, top)
+--    line(xHit, top, xHit, top+height, color(c))
+--        while index < stripWidth
+--            do
+--            line(xHit, top, xHit, top+height, color(c))
+--            index += 0.1
+--        end
+--        rectfill(xHit, top, xHit + width, top+height, color(c))
+    end
 end
+
+function round(num, numDecimalPlaces)
+  local mult = 10^(numDecimalPlaces or 0)
+  return flr(num * mult + 0.5) / mult
+end
+
+--function render_walls(x,y, viewDist, dist, c)
+--    local h = 128
+--    local height = floor(viewDist / dist); --height of the strip
+--    local width = height * stripWidth;
+--    local top = round((screenHeight - height)/2) --xco-ordinate ?
+--    -- width will be the strip width
+--    -- left: i ? --ycoordinate ?
+--    rectfill(i, top, i + stripWidth, top+ height, c)
+
+--    local lineHeight = floor(h / height);
+--    local drawStart = -lineHeight / 2 + h / 2;
+--    if(drawStart < 0)
+--    then
+--        drawStart = 0;
+--    end
+--    local drawEnd = lineHeight / 2 + h / 2;
+--    if(drawEnd >= h)
+--    then
+--        drawEnd = h - 1;
+--    end
+--     rectfill(x, y, x + width, y+height, c)
+
+--     line(xHit, yHit, xHit, yHit+height, color(c))
+
+--end
 
 function drawRay(rayX, rayY)
     --how to draw?
