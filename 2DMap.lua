@@ -190,18 +190,18 @@ function castSingleRay(rayAngle)
     local slope = angleCos / angleSin
     local dXHor
     local dYHor
---    local y
---    local x
+    local y
+    local x
 
     if up then
-        dY = -1
+        dYHor = -1
     else
-        dY = 1
+        dYHor = 1
     end
 
-    dX = dY * slope
+    dXHor = dYHor * slope
     if up then
-        y = floor(player.y)
+        y = flr(player.y)
     else
         y = ceil(player.y)
     end
@@ -212,27 +212,15 @@ function castSingleRay(rayAngle)
     do
         local wallX
         local wallY
-        if right then
-            wallY = floor(y - 1)
+        if up then
+            wallY = flr(y - 1)
         else
-            wallY = floor(y)
+            wallY = flr(y)
         end
 
-        wallX = floor(x)
+        wallX = flr(x)
 
-        -- why opposite?? YX?
-        --    print "**"
-        --        print(wallX)
-        --    print "--"
-        --        print(wallY)
-        --    print "##"
 
-        if not wallY or not wallX then
-            --        print("her")
-            --        print(wallX)
-            --        print(wallY)
-            print(map[wallY][wallX])
-        end
         if (map[wallY+1][wallX+1] > 0) then
             local distX = x - player.x
             local distY = y - player.y
@@ -246,8 +234,8 @@ function castSingleRay(rayAngle)
             end
             break
         end
-        x = x + dX
-        y = y + dY
+        x = x + dXHor
+        y = y + dYHor
     end
 
     if dist then
