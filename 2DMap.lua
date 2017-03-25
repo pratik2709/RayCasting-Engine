@@ -358,13 +358,6 @@ function asin(x)
     return ret - 2 * negate * ret;
 end
 
-function test()
-    for i = 1, 24 do
-        for j = 1, 32 do
-            print(map[i][j])
-        end
-    end
-end
 
 
 
