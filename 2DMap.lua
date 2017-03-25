@@ -108,18 +108,20 @@ function castRays()
         rayScreenPos = (-numRays + i) * stripWidth
         rayViewDist = sqrt(rayScreenPos * rayScreenPos + viewDist * viewDist)
         rayAngle = asin(rayScreenPos / rayViewDist)
-        castSingleRay(player.rot + rayAngle, viewDist) --slightly confusing
+        castSingleRay(player.rot + rayAngle) --slightly confusing
     end
 end
 
-function castSingleRay(rayAngle, viewDist)
+function castSingleRay(rayAngle)
     rayAngle = rayAngle % twopi
     if rayAngle < 0 then
         rayAngle = rayAngle + twopi
     end
 
-    local right = (rayAngle > twopi * 0.75 or rayAngle < twopi * 0.25)
+    local right = (rayAngle > (twopi * 0.75) or rayAngle < (twopi * 0.25))
     local up = (rayAngle < 0 or rayAngle > pi)
+
+    local wallType = 0;
 
     local angleSin = sin(rayAngle)
     local angleCos = cos(rayAngle)
@@ -128,44 +130,45 @@ function castSingleRay(rayAngle, viewDist)
     local yHit = 0
 
     local texttureX
-    local wallType = 0
+    local wallX
+    local wallY
 
     --vertical run
     local slope = angleSin / angleCos
-    local wallX
-    local wallY
-    local dX
-    local dY
+
+    local dXVer
+    local dYVer
     local y
     local x
     if right then
-        dX = 1
+        dXVer = 1
     else
-        dX = -1
+        dXVer = -1
     end
 
-    dY = dX * slope
+    dYVer = dXVer * slope
+
     if right then
         x = ceil(player.x)
     else
         x = flr(player.x)
     end
 
-    local y = player.y + (x - player.x) * slope
+    y = player.y + (x - player.x) * slope
 
     while (x >= 0 and x < mapWidth and y >= 0 and y < mapHeight)
     do
         local wallX
         local wallY
         if right then
-            wallX = floor(x)
+            wallX = flr(x)
         else
-            wallX = floor(x - 1)
+            wallX = flr(x - 1)
         end
 
-        wallY = floor(y)
+        wallY = flr(y)
 
-
+            --wierd --check
             if (map[wallY+1][wallX+1] > 0) then
                 local distX = x - player.x
                 local distY = y - player.y
@@ -178,15 +181,15 @@ function castSingleRay(rayAngle, viewDist)
 
                 break
             end
-        x = x + dX
-        y = y + dY
+        x = x + dXVer
+        y = y + dYVer
     end
 
 
     --horizontal run
     local slope = angleCos / angleSin
-    local dX
-    local dY
+    local dXHor
+    local dYHor
 --    local y
 --    local x
 
