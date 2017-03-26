@@ -44,6 +44,6 @@ numRays = math.ceil(screenWidth / stripWidth)
 viewDist = (screenWidth / 2) / (math.tan(fov / 2))
 mapWidth = 32 --diff
 mapHeight = 24
-miniMapScale = 10
+miniMapScale = 20
 index = 0
 screenStrips = {}

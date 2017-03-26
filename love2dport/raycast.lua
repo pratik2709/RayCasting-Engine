@@ -170,21 +170,21 @@ function castSingleRay(rayAngle, index)
         local xx = height * stripWidth
         local yy = round((screenHeight - height)/2)
 
-        local c = 13
+
         if(wallType == 1)
             then
-            c = 8
+            love.graphics.setColor(128, 255, 0)
         elseif(wallType == 2)
             then
-            c = 9
+            love.graphics.setColor(255, 128, 0)
         elseif(wallType == 3)
             then
-            c = 3
+            love.graphics.setColor(204, 0, 102)
         elseif(wallType == 4)
             then
-            c = 12
+            love.graphics.setColor(0, 128, 255)
         else
-            c = 13
+            love.graphics.setColor(255, 0, 0)
         end
 
 --    love.graphics.setColor(255, 0, 0)
