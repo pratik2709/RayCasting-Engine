@@ -14,3 +14,10 @@ function drawMiniMap()
     end
 end
 
+function updateMiniMap()
+    love.graphics.setColor(255, 255, 255)
+    love.graphics.line(player.x * miniMapScale,
+        player.y * miniMapScale,
+        (player.x + math.cos(player.rot) * 4) * miniMapScale,
+        (player.y + math.sin(player.rot) * 4) * miniMapScale)
+end
