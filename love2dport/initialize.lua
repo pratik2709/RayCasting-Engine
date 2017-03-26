@@ -36,14 +36,14 @@ player = {
     rotSpeed = 6 * pi / 180
 }
 
-screenWidth = 128 --diff
-screenHeight = 128
-stripWidth = 1 --diff
+screenWidth = 480 --diff
+screenHeight = 360
+stripWidth = 2 --diff
 fov = 60 * pi / 180
 numRays = math.ceil(screenWidth / stripWidth)
-viewDist = (screenWidth / 2) / (math.sin(fov / 2) / math.cos(fov / 2))
+viewDist = (screenWidth / 2) / (math.tan(fov / 2))
 mapWidth = 32 --diff
 mapHeight = 24
-miniMapScale = 1
+miniMapScale = 10
 index = 0
 screenStrips = {}
