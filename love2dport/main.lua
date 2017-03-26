@@ -4,10 +4,10 @@ function love.load(arg)
     require "initialize"
     require "minimap"
     require "player"
+    require "raycast"
 end
 
 function love.update(dt)
-    drawMiniMap()
     if not love.keyboard.isDown("left") and not love.keyboard.isDown("right") then
         player.speed = 0
     end
@@ -34,12 +34,15 @@ function love.update(dt)
 
     move()
 
+
 end
 
 function love.draw(dt)
+    drawMiniMap()
+    updateMiniMap()
+    castRays()
 --    love.graphics.setColor(255, 0, 0)
 --    love.graphics.rectangle( "fill", 0, 0, 100, 100 )
 --    love.graphics.print(pi, 200, 200)
-    drawMiniMap()
-    updateMiniMap()
+--    updateMiniMap()
 end
