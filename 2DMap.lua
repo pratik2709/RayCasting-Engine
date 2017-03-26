@@ -48,10 +48,9 @@ function _init()
     viewDist = (screenWidth / 2) / (sin(fov / 2) / cos(fov / 2))
     mapWidth = 32 --diff
     mapHeight = 24
-    miniMapScale = 3
+    miniMapScale = 1
     index = 0
     screenStrips = {}
-    init_screen()
 end
 
 
@@ -62,7 +61,9 @@ function drawMiniMap()
         do
             local wall = map[y][x]
             if wall > 0 then
-                rectfill(x * miniMapScale, y * miniMapScale, x * miniMapScale + miniMapScale, y * miniMapScale + miniMapScale, color(7))
+                local xs = x * miniMapScale
+                local ys = y * miniMapScale
+                rectfill(xs, ys, xs+miniMapScale, ys+miniMapScale, color(2))
             end
         end
     end
@@ -109,83 +110,101 @@ end
 function castRays()
     for i = 1, numRays+1, 1 do
         --understand?
-        rayScreenPos = (-numRays/2 + i) * stripWidth
+        rayScreenPos = (-numRays + i) * stripWidth
         rayViewDist = sqrt(rayScreenPos * rayScreenPos + viewDist * viewDist)
         rayAngle = asin(rayScreenPos / rayViewDist)
         castSingleRay(player.rot + rayAngle, i) --slightly confusing
     end
 end
 
-function init_screen()
-    for i=0,screenWidth, 1
-        do
-        add(screenstrips, {
-            left=i,
-            width= stripWidth,
-            height= 0,
-            colour= color(7)
-        })
-        end
-end
 
 function castSingleRay(rayAngle, index)
-
-    local distx
-    local disty
-
     rayAngle = rayAngle % twopi
     if rayAngle < 0 then
         rayAngle = rayAngle + twopi
     end
 
-    local right = ((rayAngle > (twopi * 0.75)) or (rayAngle < (twopi * 0.25)))
+    local right = (rayAngle > (twopi * 0.75) or rayAngle < (twopi * 0.25))
     local up = (rayAngle < 0 or rayAngle > pi)
 
     local wallType = 0;
 
     local angleSin = sin(rayAngle)
     local angleCos = cos(rayAngle)
+    local dist = 0
+    local xHit = 0
+    local yHit = 0
 
     local textureX
-
+    local wallX
+    local wallY
 
     --vertical run
-    local slope_ver = angleSin / angleCos
+    local slope = angleSin / angleCos
 
     local dXVer
     local dYVer
-    local y_ver
-    local x_ver
+    local y
+    local x
     if right then
         dXVer = 1
     else
         dXVer = -1
     end
 
-    dYVer = dXVer * slope_ver
+    dYVer = dXVer * slope
 
     if right then
-        x_ver = ceil(player.x)
+        x = ceil(player.x)
     else
-        x_ver = flr(player.x)
+        x = flr(player.x)
     end
 
-    y_ver = player.y + (x_ver - player.x) * slope_ver
+    y = player.y + (x - player.x) * slope
 
-    local dist_v = -1
-    local xHit_v = 0
-    local yHit_v = 0
-    local wallType_v = 0
-    local wallX_v, wallY_v
-    local do_v = true
+    while (x >= 0 and x < mapWidth and y >= 0 and y < mapHeight)
+    do
+        local wallX
+        local wallY
+        if right then
+            wallX = flr(x)
+        else
+            wallX = flr(x - 1)
+        end
+
+        wallY = flr(y)
+
+            --wierd --check
+            if (map[wallY+1][wallX+1] > 0) then
+                local distX = x - player.x
+                local distY = y - player.y
+
+                dist = distX * distX + distY * distY
+                wallType = map[wallY+1][wallX+1];
+
+                -- skipping texture
+                textureX = y % 1;
+            if not right
+            then
+                textureX = 1 - textureX
+            end
+
+                xHit = x
+                yHit = y
+
+                break
+            end
+        x = x + dXVer
+        y = y + dYVer
+    end
+
 
     --horizontal run
-    --horizontal run
-    local slope_h = angleCos / angleSin
+    local slope = angleCos / angleSin
     local dXHor
     local dYHor
-    local y_h
-    local x_h
+    local y
+    local x
 
     if up then
         dYHor = -1
@@ -193,141 +212,62 @@ function castSingleRay(rayAngle, index)
         dYHor = 1
     end
 
-    dXHor = dYHor * slope_h
+    dXHor = dYHor * slope
     if up then
-        y_h = flr(player.y)
+        y = flr(player.y)
     else
-        y_h = ceil(player.y)
+        y = ceil(player.y)
     end
 
-    x_h = player.x + ((y_h - player.y) * slope_h)
+    x = player.x + (y - player.y) * slope
 
-    local dist_h = -1
-    local xHit_h = 0
-    local yHit_h = 0
-    local wallType_h = 0
-    local wallX_h, wallY_h
-    local do_h = true
-
-    while do_h or do_v
-        do
-
-        if(x_ver >= 0 and x_ver < mapWidth and y_ver >= 0 and y_ver < mapHeight)
-        then
-            do_v = true
+    while (x >= 0 and x < mapWidth and y >= 0 and y < mapHeight)
+    do
+        local wallX
+        local wallY
+        if up then
+            wallY = flr(y - 1)
         else
-            do_v = false
+            wallY = flr(y)
         end
 
-        if(x_h >= 0 and x_h < mapWidth and y_h >= 0 and y_h < mapHeight)
-        then
-            do_h = true
-        else
-            do_h = false
-        end
+        wallX = flr(x)
 
-        if do_v
-            then
-                if right then
-                    wallX_v = flr(x_ver)
-                else
-                    wallX_v = flr(x_ver - 1)
-                end
 
-                wallY_v = flr(y_ver)
+        if (map[wallY+1][wallX+1] > 0) then
+            local distX = x - player.x
+            local distY = y - player.y
 
-            if wallY_v > 0 and wallX_v > 0
-                then
-                wallType_v = map[wallY_v][wallX_v]
-            end
---            if wallY_v > 0 and wallX_v > 0
---                then
---                wallType_v = map[wallY_v][wallX_v]
---            else
---                if wallY_v == 0
---                    then
---                    wallY_v = 1
---                end
---                if wallX_v == 0
---                    then
---                    wallX_v = 1
---                end
---                wallType_v = map[wallY_v][wallX_v]
---            end
-                    --wierd --check
-                if (wallType_v > 0) then
-                    distx = x_ver - player.x
-                    disty = y_ver - player.y
+            local blockdist = distX * distX + distY * distY
+            if not dist or blockdist < dist then
+                dist = blockdist
+                xHit = x
+                yHit = y
+                wallType = map[wallY+1][wallX+1];
 
-                    dist_v = distx * distx + disty * disty
-
-                    -- skipping texture
-
-                    xHit_v = x_ver
-                    yHit_v = y_ver
-                    do_v = false
-                end
-                x_ver = x_ver + dXVer
-                y_ver = y_ver + dYVer
-        end
-
-        if do_h
-            then
+                textureX = x % 1
                 if up then
-                    wallY_h = flr(y_h - 1)
-                else
-                    wallY_h = flr(y_h)
+                    textureX = 1 - textureX
                 end
 
-            wallX_h = flr(x_h)
---            print(y_h)
-            if wallY_h > 0 and wallX_h > 0
-                then
-                wallType_h = map[wallY_h][wallX_h]
             end
-
-             if (wallType_h > 0) then
-                distx = x_h - player.x
-                disty = y_h - player.y
-
-                dist_h = distx * distx + disty * disty
-                xHit_h = x_h
-                yHit_h = y_h
-                do_h = false
-            end
-
-            x_h = x_h + dXHor
-            y_h = y_h + dYHor
+            break
         end
-
+        x = x + dXHor
+        y = y + dYHor
     end
 
-    if ((dist_h ~= -1) and ((dist_v == -1) or (dist_v > dist_h)))
-    then
-        drawRay(xHit_h, yHit_h)
-        render_walls(dist_h, rayAngle,wallType_h)
-    else
-        drawRay(xHit_v, yHit_v)
-        render_walls(dist_v, rayAngle,wallType_v)
-    end
-
-end
-
-function round(num, numDecimalPlaces)
-  local mult = 10^(numDecimalPlaces or 0)
-  return flr(num * mult + 0.5) / mult
-end
-
-function render_walls(dist, rayAngle,wallType)
     if dist then
+        drawRay(xHit, yHit)
         -- render walls here
+        local strip = screenStrips[stripIdx]
         dist = sqrt(dist);
         dist = dist * cos(player.rot - rayAngle);
         local height = round(viewDist/dist)
         local xx = height * stripWidth
         local yy = round((screenHeight - height)/2)
 
-        local c
+        local c = 13
         if(wallType == 1)
             then
             c = 8
@@ -344,9 +284,16 @@ function render_walls(dist, rayAngle,wallType)
             c = 13
         end
 
-        rectfill(xx, yy, xx + stripWidth, yy+height, color(c))
+        rectfill(xx, yy, xx + stripWidth*3, yy+height, color(c))
+
     end
 end
+
+function round(num, numDecimalPlaces)
+  local mult = 10^(numDecimalPlaces or 0)
+  return flr(num * mult + 0.5) / mult
+end
+
 
 function drawRay(rayX, rayY)
     --how to draw?
