@@ -1,8 +1,11 @@
 function drawMiniMap()
-    for y = 1, mapHeight, 1
+    for y = 0, mapHeight-1, 1
     do
-        for x = 1, mapWidth, 1
+        for x = 0, mapWidth-1, 1
         do
+            print(x)
+            print(y)
+            print(map[y][x])
             local wall = map[y][x]
             if wall > 0 then
                 local xs = x * miniMapScale

@@ -80,12 +80,12 @@ function castSingleRay(rayAngle, index)
         wallY = math.floor(y)
 
             --wierd --check
-            if (map[wallY+1][wallX+1] > 0) then
+            if (map[wallY][wallX] > 0) then
                 local distX = x - player.x
                 local distY = y - player.y
 
                 dist = distX * distX + distY * distY
-                wallType = map[wallY+1][wallX+1];
+                wallType = map[wallY][wallX];
 
                 -- skipping texture
                 textureX = y % 1;
@@ -139,7 +139,7 @@ function castSingleRay(rayAngle, index)
         wallX = math.floor(x)
 
 
-        if (map[wallY+1][wallX+1] > 0) then
+        if (map[wallY][wallX] > 0) then
             local distX = x - player.x
             local distY = y - player.y
 
@@ -148,7 +148,7 @@ function castSingleRay(rayAngle, index)
                 dist = blockdist
                 xHit = x
                 yHit = y
-                wallType = map[wallY+1][wallX+1];
+                wallType = map[wallY][wallX];
 
                 textureX = x % 1
                 if up then
