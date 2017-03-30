@@ -1,4 +1,9 @@
 function drawRay(rayX, rayY)
+    if rayX == 0 and rayY ==0
+        then
+        print "caught"
+    end
+
     love.graphics.setColor(51, 255, 255)
     love.graphics.line(player.x * miniMapScale,
         player.y * miniMapScale,
@@ -79,7 +84,6 @@ function castSingleRay(rayAngle, index)
 
         wallY = math.floor(y)
 
-            --wierd --check
             if (map[wallY][wallX] > 0) then
                 local distX = x - player.x
                 local distY = y - player.y
