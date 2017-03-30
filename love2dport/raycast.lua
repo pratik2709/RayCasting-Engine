@@ -7,9 +7,11 @@ function drawRay(rayX, rayY)
 end
 
 function castRays()
-    for i = 1, numRays+1, 1 do
+    local leftmostRayPos = -numRays / 2;
+    for i = 0, numRays, 1 do
         --understand?
-        rayScreenPos = (-numRays + i) * stripWidth
+
+        rayScreenPos = (leftmostRayPos + i) * stripWidth
         rayViewDist = math.sqrt(rayScreenPos * rayScreenPos + viewDist * viewDist)
         rayAngle = math.asin(rayScreenPos / rayViewDist)
         castSingleRay(player.rot + rayAngle, i) --slightly confusing
@@ -167,7 +169,7 @@ function castSingleRay(rayAngle, index)
         dist = math.sqrt(dist);
         dist = dist * math.cos(player.rot - rayAngle);
         local height = round(viewDist/dist)
-        local xx = height * stripWidth
+        local xx = index * stripWidth
         local yy = round((screenHeight - height)/2)
 
 
@@ -187,8 +189,8 @@ function castSingleRay(rayAngle, index)
             love.graphics.setColor(255, 0, 0)
         end
 
---    love.graphics.setColor(255, 0, 0)
---    love.graphics.rectangle( "fill", xx, yy, stripWidth*3, height )
+    love.graphics.setColor(255, 0, 0)
+    love.graphics.rectangle( "fill", xx, yy, stripWidth*3, height )
 --        rectfill(xx, yy, xx + stripWidth*3, yy+height, color(c))
 
     end
