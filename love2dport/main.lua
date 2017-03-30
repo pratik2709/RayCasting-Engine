@@ -1,5 +1,5 @@
 debug = true
-
+-- ~/projects/raycaster-engine/love.app/Contents/MacOS/love ~/projects/raycaster-engine/love2dport/
 function love.load(arg)
     require "initialize"
     require "minimap"

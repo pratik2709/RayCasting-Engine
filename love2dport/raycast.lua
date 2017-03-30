@@ -8,7 +8,7 @@ end
 
 function castRays()
     local leftmostRayPos = -numRays / 2;
-    for i = 0, numRays, 1 do
+    for i = 0, numRays-1, 1 do
         --understand?
 
         rayScreenPos = (leftmostRayPos + i) * stripWidth
@@ -189,8 +189,8 @@ function castSingleRay(rayAngle, index)
             love.graphics.setColor(255, 0, 0)
         end
 
-    love.graphics.setColor(255, 0, 0)
-    love.graphics.rectangle( "fill", xx, yy, stripWidth*3, height )
+--    love.graphics.setColor(255, 0, 0)
+--    love.graphics.rectangle( "fill", xx, yy, stripWidth*3, height )
 --        rectfill(xx, yy, xx + stripWidth*3, yy+height, color(c))
 
     end
