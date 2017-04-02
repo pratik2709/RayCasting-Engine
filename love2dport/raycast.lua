@@ -9,16 +9,14 @@ function drawRay(rayX, rayY)
 end
 
 function castRays()
-    local leftmostRayPos = -numRays / 2;
+
     local vds = viewDist * viewDist
     local s =0
     for i = 0, numRays - 1, 1 do
         --understand?
-
-        rayScreenPos = (leftmostRayPos + i) * stripWidth
-        rayViewDist = math.sqrt((rayScreenPos * rayScreenPos) + vds)
-        rayAngle = math.asin(rayScreenPos / rayViewDist)
-        local ang = player.rot + rayAngle
+        local raynumber = -numRays / 2 + i;
+        local ang1 = raynumber * angle_between_rays
+        local ang = player.rot + ang1
         castSingleRay(ang, s) --slightly confusing
         s = s + 1
     end
@@ -39,6 +37,7 @@ function castSingleRay(rayAngle, index)
 
 
     local wallType = 0;
+    local texturex
 
     local angleSin = math.sin(rayAngle)
     local angleCos = math.cos(rayAngle)
@@ -93,7 +92,11 @@ function castSingleRay(rayAngle, index)
 
             dist = (distX * distX) + (distY * distY)
             wallType = map[wallY][wallX];
-
+            texturex = y%1
+            if not right
+                then
+                texturex = 1 - texturex
+            end
 
 
             xHit = x
@@ -157,6 +160,12 @@ function castSingleRay(rayAngle, index)
                 xHit = x
                 yHit = y
 
+                texturex = x%1
+                if not up
+                    then
+                    texturex = 1 - texturex
+                end
+
                 wallType = map[wallY][wallX];
             end
             break
@@ -172,7 +181,6 @@ function castSingleRay(rayAngle, index)
         drawRay(xHit, yHit)
 
         -- render walls here
-        local strip = screenStrips[stripIdx]
         dist = math.sqrt(dist);
         dist = dist * math.cos(player.rot - rayAngle);
         local height = round(viewDist / dist)
@@ -192,8 +200,9 @@ function castSingleRay(rayAngle, index)
             love.graphics.setColor(255, 0, 0)
         end
 
-            love.graphics.setColor(255, 0, 0)
-            love.graphics.rectangle( "fill", xx, yy, stripWidth*3, height )
+--            love.graphics.setColor(255, 0, 0)
+--            love.graphics.draw( image, math.floor(0+(texturex*textureWidth)) ,0,1, textureHeight, xx, yy, stripWidth, height )
+            love.graphics.rectangle( "fill", xx, yy, stripWidth, height )
 --                rectfill(xx, yy, xx + stripWidth*3, yy+height)
     end
 end

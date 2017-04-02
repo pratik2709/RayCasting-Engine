@@ -5,6 +5,8 @@ function love.load(arg)
     require "minimap"
     require "player"
     require "raycast"
+    imageData = "walls.png"
+    image = love.graphics.newImage( imageData )
 end
 
 function love.update(dt)
@@ -38,6 +40,7 @@ function love.update(dt)
 end
 
 function love.draw(dt)
+
     drawMiniMap()
 --    updateMiniMap()
     castRays()
