@@ -1,8 +1,5 @@
 function drawRay(rayX, rayY)
-    if rayX == 0 and rayY ==0
-        then
-        print "caught"
-    end
+
 
     love.graphics.setColor(51, 255, 255)
     love.graphics.line(player.x * miniMapScale,
@@ -13,44 +10,51 @@ end
 
 function castRays()
     local leftmostRayPos = -numRays / 2;
-    for i = 0, numRays-1, 1 do
+    local vds = viewDist * viewDist
+    local s =0
+    for i = 0, numRays - 1, 1 do
         --understand?
 
         rayScreenPos = (leftmostRayPos + i) * stripWidth
-        rayViewDist = math.sqrt(rayScreenPos * rayScreenPos + viewDist * viewDist)
+        rayViewDist = math.sqrt((rayScreenPos * rayScreenPos) + vds)
         rayAngle = math.asin(rayScreenPos / rayViewDist)
-        castSingleRay(player.rot + rayAngle, i) --slightly confusing
+        local ang = player.rot + rayAngle
+        castSingleRay(ang, s) --slightly confusing
+        s = s + 1
     end
 end
 
-function round(num, numDecimalPlaces)
-  local mult = 10^(numDecimalPlaces or 0)
-  return math.floor(num * mult + 0.5) / mult
+round = function(num)
+	return math.floor(num+.5)
 end
 
 function castSingleRay(rayAngle, index)
+
     rayAngle = rayAngle % twopi
     if rayAngle < 0 then
         rayAngle = rayAngle + twopi
     end
-
     local right = (rayAngle > (twopi * 0.75) or rayAngle < (twopi * 0.25))
     local up = (rayAngle < 0 or rayAngle > pi)
+
 
     local wallType = 0;
 
     local angleSin = math.sin(rayAngle)
     local angleCos = math.cos(rayAngle)
+
     local dist = 0
+
     local xHit = 0
     local yHit = 0
+
 
     local textureX
     local wallX
     local wallY
 
     --vertical run
-    local slope = angleSin / angleCos
+    local slopeVer = angleSin / angleCos
 
     local dXVer
     local dYVer
@@ -62,7 +66,7 @@ function castSingleRay(rayAngle, index)
         dXVer = -1
     end
 
-    dYVer = dXVer * slope
+    dYVer = dXVer * slopeVer
 
     if right then
         x = math.ceil(player.x)
@@ -70,8 +74,7 @@ function castSingleRay(rayAngle, index)
         x = math.floor(player.x)
     end
 
-    y = player.y + (x - player.x) * slope
-
+    y = player.y + (x - player.x) * slopeVer
     while (x >= 0 and x < mapWidth and y >= 0 and y < mapHeight)
     do
         local wallX
@@ -84,36 +87,33 @@ function castSingleRay(rayAngle, index)
 
         wallY = math.floor(y)
 
-            if (map[wallY][wallX] > 0) then
-                local distX = x - player.x
-                local distY = y - player.y
+        if (map[wallY][wallX] > 0) then
+            local distX = x - player.x
+            local distY = y - player.y
 
-                dist = distX * distX + distY * distY
-                wallType = map[wallY][wallX];
+            dist = (distX * distX) + (distY * distY)
+            wallType = map[wallY][wallX];
 
-                -- skipping texture
-                textureX = y % 1;
-            if not right
-            then
-                textureX = 1 - textureX
-            end
 
-                xHit = x
-                yHit = y
 
-                break
-            end
+            xHit = x
+            yHit = y
+
+
+            break
+        end
+
         x = x + dXVer
         y = y + dYVer
     end
 
-
     --horizontal run
-    local slope = angleCos / angleSin
+    local slopeHor = angleCos / angleSin
     local dXHor
     local dYHor
     local y
     local x
+
 
     if up then
         dYHor = -1
@@ -121,14 +121,14 @@ function castSingleRay(rayAngle, index)
         dYHor = 1
     end
 
-    dXHor = dYHor * slope
+    dXHor = dYHor * slopeHor
     if up then
         y = math.floor(player.y)
     else
         y = math.ceil(player.y)
     end
 
-    x = player.x + (y - player.y) * slope
+    x = player.x + ((y - player.y) * slopeHor)
 
     while (x >= 0 and x < mapWidth and y >= 0 and y < mapHeight)
     do
@@ -148,55 +148,53 @@ function castSingleRay(rayAngle, index)
             local distY = y - player.y
 
             local blockdist = distX * distX + distY * distY
-            if not dist or blockdist < dist then
+
+
+        -- FUCK THIS: 0 does not evaluate to false in LUA!!!!
+        --> print(not 0) false
+            if (dist == 0) or (blockdist < dist) then
                 dist = blockdist
                 xHit = x
                 yHit = y
+
                 wallType = map[wallY][wallX];
-
-                textureX = x % 1
-                if up then
-                    textureX = 1 - textureX
-                end
-
             end
             break
         end
-        x = x + dXHor
-        y = y + dYHor
-    end
+
+            x = x + dXHor
+            y = y + dYHor
+        end
+
 
     if dist then
+
         drawRay(xHit, yHit)
+
         -- render walls here
         local strip = screenStrips[stripIdx]
         dist = math.sqrt(dist);
         dist = dist * math.cos(player.rot - rayAngle);
-        local height = round(viewDist/dist)
+        local height = round(viewDist / dist)
         local xx = index * stripWidth
-        local yy = round((screenHeight - height)/2)
+        local yy = round((screenHeight - height) / 2)
 
 
-        if(wallType == 1)
-            then
+        if (wallType == 1) then
             love.graphics.setColor(128, 255, 0)
-        elseif(wallType == 2)
-            then
+        elseif (wallType == 2) then
             love.graphics.setColor(255, 128, 0)
-        elseif(wallType == 3)
-            then
+        elseif (wallType == 3) then
             love.graphics.setColor(204, 0, 102)
-        elseif(wallType == 4)
-            then
+        elseif (wallType == 4) then
             love.graphics.setColor(0, 128, 255)
         else
             love.graphics.setColor(255, 0, 0)
         end
 
---    love.graphics.setColor(255, 0, 0)
---    love.graphics.rectangle( "fill", xx, yy, stripWidth*3, height )
---        rectfill(xx, yy, xx + stripWidth*3, yy+height, color(c))
-
+            love.graphics.setColor(255, 0, 0)
+            love.graphics.rectangle( "fill", xx, yy, stripWidth*3, height )
+--                rectfill(xx, yy, xx + stripWidth*3, yy+height)
     end
 end
 

@@ -39,7 +39,7 @@ end
 
 function love.draw(dt)
     drawMiniMap()
-    updateMiniMap()
+--    updateMiniMap()
     castRays()
 --    love.graphics.setColor(255, 0, 0)
 --    love.graphics.rectangle( "fill", 0, 0, 100, 100 )

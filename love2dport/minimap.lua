@@ -3,9 +3,6 @@ function drawMiniMap()
     do
         for x = 0, mapWidth-1, 1
         do
-            print(x)
-            print(y)
-            print(map[y][x])
             local wall = map[y][x]
             if wall > 0 then
                 local xs = x * miniMapScale
