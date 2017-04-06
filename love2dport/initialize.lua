@@ -51,3 +51,5 @@ numTextures = 4
 textureWidth = 64
 textureHeight = 64
 angle_between_rays = 0.2 * pi/180
+
+wallTextureMapping = { [0]={[0]=0,0},{[0]=0, 64},{[0]= 0, 128} }

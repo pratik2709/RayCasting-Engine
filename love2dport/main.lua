@@ -40,8 +40,11 @@ function love.update(dt)
 end
 
 function love.draw(dt)
+--    local q = love.graphics.newQuad( 0, 0, 64, 64, image:getWidth(), image:getHeight() )
+--    love.graphics.draw(image, q, 1280/4, 720/4)
+--    love.graphics.draw(image, 1280/4, 720/4, 0, 1,1, 32,32)
 
-    drawMiniMap()
+--    drawMiniMap()
 --    updateMiniMap()
     castRays()
 --    love.graphics.setColor(255, 0, 0)

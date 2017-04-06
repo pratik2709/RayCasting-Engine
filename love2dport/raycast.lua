@@ -201,8 +201,11 @@ function castSingleRay(rayAngle, index)
         end
 
 --            love.graphics.setColor(255, 0, 0)
---            love.graphics.draw( image, math.floor(0+(texturex*textureWidth)) ,0,1, textureHeight, xx, yy, stripWidth, height )
-            love.graphics.rectangle( "fill", xx, yy, stripWidth, height )
+--            love.graphics.draw(image, xx, yy, 0, stripWidth, height, 0, 0 )
+--            love.graphics.rectangle( "fill", xx, yy, stripWidth, height )
+
+    local q = love.graphics.newQuad( texturex*64, 64, stripWidth, height, image:getWidth(), image:getHeight() )
+    love.graphics.draw(image, q, xx, yy)
 --                rectfill(xx, yy, xx + stripWidth*3, yy+height)
     end
 end
