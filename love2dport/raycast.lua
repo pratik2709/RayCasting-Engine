@@ -1,7 +1,7 @@
 function drawRay(rayX, rayY)
 
 
-    love.graphics.setColor(51, 255, 255)
+--    love.graphics.setColor(51, 255, 255)
     love.graphics.line(player.x * miniMapScale,
         player.y * miniMapScale,
         rayX * miniMapScale,
@@ -35,6 +35,7 @@ function castSingleRay(rayAngle, index)
     local right = (rayAngle > (twopi * 0.75) or rayAngle < (twopi * 0.25))
     local up = (rayAngle < 0 or rayAngle > pi)
 
+    local textureoffset
 
     local wallType = 0;
     local texturex
@@ -48,7 +49,6 @@ function castSingleRay(rayAngle, index)
     local yHit = 0
 
 
-    local textureX
     local wallX
     local wallY
 
@@ -161,7 +161,7 @@ function castSingleRay(rayAngle, index)
                 yHit = y
 
                 texturex = x%1
-                if not up
+                if up
                     then
                     texturex = 1 - texturex
                 end
@@ -175,10 +175,11 @@ function castSingleRay(rayAngle, index)
             y = y + dYHor
         end
 
+    print(texturex)
 
     if dist then
 
-        drawRay(xHit, yHit)
+--        drawRay(xHit, yHit)
 
         -- render walls here
         dist = math.sqrt(dist);
@@ -189,23 +190,30 @@ function castSingleRay(rayAngle, index)
 
 
         if (wallType == 1) then
-            love.graphics.setColor(128, 255, 0)
+            textureoffset = wallTextureMapping[0]
         elseif (wallType == 2) then
-            love.graphics.setColor(255, 128, 0)
+            textureoffset = wallTextureMapping[1]
         elseif (wallType == 3) then
-            love.graphics.setColor(204, 0, 102)
+            textureoffset = wallTextureMapping[2]
         elseif (wallType == 4) then
-            love.graphics.setColor(0, 128, 255)
+            textureoffset = wallTextureMapping[3]
         else
-            love.graphics.setColor(255, 0, 0)
+            textureoffset = wallTextureMapping[0]
         end
 
 --            love.graphics.setColor(255, 0, 0)
 --            love.graphics.draw(image, xx, yy, 0, stripWidth, height, 0, 0 )
 --            love.graphics.rectangle( "fill", xx, yy, stripWidth, height )
 
-    local q = love.graphics.newQuad( texturex*64, 64, stripWidth, height, image:getWidth(), image:getHeight() )
-    love.graphics.draw(image, q, xx, yy)
+    local q = love.graphics.newQuad( math.floor(textureoffset[0]+(texturex*textureWidth)), textureoffset[1], 64, 64, image:getDimensions())
+--    love.graphics.scale( stripWidth, height )
+    love.graphics.draw(image, q, xx, yy,0, stripWidth/64, height/64)
+
+--        local width = height * stripWidth;
+--		if (texturex > width - stripWidth) then
+--			texturex = width - stripWidth
+--        end
+
 --                rectfill(xx, yy, xx + stripWidth*3, yy+height)
     end
 end
