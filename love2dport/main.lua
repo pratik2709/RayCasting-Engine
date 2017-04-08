@@ -7,6 +7,7 @@ function love.load(arg)
     require "raycast"
     imageData = "walls.png"
     image = love.graphics.newImage( imageData )
+
 end
 
 function love.update(dt)

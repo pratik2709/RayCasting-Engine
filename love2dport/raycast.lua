@@ -204,8 +204,8 @@ function castSingleRay(rayAngle, index)
 --            love.graphics.setColor(255, 0, 0)
 --            love.graphics.draw(image, xx, yy, 0, stripWidth, height, 0, 0 )
 --            love.graphics.rectangle( "fill", xx, yy, stripWidth, height )
-
-    local q = love.graphics.newQuad( math.floor(textureoffset[0]+(texturex*textureWidth)), textureoffset[1], 64, 64, image:getDimensions())
+    --https://love2d.org/forums/viewtopic.php?t=78470
+    local q = love.graphics.newQuad( textureoffset[0]+(texturex*textureWidth), textureoffset[1], 64, 64, image:getDimensions())
 --    love.graphics.scale( stripWidth, height )
     love.graphics.draw(image, q, xx, yy,0, stripWidth/64, height/64)
 
