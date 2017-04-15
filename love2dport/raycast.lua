@@ -15,9 +15,12 @@ function castRays()
     for i = 0, numRays - 1, 1 do
         --understand?
         local raynumber = -numRays / 2 + i;
+        local rayScreenPos = (-numRays / 2 + i)* stripWidth;
+        local rayViewDist = math.sqrt(rayScreenPos*rayScreenPos + vds);
+        local rayAngle = math.asin(rayScreenPos / rayViewDist);
         local ang1 = raynumber * angle_between_rays
         local ang = player.rot + ang1
-        castSingleRay(ang, s) --slightly confusing
+        castSingleRay(rayAngle + player.rot, s) --slightly confusing
         s = s + 1
     end
 end
@@ -175,16 +178,14 @@ function castSingleRay(rayAngle, index)
             y = y + dYHor
         end
 
-    print(texturex)
-
     if dist then
 
 --        drawRay(xHit, yHit)
 
         -- render walls here
         dist = math.sqrt(dist);
-        dist = dist * math.cos(player.rot - rayAngle);
-        local height = round(viewDist / dist)
+        local dist_corrected = dist * math.cos(player.rot - rayAngle);
+        local height = round(viewDist / dist_corrected)
         local xx = index * stripWidth
         local yy = round((screenHeight - height) / 2)
 

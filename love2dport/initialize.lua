@@ -34,11 +34,11 @@ player = {
     rot = 0,
     speed = 0,
     moveSpeed = 0.18,
-    rotSpeed = 6 * pi / 180
+    rotSpeed = 3 * pi / 180
 }
 
-screenWidth = 480 --diff
-screenHeight = 360
+screenWidth = 1280 --diff
+screenHeight = 720
 stripWidth = 2 --diff
 fov = 60 * pi / 180
 numRays = math.ceil(screenWidth / stripWidth)
