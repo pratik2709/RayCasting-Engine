@@ -216,25 +216,39 @@ function castSingleRay(rayAngle, index)
         local fheight = (screenHeight - height)/2
         local foffset = yy + height
 
+        --coordinates of floor tile pixel on the world
         local vx = (xHit - player.x)/dist
         local vy = (yHit - player.y)/dist
 
+        -- somewhere near bottom of the screen
         local bottom = foffset + fheight
         local distplayer = 0.0
 
         for fy = 0, fheight - 1, 1 do
 
---            local currentDist = bottom / (2 * (fy + foffset) - bottom)
---            local fweight = (currentDist - distplayer)/(dist - distplayer)
---            local wx = player.x + (vx * currentDist * fweight)
---            local wy = player.y + (vy * currentDist * fweight)
---            local mx = math.floor(wx)
---            local my = math.floor(wy)
+            local currentDist = bottom / (2 * (fy + foffset) - bottom)
+            local fweight = (screenWidth/screenHeight)*((currentDist - distplayer)/(dist - distplayer))
+            local wx = player.x + (vx * currentDist)
+            local wy = player.y + (vy * currentDist)
+            local mx = math.floor(wx)
+            local my = math.floor(wy)
+
+            local floorTextureX = ((wx*textureWidth)%textureWidth)
+            local floorTextureY = ((wy*textureHeight)%textureHeight)
+--            print(floorTextureX, floorTextureY)
+--                ctx.moveTo(x, fy + foffset);
+--                ctx.lineTo(x + stripWidth,fy + foffset);
+--                ctx.lineTo(x + stripWidth,fy + foffset + 1);
+--                ctx.lineTo(x ,fy + foffset + 1);
+--            love.graphics.polygon('line', xx, fy + foffset, xx + stripWidth,fy + foffset, xx + stripWidth,fy + foffset + 1, xx ,fy + foffset + 1)
+--            love.graphics.setColor(255,255,255)
+            local qq = love.graphics.newQuad( floorTextureX, floorTextureY, 64, 64, floorImage:getDimensions())
+            love.graphics.draw(floorImage, qq, xx, fy+foffset,0, stripWidth/64, 1/64)
 
             -- draw simple rectangles as a start
-            local ct = fheight - fy;
-            love.graphics.setColor(0, 255, (fy*0.5)%255)
-            love.graphics.rectangle( "fill", xx, fy+foffset, stripWidth, 1 )
+--            local ct = fheight - fy;
+--            love.graphics.setColor(0, 255, ((fy+foffset)*0.5)%255)
+--            love.graphics.rectangle( "line", xx, fy+foffset, stripWidth, 1 )
         end
 
         -- aspect ratio (relationship between width and height)

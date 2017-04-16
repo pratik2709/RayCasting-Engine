@@ -37,8 +37,8 @@ player = {
     rotSpeed = 3 * pi / 180
 }
 
-screenWidth = 1280 --diff
-screenHeight = 720
+screenWidth = 320 --diff
+screenHeight = 240
 stripWidth = 2 --diff
 fov = 60 * pi / 180
 numRays = math.ceil(screenWidth / stripWidth)
@@ -53,3 +53,4 @@ textureHeight = 64
 angle_between_rays = 0.2 * pi/180
 
 wallTextureMapping = { [0]={[0]=0,1},{[0]=0, 64},{[0]= 0, 128}, {[0]= 0, 256} }
+floorTextureMapping = { [0]={[0]=0,128} }

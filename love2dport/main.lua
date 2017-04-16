@@ -6,7 +6,9 @@ function love.load(arg)
     require "player"
     require "raycast"
     imageData = "walls.png"
+    floorData = "eagle.png"
     image = love.graphics.newImage( imageData )
+    floorImage = love.graphics.newImage( floorData )
 
 end
 
@@ -43,7 +45,7 @@ end
 function love.draw(dt)
 --    local q = love.graphics.newQuad( 1, 128, 64, 64, image:getWidth(), image:getHeight() )
 --    love.graphics.draw(image, q, 100, 100,0,10,10, 32,32)
---    love.graphics.draw(image, 1280/4, 720/4, 0, 1,1, 32,32)
+--    love.graphics.draw(floorImage, 1280/4, 720/4, 0, 1,1, 32,32)
 
 --    drawMiniMap()
 --    updateMiniMap()
