@@ -233,8 +233,8 @@ function castSingleRay(rayAngle, index)
 
             -- draw simple rectangles as a start
             local ct = fheight - fy;
-            love.graphics.setColor(0, 255, (fy*5)%255)
-            love.graphics.rectangle( "fill", xx, fy, stripWidth, 1 )
+            love.graphics.setColor(0, 255, (fy*0.5)%255)
+            love.graphics.rectangle( "fill", xx, fy+foffset, stripWidth, 1 )
         end
 
         -- aspect ratio (relationship between width and height)
