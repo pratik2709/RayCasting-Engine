@@ -227,7 +227,7 @@ function castSingleRay(rayAngle, index)
         for fy = 0, fheight - 1, 1 do
 
             local currentDist = bottom / (2 * (fy + foffset) - bottom)
-            local fweight = (screenWidth/screenHeight)*((currentDist - distplayer)/(dist - distplayer))
+            local fweight = (screenWidth/screenHeight)*((currentDist )/(dist ))
             local wx = player.x + (vx * currentDist)
             local wy = player.y + (vy * currentDist)
             local mx = math.floor(wx)
@@ -243,7 +243,9 @@ function castSingleRay(rayAngle, index)
 --            love.graphics.polygon('line', xx, fy + foffset, xx + stripWidth,fy + foffset, xx + stripWidth,fy + foffset + 1, xx ,fy + foffset + 1)
 --            love.graphics.setColor(255,255,255)
             local qq = love.graphics.newQuad( floorTextureX, floorTextureY, 64, 64, floorImage:getDimensions())
-            love.graphics.draw(floorImage, qq, xx, fy+foffset,0, stripWidth/64, 1/64)
+            -- over here for some reason divided by 64 (lenght and width to scale) does not work
+            -- need to investigate!
+            love.graphics.draw(floorImage, qq, xx, fy+foffset,0, stripWidth, 1)
 
             -- draw simple rectangles as a start
 --            local ct = fheight - fy;
