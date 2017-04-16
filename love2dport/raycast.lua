@@ -245,6 +245,7 @@ function castSingleRay(rayAngle, index)
             local qq = love.graphics.newQuad( floorTextureX, floorTextureY, 64, 64, floorImage:getDimensions())
             -- over here for some reason divided by 64 (lenght and width to scale) does not work
             -- need to investigate!
+           -- https://love2d.org/forums/viewtopic.php?t=78470
             love.graphics.draw(floorImage, qq, xx, fy+foffset,0, stripWidth, 1)
 
             -- draw simple rectangles as a start
