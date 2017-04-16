@@ -47,6 +47,11 @@ function love.draw(dt)
 
 --    drawMiniMap()
 --    updateMiniMap()
+--    love.graphics.clear( )
+    love.graphics.setBackgroundColor(128, 128, 128)
+--    love.graphics.rectangle("fill", 0, 0, screenWidth, screenHeight )
+
+
     castRays()
 --    love.graphics.setColor(255, 0, 0)
 --    love.graphics.rectangle( "fill", 0, 0, 100, 100 )

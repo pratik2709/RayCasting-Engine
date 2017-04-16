@@ -20,7 +20,8 @@ function castRays()
         local rayAngle = math.asin(rayScreenPos / rayViewDist);
         local ang1 = raynumber * angle_between_rays
         local ang = player.rot + ang1
-        castSingleRay(rayAngle + player.rot, s) --slightly confusing
+        local a = rayAngle + player.rot
+        castSingleRay(a, s) --slightly confusing
         s = s + 1
     end
 end
@@ -184,8 +185,8 @@ function castSingleRay(rayAngle, index)
 
         -- render walls here
         dist = math.sqrt(dist);
-        local dist_corrected = dist * math.cos(player.rot - rayAngle);
-        local height = round(viewDist / dist_corrected)
+        local dist = dist * math.cos(player.rot - rayAngle);
+        local height = round(viewDist / dist)
         local xx = index * stripWidth
         local yy = round((screenHeight - height) / 2)
 
@@ -202,20 +203,64 @@ function castSingleRay(rayAngle, index)
             textureoffset = wallTextureMapping[0]
         end
 
---            love.graphics.setColor(255, 0, 0)
---            love.graphics.draw(image, xx, yy, 0, stripWidth, height, 0, 0 )
---            love.graphics.rectangle( "fill", xx, yy, stripWidth, height )
-    --https://love2d.org/forums/viewtopic.php?t=78470
-    local q = love.graphics.newQuad( textureoffset[0]+(texturex*textureWidth), textureoffset[1], 64, 64, image:getDimensions())
---    love.graphics.scale( stripWidth, height )
-    love.graphics.draw(image, q, xx, yy,0, stripWidth/64, height/64)
+        -- draw single colored floor and ceiling
 
---        local width = height * stripWidth;
---		if (texturex > width - stripWidth) then
---			texturex = width - stripWidth
---        end
+--        love.graphics.rectangle("fill", 0, 0, screenWidth, screenHeight )
+--        love.graphics.reset( )
+        love.graphics.setColor(255,255,255)
+        local q = love.graphics.newQuad( textureoffset[0]+(texturex*textureWidth), textureoffset[1], 64, 64, image:getDimensions())
+        love.graphics.draw(image, q, xx, yy,0, stripWidth/64, height/64)
 
---                rectfill(xx, yy, xx + stripWidth*3, yy+height)
+        -- height is the height of the wall
+        --
+        local fheight = (screenHeight - height)/2
+        local foffset = yy + height
+
+        local vx = (xHit - player.x)/dist
+        local vy = (yHit - player.y)/dist
+
+        local bottom = foffset + fheight
+        local distplayer = 0.0
+
+        for fy = 0, fheight - 1, 1 do
+
+--            local currentDist = bottom / (2 * (fy + foffset) - bottom)
+--            local fweight = (currentDist - distplayer)/(dist - distplayer)
+--            local wx = player.x + (vx * currentDist * fweight)
+--            local wy = player.y + (vy * currentDist * fweight)
+--            local mx = math.floor(wx)
+--            local my = math.floor(wy)
+
+            -- draw simple rectangles as a start
+            local ct = fheight - fy;
+            love.graphics.setColor(0, 255, (fy*5)%255)
+            love.graphics.rectangle( "fill", xx, fy, stripWidth, 1 )
+        end
+
+        -- aspect ratio (relationship between width and height)
+        -- aspect ratio = width/height
+--        local fweight = (screenWidth / screenHeight)
+--                       * this._fovFloorWeight
+
+
+
+--        love.graphics.setColor(255, 0, 0)
+--
+--        love.graphics.setLineWidth( 10 )
+--        love.graphics.line( 10, 0, 10, screenHeight)
+--        love.graphics.setColor(0, 0, 255)
+--        love.graphics.line( 20, 0, 20, height)
+--        love.graphics.setColor(0, 255, 0)
+--        love.graphics.line( 30, 0, 30, (screenHeight-height))
+--        love.graphics.setColor(0, 255, 255)
+--        love.graphics.line( 40, 0, 40, (screenHeight-height)/2)
+--
+--        love.graphics.setColor(0, 255, 128)
+--        love.graphics.line( 50, 0, 50, y)
+--
+--        love.graphics.setColor(0, 128, 128)
+--        love.graphics.line( 60, 0, 60, foffset)
+
     end
 end
 
