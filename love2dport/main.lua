@@ -24,6 +24,35 @@ function love.update(dt)
             love.graphics.print( "test", 0, 0)
 --          position.x = position.x + axis1 * speed
 --           position.y = position.y + axis2 * speed
+           if axis2 > 0
+               then
+               bt = "left"
+           else
+               bt = "right"
+           end
+           if axis3 > 0
+               then
+               bt = "down"
+           else
+               bt = "up"
+           end
+
+            if bt == "left" then
+                player.dir = -1;
+            end
+            --right
+            if bt == "right" then
+                player.dir = 1;
+            end
+            --up
+            if bt == "up" then
+                player.speed = 1;
+            end
+            --down
+            if bt == "down" then
+                player.speed = -1;
+            end
+
       end
 
     if not love.keyboard.isDown("left") and not love.keyboard.isDown("right") then
