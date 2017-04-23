@@ -5,8 +5,8 @@ function love.load(arg)
     require "minimap"
     require "player"
     require "raycast"
-    imageData = "walls.png"
-    floorData = "eagle.png"
+    imageData = "gfx/walls.png"
+    floorData = "gfx/eagle.png"
     image = love.graphics.newImage( imageData )
     floorImage = love.graphics.newImage( floorData )
 
@@ -47,8 +47,8 @@ function love.draw(dt)
 --    love.graphics.draw(image, q, 100, 100,0,10,10, 32,32)
 --    love.graphics.draw(floorImage, 1280/4, 720/4, 0, 1,1, 32,32)
 
---    drawMiniMap()
---    updateMiniMap()
+    drawMiniMap()
+    updateMiniMap()
 --    love.graphics.clear( )
     love.graphics.setBackgroundColor(128, 128, 128)
 --    love.graphics.rectangle("fill", 0, 0, screenWidth, screenHeight )

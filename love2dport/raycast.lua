@@ -21,7 +21,7 @@ function castRays()
         local ang1 = raynumber * angle_between_rays
         local ang = player.rot + ang1
         local a = rayAngle + player.rot
-        castSingleRay(a, s) --slightly confusing
+        castSingleRay(a, s, ang1) --slightly confusing
         s = s + 1
     end
 end
@@ -30,7 +30,7 @@ round = function(num)
 	return math.floor(num+.5)
 end
 
-function castSingleRay(rayAngle, index)
+function castSingleRay(rayAngle, index, ang1)
 
     rayAngle = rayAngle % twopi
     if rayAngle < 0 then
@@ -186,8 +186,10 @@ function castSingleRay(rayAngle, index)
         -- render walls here
         dist = math.sqrt(dist);
         local dist = dist * math.cos(player.rot - rayAngle);
-        local height = round(viewDist / dist)
+        -- actual wall height is considered 1
+        local height = round(viewDist / (dist))
         local xx = index * stripWidth
+        -- divide screenheight by half, and then go half of the wall distance
         local yy = round((screenHeight - height) / 2)
 
 
@@ -208,6 +210,8 @@ function castSingleRay(rayAngle, index)
 --        love.graphics.rectangle("fill", 0, 0, screenWidth, screenHeight )
 --        love.graphics.reset( )
         love.graphics.setColor(255,255,255)
+        --Intensity = Object Intensity/Distance * Multiplier
+
         local q = love.graphics.newQuad( textureoffset[0]+(texturex*textureWidth), textureoffset[1], 64, 64, image:getDimensions())
         love.graphics.draw(image, q, xx, yy,0, stripWidth/64, height/64)
 
@@ -220,19 +224,36 @@ function castSingleRay(rayAngle, index)
         local vx = (xHit - player.x)/dist
         local vy = (yHit - player.y)/dist
 
-        -- somewhere near bottom of the screen
+--        local fweight = (screenWidth/screenHeight)*((currentDist )/(dist ))
+
+        -- absolute bottom:  always remains the screenheight (experimented)
         local bottom = foffset + fheight
         local distplayer = 0.0
+--        local fweight =
+        -- bottom always remains the screenheight (experimented)??
+--        love.graphics.line(0,0, screenWidth/2, fheight)
+
+        local column_angle = math.atan(( index - (screenWidth/2) ) / screenHeight);
+        local rayangle = player.rot+column_angle;
+
 
         for fy = 0, fheight - 1, 1 do
 
-            local currentDist = bottom / (2 * (fy + foffset) - bottom)
-            local fweight = (screenWidth/screenHeight)*((currentDist )/(dist ))
-            local wx = player.x + (vx * currentDist)
-            local wy = player.y + (vy * currentDist)
-            local mx = math.floor(wx)
-            local my = math.floor(wy)
-
+              local currentDist1 = bottom / (2 * (fy+foffset) - bottom)
+              local currentDist = viewDist * ((foffset+fy) - (fheight+height/2))
+            local act = currentDist/math.cos(rayAngle-fov/2)
+            -- fix this distance
+--            local act_dist = currentDist/math.cos(player.rot - rayAngle)
+--            print(currentDist, currentDist1)
+            --            love.graphics.line(screenWidth/2,0, 0, currentDist)
+            local fweight = 1
+            local	sx = -act * math.sin(rayAngle-fov/2)
+            local	sy = act * math.cos(rayAngle-fov/2)
+            local wx = (player.x) + vx*currentDist1
+            local wy = (player.y) + vy*currentDist1
+--            local mx = math.floor(wx)
+--            local my = math.floor(wy)
+--
             local floorTextureX = ((wx*textureWidth)%textureWidth)
             local floorTextureY = ((wy*textureHeight)%textureHeight)
 --            print(floorTextureX, floorTextureY)
