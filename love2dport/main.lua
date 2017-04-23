@@ -24,6 +24,7 @@ function love.update(dt)
             love.graphics.print( "test", 0, 0)
 --          position.x = position.x + axis1 * speed
 --           position.y = position.y + axis2 * speed
+           local bt
            if axis2 > 0
                then
                bt = "left"
@@ -85,6 +86,7 @@ function love.update(dt)
 end
 
 function love.draw(dt)
+    love.graphics.print( bt, 0, 40)
     if joystick then
     love.graphics.print( axis1, 0, 0)
     love.graphics.print( axis2, 0, 10)
