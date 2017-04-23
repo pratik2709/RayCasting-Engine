@@ -86,8 +86,9 @@ function love.update(dt)
 end
 
 function love.draw(dt)
-    love.graphics.print( bt, 0, 40)
+
     if joystick then
+        love.graphics.print( bt, 0, 40)
     love.graphics.print( axis1, 0, 0)
     love.graphics.print( axis2, 0, 10)
     love.graphics.print( axis3, 0, 20)
