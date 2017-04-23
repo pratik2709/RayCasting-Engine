@@ -233,47 +233,44 @@ function castSingleRay(rayAngle, index, ang1)
         -- bottom always remains the screenheight (experimented)??
 --        love.graphics.line(0,0, screenWidth/2, fheight)
 
-        local column_angle = math.atan(( index - (screenWidth/2) ) / screenHeight);
-        local rayangle = player.rot+column_angle;
-
-
-        for fy = 0, fheight - 1, 1 do
-
-              local currentDist1 = bottom / (2 * (fy+foffset) - bottom)
-              local currentDist = viewDist * ((foffset+fy) - (fheight+height/2))
-            local act = currentDist/math.cos(rayAngle-fov/2)
-            -- fix this distance
---            local act_dist = currentDist/math.cos(player.rot - rayAngle)
---            print(currentDist, currentDist1)
-            --            love.graphics.line(screenWidth/2,0, 0, currentDist)
-            local fweight = 1
-            local	sx = -act * math.sin(rayAngle-fov/2)
-            local	sy = act * math.cos(rayAngle-fov/2)
-            local wx = (player.x) + vx*currentDist1
-            local wy = (player.y) + vy*currentDist1
---            local mx = math.floor(wx)
---            local my = math.floor(wy)
 --
-            local floorTextureX = ((wx*textureWidth)%textureWidth)
-            local floorTextureY = ((wy*textureHeight)%textureHeight)
---            print(floorTextureX, floorTextureY)
---                ctx.moveTo(x, fy + foffset);
---                ctx.lineTo(x + stripWidth,fy + foffset);
---                ctx.lineTo(x + stripWidth,fy + foffset + 1);
---                ctx.lineTo(x ,fy + foffset + 1);
---            love.graphics.polygon('line', xx, fy + foffset, xx + stripWidth,fy + foffset, xx + stripWidth,fy + foffset + 1, xx ,fy + foffset + 1)
---            love.graphics.setColor(255,255,255)
-            local qq = love.graphics.newQuad( floorTextureX, floorTextureY, 64, 64, floorImage:getDimensions())
-            -- over here for some reason divided by 64 (lenght and width to scale) does not work
-            -- need to investigate!
-           -- https://love2d.org/forums/viewtopic.php?t=78470
-            love.graphics.draw(floorImage, qq, xx, fy+foffset,0, stripWidth, 1)
-
-            -- draw simple rectangles as a start
---            local ct = fheight - fy;
---            love.graphics.setColor(0, 255, ((fy+foffset)*0.5)%255)
---            love.graphics.rectangle( "line", xx, fy+foffset, stripWidth, 1 )
-        end
+--        for fy = 0, fheight - 1, 1 do
+--
+--              local currentDist1 = bottom / (2 * (fy+foffset) - bottom)
+--              local currentDist = viewDist * ((foffset+fy) - (fheight+height/2))
+--            local act = currentDist/math.cos(rayAngle-fov/2)
+--            -- fix this distance
+----            local act_dist = currentDist/math.cos(player.rot - rayAngle)
+----            print(currentDist, currentDist1)
+--            --            love.graphics.line(screenWidth/2,0, 0, currentDist)
+--            local fweight = 1
+--            local	sx = -act * math.sin(rayAngle-fov/2)
+--            local	sy = act * math.cos(rayAngle-fov/2)
+--            local wx = (player.x) + vx*currentDist1
+--            local wy = (player.y) + vy*currentDist1
+----            local mx = math.floor(wx)
+----            local my = math.floor(wy)
+----
+--            local floorTextureX = ((wx*textureWidth)%textureWidth)
+--            local floorTextureY = ((wy*textureHeight)%textureHeight)
+----            print(floorTextureX, floorTextureY)
+----                ctx.moveTo(x, fy + foffset);
+----                ctx.lineTo(x + stripWidth,fy + foffset);
+----                ctx.lineTo(x + stripWidth,fy + foffset + 1);
+----                ctx.lineTo(x ,fy + foffset + 1);
+----            love.graphics.polygon('line', xx, fy + foffset, xx + stripWidth,fy + foffset, xx + stripWidth,fy + foffset + 1, xx ,fy + foffset + 1)
+----            love.graphics.setColor(255,255,255)
+--            local qq = love.graphics.newQuad( floorTextureX, floorTextureY, 64, 64, floorImage:getDimensions())
+--            -- over here for some reason divided by 64 (lenght and width to scale) does not work
+--            -- need to investigate!
+--           -- https://love2d.org/forums/viewtopic.php?t=78470
+--            love.graphics.draw(floorImage, qq, xx, fy+foffset,0, stripWidth, 1)
+--
+--            -- draw simple rectangles as a start
+----            local ct = fheight - fy;
+----            love.graphics.setColor(0, 255, ((fy+foffset)*0.5)%255)
+----            love.graphics.rectangle( "line", xx, fy+foffset, stripWidth, 1 )
+--        end
 
         -- aspect ratio (relationship between width and height)
         -- aspect ratio = width/height

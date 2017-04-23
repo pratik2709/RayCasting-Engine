@@ -21,40 +21,50 @@ function love.update(dt)
 
        if joystick then
           axis1, axis2, axis3 = joystick:getAxes()
-            love.graphics.print( "test", 0, 0)
+
 --          position.x = position.x + axis1 * speed
 --           position.y = position.y + axis2 * speed
-           local bt
            if axis2 > 0
                then
                bt = "left"
+               player.dir = 1;
            else
                bt = "right"
+               player.dir = -1;
            end
            if axis3 > 0
                then
                bt = "down"
+               player.speed = 1*dt;
            else
                bt = "up"
+               player.speed = 1*dt;
            end
 
-            if bt == "left" then
-                player.dir = -1;
-            end
-            --right
-            if bt == "right" then
-                player.dir = 1;
-            end
-            --up
-            if bt == "up" then
-                player.speed = 1;
-            end
-            --down
-            if bt == "down" then
-                player.speed = -1;
-            end
+           if axis2 == 0
+            then player.dir = 0
+            player.speed = 0;
+          end
 
-      end
+
+          move(dt)
+
+            -- if bt == "left" then
+            --     player.dir = -1;
+            -- end
+            -- --right
+            -- if bt == "right" then
+            --     player.dir = 1;
+            -- end
+            -- --up
+            -- if bt == "up" then
+            --     player.speed = 1;
+            -- end
+            -- --down
+            -- if bt == "down" then
+            --     player.speed = -1;
+            -- end
+       else
 
     if not love.keyboard.isDown("left") and not love.keyboard.isDown("right") then
         player.speed = 0
@@ -73,14 +83,17 @@ function love.update(dt)
     end
     --up
     if love.keyboard.isDown("up") then
-        player.speed = 1;
+        player.speed = 20*dt;
     end
     --down
     if love.keyboard.isDown("down") then
-        player.speed = -1;
+        player.speed = -20*dt;
     end
 
-    move()
+           move(dt)
+      end
+
+
 
 
 end
