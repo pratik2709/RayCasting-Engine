@@ -4,6 +4,7 @@ function love.conf(t)
 	t.version = "0.10.2"         -- The LÖVE version this game was made for (string)
 	t.window.width = 320        -- we want our game to be long and thin.
 	t.window.height = 240
+	t.accelerometerjoystick = true
 
 	-- For Windows debugging
 	t.console = true

@@ -1,6 +1,11 @@
 debug = true
 -- ~/projects/raycaster-engine/love.app/Contents/MacOS/love ~/projects/raycaster-engine/love2dport/
+
+
 function love.load(arg)
+    joysticks = love.joystick.getJoysticks()
+    joystick = joysticks[#joysticks]
+
     require "initialize"
     require "minimap"
     require "player"
@@ -13,6 +18,14 @@ function love.load(arg)
 end
 
 function love.update(dt)
+
+       if joystick then
+          axis1, axis2, axis3 = joystick:getAxes()
+            love.graphics.print( "test", 0, 0)
+--          position.x = position.x + axis1 * speed
+--           position.y = position.y + axis2 * speed
+      end
+
     if not love.keyboard.isDown("left") and not love.keyboard.isDown("right") then
         player.speed = 0
     end
@@ -43,12 +56,15 @@ function love.update(dt)
 end
 
 function love.draw(dt)
+    love.graphics.print( "axis1", 0, 0)
+    love.graphics.print( "axis", 0, 10)
+    love.graphics.print( "axis", 0, 20)
 --    local q = love.graphics.newQuad( 1, 128, 64, 64, image:getWidth(), image:getHeight() )
 --    love.graphics.draw(image, q, 100, 100,0,10,10, 32,32)
 --    love.graphics.draw(floorImage, 1280/4, 720/4, 0, 1,1, 32,32)
 
-    drawMiniMap()
-    updateMiniMap()
+--    drawMiniMap()
+--    updateMiniMap()
 --    love.graphics.clear( )
     love.graphics.setBackgroundColor(128, 128, 128)
 --    love.graphics.rectangle("fill", 0, 0, screenWidth, screenHeight )
