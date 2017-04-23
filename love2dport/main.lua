@@ -56,9 +56,11 @@ function love.update(dt)
 end
 
 function love.draw(dt)
-    love.graphics.print( "axis1", 0, 0)
-    love.graphics.print( "axis", 0, 10)
-    love.graphics.print( "axis", 0, 20)
+    if joystick then
+    love.graphics.print( axis1, 0, 0)
+    love.graphics.print( axis2, 0, 10)
+    love.graphics.print( axis3, 0, 20)
+    end
 --    local q = love.graphics.newQuad( 1, 128, 64, 64, image:getWidth(), image:getHeight() )
 --    love.graphics.draw(image, q, 100, 100,0,10,10, 32,32)
 --    love.graphics.draw(floorImage, 1280/4, 720/4, 0, 1,1, 32,32)
