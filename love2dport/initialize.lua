@@ -34,7 +34,10 @@ player = {
     rot = 0,
     speed = 0,
     moveSpeed = 0.18,
-    rotSpeed = 3 * pi / 180
+    rotSpeed = 3 * pi / 180,
+    crossHairSize=1,
+    playerCrossHairHit={},
+    spriteDistances={}
 }
 
 default_initial_sprite_state = {
