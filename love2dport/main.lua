@@ -9,14 +9,41 @@ function love.load(arg)
     require "initialize"
     require "minimap"
     require "player"
+    require "walls"
     require "raycast"
     require "sprite"
+
     imageData = "gfx/walls.png"
     floorData = "gfx/eagle.png"
     gaurdSpriteAtlas = "gfx/guard.png"
+    tablechairData = "gfx/tablechairs.png"
     image = love.graphics.newImage( imageData )
     floorImage = love.graphics.newImage( floorData )
-
+    addSprite({
+        id          ="table2",
+        x           = 2,
+        y           = 2,
+        spriteAtlas = "tablechairs.png",
+        isMoving=false,
+        drawOnMiniMap=false,
+        miniMapColor="red",
+        dir=0,
+        rot=0,
+        rotSpeed = 3 * pi / 180,
+        speed=0,
+        strafe=0,
+        moveSpeed=0.05,
+        spriteOffsetX=0,
+        spriteOffsetY=0,
+        spriteWidth=64,
+        spriteHeight=64,
+        spriteScaleX=1,
+        spriteScaleY=1,
+        hitlist={},
+        playerCrossHair,
+        spriteAtlasImage
+    });
+    print_r(_sprites)
 end
 
 function love.update(dt)

@@ -180,55 +180,37 @@ function castSingleRay(rayAngle, index, ang1)
         end
 
     if dist then
+        calculateWallRenderValues(dist, rayAngle, texturex, textureoffset, index, wallType)
+        drawSprites()
 
---        drawRay(xHit, yHit)
-
-        -- render walls here
-        dist = math.sqrt(dist);
-        local dist = dist * math.cos(player.rot - rayAngle);
-        -- actual wall height is considered 1
-        local height = round(viewDist / (dist))
-        local xx = index * stripWidth
-        -- divide screenheight by half, and then go half of the wall distance
-        local yy = round((screenHeight - height) / 2)
-
-
-        if (wallType == 1) then
-            textureoffset = wallTextureMapping[0]
-        elseif (wallType == 2) then
-            textureoffset = wallTextureMapping[1]
-        elseif (wallType == 3) then
-            textureoffset = wallTextureMapping[2]
-        elseif (wallType == 4) then
-            textureoffset = wallTextureMapping[3]
-        else
-            textureoffset = wallTextureMapping[0]
-        end
-
-        -- draw single colored floor and ceiling
-
---        love.graphics.rectangle("fill", 0, 0, screenWidth, screenHeight )
---        love.graphics.reset( )
-        love.graphics.setColor(255,255,255)
         --Intensity = Object Intensity/Distance * Multiplier
 
-        local q = love.graphics.newQuad( textureoffset[0]+(texturex*textureWidth), textureoffset[1], 64, 64, image:getDimensions())
-        love.graphics.draw(image, q, xx, yy,0, stripWidth/64, height/64)
+        --    drawRay(xHit, yHit)
+
+--        -- draw single colored floor and ceiling
+--
+----        love.graphics.rectangle("fill", 0, 0, screenWidth, screenHeight )
+----        love.graphics.reset( )
+--        love.graphics.setColor(255,255,255)
+--        --Intensity = Object Intensity/Distance * Multiplier
+--
+--        local q = love.graphics.newQuad( textureoffset[0]+(texturex*textureWidth), textureoffset[1], 64, 64, image:getDimensions())
+--        love.graphics.draw(image, q, xx, yy,0, stripWidth/64, height/64)
 
         -- height is the height of the wall
         --
-        local fheight = (screenHeight - height)/2
-        local foffset = yy + height
-
-        --coordinates of floor tile pixel on the world
-        local vx = (xHit - player.x)/dist
-        local vy = (yHit - player.y)/dist
+--        local fheight = (screenHeight - height)/2
+--        local foffset = yy + height
+--
+--        --coordinates of floor tile pixel on the world
+--        local vx = (xHit - player.x)/dist
+--        local vy = (yHit - player.y)/dist
 
 --        local fweight = (screenWidth/screenHeight)*((currentDist )/(dist ))
 
         -- absolute bottom:  always remains the screenheight (experimented)
-        local bottom = foffset + fheight
-        local distplayer = 0.0
+--        local bottom = foffset + fheight
+--        local distplayer = 0.0
 --        local fweight =
         -- bottom always remains the screenheight (experimented)??
 --        love.graphics.line(0,0, screenWidth/2, fheight)
