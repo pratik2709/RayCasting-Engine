@@ -10,8 +10,10 @@ function love.load(arg)
     require "minimap"
     require "player"
     require "raycast"
+    require "sprite"
     imageData = "gfx/walls.png"
     floorData = "gfx/eagle.png"
+    gaurdSpriteAtlas = "gfx/guard.png"
     image = love.graphics.newImage( imageData )
     floorImage = love.graphics.newImage( floorData )
 

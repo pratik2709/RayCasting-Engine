@@ -84,4 +84,4 @@ angle_between_rays = 0.2 * pi/180
 wallTextureMapping = { [0]={[0]=0,1},{[0]=0, 64},{[0]= 0, 128}, {[0]= 0, 256} }
 floorTextureMapping = { [0]={[0]=0,128} }
 
-sprite_array = {}
+_sprites = {}
