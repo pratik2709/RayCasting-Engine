@@ -180,7 +180,8 @@ function castSingleRay(rayAngle, index, ang1)
         end
 
     if dist then
-        calculateWallRenderValues(dist, rayAngle, texturex, textureoffset, index, wallType)
+        local xx, yy, height, textureoffset = calculateWallRenderValues(dist, rayAngle, textureoffset, index, wallType)
+        renderWalls(texturex, textureoffset, xx, yy, height)
         drawSprites()
 
         --Intensity = Object Intensity/Distance * Multiplier

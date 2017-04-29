@@ -7,6 +7,7 @@ function love.load(arg)
     joystick = joysticks[#joysticks]
 
     require "initialize"
+    require "utilities"
     require "minimap"
     require "player"
     require "walls"

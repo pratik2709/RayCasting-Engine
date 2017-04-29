@@ -1,4 +1,4 @@
-function calculateWallRenderValues(dist, rayAngle, texturex, textureoffset, index, wallType)
+function calculateWallRenderValues(dist, rayAngle, textureoffset, index, wallType)
     dist = math.sqrt(dist);
     dist = dist * math.cos(player.rot - rayAngle);
     -- actual wall height is considered 1
@@ -18,7 +18,9 @@ function calculateWallRenderValues(dist, rayAngle, texturex, textureoffset, inde
     else
         textureoffset = wallTextureMapping[0]
     end
-    renderWalls(texturex, textureoffset, xx, yy, height)
+
+    return xx, yy, height, textureoffset
+
 end
 
 
