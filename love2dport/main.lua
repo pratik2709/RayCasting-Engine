@@ -83,11 +83,11 @@ function love.update(dt)
     end
     --up
     if love.keyboard.isDown("up") then
-        player.speed = 20*dt;
+        player.speed = 1;
     end
     --down
     if love.keyboard.isDown("down") then
-        player.speed = -20*dt;
+        player.speed = -1;
     end
 
            move(dt)

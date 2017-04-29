@@ -866,7 +866,6 @@ ge.MainController = ge.Class.create({
 
             // Cast ray in the world
             var res = this.castSingleRay(rayAngle, i);
-            //[Math.sqrt(dist_h), texturex_h, wallType_h, xHit_h, yHit_h]
 
             // Debug code
             // this.drawRay(res[3], res[4]);

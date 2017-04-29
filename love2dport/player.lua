@@ -1,7 +1,7 @@
 function move(dt)
 
     local moveStep = player.speed * player.moveSpeed
-    player.rot = player.rot + (player.dir * player.rotSpeed  *20 *dt)
+    player.rot = player.rot + (player.dir * player.rotSpeed)
 
 
     local newX = player.x + math.cos(player.rot) * moveStep
