@@ -31,6 +31,48 @@ function drawSprites()
         return
     end
 
+    local sprite_distances = {}
+    -- get distaces from the player
+    -- distance between 2 points
+    if tcount(_sprites) == 1
+        then
+        sprite_distances[_sprites[1].id] = getDistanceToPlayer(_sprites[1])
+    else
+        -- get sorted distance
+        -- still intermediate
+        -- this path wont be called
+        table.sort(_sprites, spriteDistances)
+    end
+
+end
+
+function spriteDistances(sprite1, sprite2)
+    print "here"
+    local sd1, sd2
+    if sprite_distances[sprite1.id] == nil
+        then
+        -- why would this condition would happen?
+        sd1 = getDistanceToPlayer(sprite1)
+        sprite_distances[sprite1.id] = sd1
+    else
+        sd1 = sprite_distances[sprite1.id]
+    end
+    if sprite_distances[sprite2.id] == nil
+        then
+        -- why would this condition would happen?
+        sd2 = getDistanceToPlayer(sprite2)
+        sprite_distances[sprite2.id] = sd2
+    else
+        sd2 = sprite_distances[sprite2.id]
+    end
+    return sd1 - sd2
+end
+
+
+function getDistanceToPlayer(sprite)
+    local sdx = sprite.x - player.x - spriteDrawOffsetX
+    local sdy = sprite.y - player.y - spriteDrawOffsetY
+    return math.sqrt(sdx*sdx + sdy*sdy)
 end
 
 function check_sprite_array_contains_sprites()

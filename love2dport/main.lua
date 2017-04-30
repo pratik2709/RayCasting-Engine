@@ -44,6 +44,7 @@ function love.load(arg)
         playerCrossHair,
         spriteAtlasImage
     });
+
     print_r(_sprites)
 end
 
