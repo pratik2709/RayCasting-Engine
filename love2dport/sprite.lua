@@ -65,6 +65,21 @@ function drawSprites()
         ySprite = ySprite - player.y
         local spriteAngle = math.atan(ySprite, xSprite) - player.rot
         local size = viewDist/(math.cos(spriteAngle)*distSprite)
+
+        -- inverted loop condition
+        if not size <= 0
+            then
+            -- no idea whats happening
+            -- assuming get x and y location of the sprite
+            local x = math.floor(screenWidth/2 + math.tan(spriteAngle) * viewDist - size * sprite.spriteScaleX/2)
+            local y = math.floor(screenHeight/2 + - (0.55 + sprite.spriteScaleY - 1) * size)
+
+            -- calculate the scale
+            local sx = math.floor(size * sprite.spriteScaleX)
+            local sy = math.ceil(sprite.spriteHeight * 0.01 * size) + (0.45 + sprite.spriteScaleY - 1) * size
+
+        end
+
     end
 
 end
