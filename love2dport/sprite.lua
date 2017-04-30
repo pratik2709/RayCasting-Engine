@@ -51,12 +51,20 @@ function drawSprites()
     local playerCrossHairHit = {}
 
     -- go through all the sprites
-    for i=0, tcount(_sprites) - 1, 1
+    for i=1, tcount(_sprites), 1
         do
         local sprite = _sprites[i]
         local distSprite = sprite_distances[sprite.id]
         -- whats xsprite and ysprite
+        local xSprite = sprite.x - spriteDrawOffsetX
+        local ySprite = sprite.y - spriteDrawOffsetY
 
+        -- do not draw on minimap as of now
+        -- sprite angle relative to player ? and sprite size ?
+        xSprite = xSprite - player.x
+        ySprite = ySprite - player.y
+        local spriteAngle = math.atan(ySprite, xSprite) - player.rot
+        local size = viewDist/(math.cos(spriteAngle)*distSprite)
     end
 
 end

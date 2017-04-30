@@ -45,7 +45,7 @@ function love.load(arg)
         spriteAtlasImage
     });
 
-    print_r(_sprites)
+--    print_r(_sprites)
 end
 
 function love.update(dt)
