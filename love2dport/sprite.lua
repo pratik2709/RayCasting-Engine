@@ -67,7 +67,7 @@ function drawSprites()
         local size = viewDist/(math.cos(spriteAngle)*distSprite)
 
         -- inverted loop condition
-        if not size <= 0
+        if not (tonumber(size) <= tonumber(0))
             then
             -- no idea whats happening
             -- assuming get x and y location of the sprite
@@ -78,10 +78,26 @@ function drawSprites()
             local sx = math.floor(size * sprite.spriteScaleX)
             local sy = math.ceil(sprite.spriteHeight * 0.01 * size) + (0.45 + sprite.spriteScaleY - 1) * size
 
+            --renderSprite()
+            -- horizontal offset in sprite atlas
+            local tx = sprite.spriteOffsetX
+            -- horizontal size in sprite atlas ??
+            local ts = sprite.spriteWidth
+
+            -- no idea ?
+            local cumulativeDS = 0
+            local cumulativeTS = 0
+
+            --number of strips to draw
+
         end
 
     end
 
+end
+
+-- hold on for now
+function renderSprite()
 end
 
 function spriteDistances(sprite1, sprite2)
