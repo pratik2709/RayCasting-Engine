@@ -44,6 +44,21 @@ function drawSprites()
         table.sort(_sprites, spriteDistances)
     end
 
+    --make available to players
+    player.spriteDistances = sprite_distances
+    local crossHairSize = player.crossHairSize
+    local screenMiddle = screenWidth/2
+    local playerCrossHairHit = {}
+
+    -- go through all the sprites
+    for i=0, tcount(_sprites) - 1, 1
+        do
+        local sprite = _sprites[i]
+        local distSprite = sprite_distances[sprite.id]
+        -- whats xsprite and ysprite
+
+    end
+
 end
 
 function spriteDistances(sprite1, sprite2)
