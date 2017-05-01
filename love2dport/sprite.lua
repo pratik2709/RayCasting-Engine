@@ -133,13 +133,34 @@ function drawSprites(distArray)
                 end
 
                 --cannot compare number with nil!
-                if distWall == nil or distDelta < (distDelta < -0.1 * distSprite)
+                if not distWall ~= nil or distDelta < (distDelta < -0.1 * distSprite)
                     then
                     if drawing
                         then
                         execute_draw = true
                     end
                     drawing = false
+                else
+                    if not drawing
+                        then
+                        drawing = true
+                        x = x + cumulativeDS;
+                        tx = tx + cumulativeTS;
+                        cumulativeDS = 0;
+                        cumulativeTS = 0;
+                    end
+
+
+                end
+                if execute_draw
+                    then
+                    renderSprite(tx,cumulativeTS,x,cumulativeDS)
+                    execute_draw = false
+                    drawing = false
+                elseif j+1 >= strips and drawing
+                    then
+                    renderSprite(tx,cumulativeTS,x,cumulativeDS);
+                    break
                 else
 
                 end
@@ -155,7 +176,8 @@ function drawSprites(distArray)
 end
 
 -- hold on for now
-function renderSprite()
+function renderSprite(tx, tw, sx, sw)
+
 end
 
 function spriteDistances(sprite1, sprite2)
