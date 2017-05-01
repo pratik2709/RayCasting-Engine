@@ -25,7 +25,7 @@ function tmerge(first_table, second_table)
     end
 end
 
-function drawSprites()
+function drawSprites(distArray)
     if not check_sprite_array_contains_sprites()
         then
         return
@@ -51,19 +51,24 @@ function drawSprites()
     local playerCrossHairHit = {}
 
     -- go through all the sprites
+    -- draw the far away ones first
     for i=1, tcount(_sprites), 1
         do
         local sprite = _sprites[i]
+        -- pick up the sprite one by one to draw
         local distSprite = sprite_distances[sprite.id]
         -- whats xsprite and ysprite
+        --
         local xSprite = sprite.x - spriteDrawOffsetX
         local ySprite = sprite.y - spriteDrawOffsetY
 
         -- do not draw on minimap as of now
         -- sprite angle relative to player ? and sprite size ?
+        -- this is a vector calculation ?
         xSprite = xSprite - player.x
         ySprite = ySprite - player.y
-        local spriteAngle = math.atan(ySprite, xSprite) - player.rot
+        local spriteAngle = math.atan2(ySprite, xSprite) - player.rot
+        -- size of the sprite
         local size = viewDist/(math.cos(spriteAngle)*distSprite)
 
         -- inverted loop condition
@@ -89,6 +94,59 @@ function drawSprites()
             local cumulativeTS = 0
 
             --number of strips to draw
+            local strips = sx/stripWidth
+
+            --collecting stripes to draw ??
+            local drawing = false
+
+            --all sprites collected
+            local execute_draw = false
+
+
+            for j=0, strips - 1, 1
+                do
+
+                --cumulative sizes??
+                -- no idea
+                cumulativeDS = cumulativeDS + stripWidth
+                cumulativeTS = math.floor(cumulativeDS * sprite.spriteWidth/sx)
+                if cumulativeTS > sprite.spriteWidth then
+                    cumulativeTS = sprite.spriteWidth
+                    else
+                    cumulativeTS = cumulativeTS
+                end
+
+                --index in distance list ?
+                -- no idea
+
+                local distIndex = math.floor((x+cumulativeDS) * (tcount(distArray))/(screenWidth))
+                --error because this is negative?
+--                print (distIndex)
+                --distance of wall for this strip
+                local distWall = distArray[distIndex]
+
+                if distWall ~= nil
+                    then
+                    local distDelta = distWall - distSprite
+                else
+                    distWall = nil
+                end
+
+                --cannot compare number with nil!
+                if distWall == nil or distDelta < (distDelta < -0.1 * distSprite)
+                    then
+                    if drawing
+                        then
+                        execute_draw = true
+                    end
+                    drawing = false
+                else
+
+                end
+
+                --
+            end
+
 
         end
 
@@ -124,6 +182,7 @@ end
 
 
 function getDistanceToPlayer(sprite)
+    -- this is simple distance formula with offset which is additional
     local sdx = sprite.x - player.x - spriteDrawOffsetX
     local sdy = sprite.y - player.y - spriteDrawOffsetY
     return math.sqrt(sdx*sdx + sdy*sdy)

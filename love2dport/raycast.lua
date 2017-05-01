@@ -12,6 +12,7 @@ function castRays()
 
     local vds = viewDist * viewDist
     local s =0
+    local distArray = {}
     for i = 0, numRays - 1, 1 do
         --understand?
         local raynumber = -numRays / 2 + i;
@@ -21,7 +22,7 @@ function castRays()
         local ang1 = raynumber * angle_between_rays
         local ang = player.rot + ang1
         local a = rayAngle + player.rot
-        castSingleRay(a, s, ang1) --slightly confusing
+        castSingleRay(a, s, distArray) --slightly confusing
         s = s + 1
     end
 end
@@ -30,7 +31,7 @@ round = function(num)
 	return math.floor(num+.5)
 end
 
-function castSingleRay(rayAngle, index, ang1)
+function castSingleRay(rayAngle, index, distArray)
 
     rayAngle = rayAngle % twopi
     if rayAngle < 0 then
@@ -180,9 +181,11 @@ function castSingleRay(rayAngle, index, ang1)
         end
 
     if dist then
+        table.insert(distArray, dist)
         local xx, yy, height, textureoffset = calculateWallRenderValues(dist, rayAngle, textureoffset, index, wallType)
         renderWalls(texturex, textureoffset, xx, yy, height)
-        drawSprites()
+--        print_r (distArray)
+        drawSprites(distArray)
 
         --Intensity = Object Intensity/Distance * Multiplier
 
