@@ -123,25 +123,29 @@ function drawSprites(distArray)
 --                print (distIndex)
                 --distance of wall for this strip
                 local distWall = distArray[distIndex]
+                local distDelta
 
-                if distWall ~= nil
+                if distWall
                     then
-                    local distDelta = distWall - distSprite
-                else
-                    distWall = nil
+                    distDelta = distWall - distSprite
                 end
+                print(distDelta, distWall)
 
                 --cannot compare number with nil!
-                if not distWall ~= nil or distDelta < (distDelta < -0.1 * distSprite)
+                if not distWall or (distDelta < -0.1 * distSprite)
                     then
+                    print "enter"
                     if drawing
                         then
+                        print "ovvvvv"
                         execute_draw = true
                     end
                     drawing = false
                 else
+                    print "in else"
                     if not drawing
                         then
+                        print "chkkk"
                         drawing = true
                         x = x + cumulativeDS;
                         tx = tx + cumulativeTS;
@@ -153,11 +157,13 @@ function drawSprites(distArray)
                 end
                 if execute_draw
                     then
+                    print " this"
                     renderSprite(tx,cumulativeTS,x,cumulativeDS,sy)
                     execute_draw = false
                     drawing = false
                 elseif j+1 >= strips and drawing
                     then
+                    print " this 2"
                     renderSprite(tx,cumulativeTS,x,cumulativeDS,sy);
                     break
                 else
@@ -176,6 +182,11 @@ end
 
 -- hold on for now
 function renderSprite(tx, tw, sx, sw, sy)
+    if tw <= 0 or sw <= 0
+        then
+        return
+    end
+
     print "hereeeee"
     local q = love.graphics.newQuad( tx, sprite.spriteOffsetY, tw, sprite.spriteHeight, tablechairData:getDimensions())
     love.graphics.draw(tablechairData, q, sx, y,0, sw, sy)
