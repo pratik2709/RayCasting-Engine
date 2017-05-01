@@ -5,7 +5,6 @@ function addSprite(initial_sprite_state)
         tmerge(initial_sprite_state, default_initial_sprite_state)
     else
         -- expecting to be passed correct and complete sprite state
-        print "over here"
         tmerge(initial_sprite_state, default_initial_sprite_state)
     end
     --add to sprites_array
@@ -154,12 +153,12 @@ function drawSprites(distArray)
                 end
                 if execute_draw
                     then
-                    renderSprite(tx,cumulativeTS,x,cumulativeDS)
+                    renderSprite(tx,cumulativeTS,x,cumulativeDS,sy)
                     execute_draw = false
                     drawing = false
                 elseif j+1 >= strips and drawing
                     then
-                    renderSprite(tx,cumulativeTS,x,cumulativeDS);
+                    renderSprite(tx,cumulativeTS,x,cumulativeDS,sy);
                     break
                 else
 
@@ -176,12 +175,13 @@ function drawSprites(distArray)
 end
 
 -- hold on for now
-function renderSprite(tx, tw, sx, sw)
-
+function renderSprite(tx, tw, sx, sw, sy)
+    print "hereeeee"
+    local q = love.graphics.newQuad( tx, sprite.spriteOffsetY, tw, sprite.spriteHeight, tablechairData:getDimensions())
+    love.graphics.draw(tablechairData, q, sx, y,0, sw, sy)
 end
 
 function spriteDistances(sprite1, sprite2)
-    print "here"
     local sd1, sd2
     if sprite_distances[sprite1.id] == nil
         then

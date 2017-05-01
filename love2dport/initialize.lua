@@ -66,8 +66,8 @@ default_initial_sprite_state = {
 
 }
 
-screenWidth = 667 --diff
-screenHeight = 375
+screenWidth = 320 --diff
+screenHeight = 240
 stripWidth = 2 --diff
 fov = 60 * pi / 180
 numRays = math.ceil(screenWidth / stripWidth)

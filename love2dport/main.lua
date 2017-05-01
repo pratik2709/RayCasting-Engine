@@ -22,8 +22,8 @@ function love.load(arg)
     floorImage = love.graphics.newImage( floorData )
     addSprite({
         id          ="table2",
-        x           = 2,
-        y           = 2,
+        x           = 10,
+        y           = 7,
         spriteAtlas = "tablechairs.png",
         isMoving=false,
         drawOnMiniMap=false,
