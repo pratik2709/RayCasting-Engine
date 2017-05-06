@@ -71,16 +71,16 @@ function drawSprites(distArray)
         local size = viewDist/(math.cos(spriteAngle)*distSprite)
 
         -- inverted loop condition
-        if not (tonumber(size) <= tonumber(0))
+        if not (size <= 0)
             then
             -- no idea whats happening
             -- assuming get x and y location of the sprite
             local x = math.floor(screenWidth/2 + math.tan(spriteAngle) * viewDist - size * sprite.spriteScaleX/2)
-            local y = math.floor(screenHeight/2 + - (0.55 + sprite.spriteScaleY - 1) * size)
+            local y = math.floor(screenHeight/2 + - ((0.55 + sprite.spriteScaleY - 1) * size))
 
             -- calculate the scale
             local sx = math.floor(size * sprite.spriteScaleX)
-            local sy = math.ceil(sprite.spriteHeight * 0.01 * size) + (0.45 + sprite.spriteScaleY - 1) * size
+            local sy = math.ceil(sprite.spriteHeight * 0.01 * size) + ((0.45 + sprite.spriteScaleY - 1) * size)
 
             --renderSprite()
             -- horizontal offset in sprite atlas
@@ -129,23 +129,18 @@ function drawSprites(distArray)
                     then
                     distDelta = distWall - distSprite
                 end
-                print(distDelta, distWall)
 
                 --cannot compare number with nil!
                 if not distWall or (distDelta < -0.1 * distSprite)
                     then
-                    print "enter"
                     if drawing
                         then
-                        print "ovvvvv"
                         execute_draw = true
                     end
                     drawing = false
                 else
-                    print "in else"
                     if not drawing
                         then
-                        print "chkkk"
                         drawing = true
                         x = x + cumulativeDS;
                         tx = tx + cumulativeTS;
@@ -157,14 +152,12 @@ function drawSprites(distArray)
                 end
                 if execute_draw
                     then
-                    print " this"
-                    renderSprite(tx,cumulativeTS,x,cumulativeDS,sy)
+                    renderSprite(sprite, tx,cumulativeTS,x,cumulativeDS,sy, y)
                     execute_draw = false
                     drawing = false
                 elseif j+1 >= strips and drawing
                     then
-                    print " this 2"
-                    renderSprite(tx,cumulativeTS,x,cumulativeDS,sy);
+                    renderSprite(sprite, tx,cumulativeTS,x,cumulativeDS,sy, y);
                     break
                 else
 
@@ -181,15 +174,16 @@ function drawSprites(distArray)
 end
 
 -- hold on for now
-function renderSprite(tx, tw, sx, sw, sy)
+function renderSprite(sprite, tx, tw, sx, sw, sy, y)
+    print("rendering sprite", y)
     if tw <= 0 or sw <= 0
         then
         return
     end
-
-    print "hereeeee"
-    local q = love.graphics.newQuad( tx, sprite.spriteOffsetY, tw, sprite.spriteHeight, tablechairData:getDimensions())
-    love.graphics.draw(tablechairData, q, sx, y,0, sw, sy)
+--    print "hereeeee"
+    local q = love.graphics.newQuad( 0, 0, 64, 64, tablechairImage:getDimensions())
+    love.graphics.draw(tablechairImage, q, sx, y,0, tw/64, sprite.spriteHeight/64)
+--    love.graphics.print( "textt", sx, y)
 end
 
 function spriteDistances(sprite1, sprite2)

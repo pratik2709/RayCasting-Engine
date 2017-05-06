@@ -184,7 +184,6 @@ function castSingleRay(rayAngle, index, distArray)
         table.insert(distArray, dist)
         local xx, yy, height, textureoffset = calculateWallRenderValues(dist, rayAngle, textureoffset, index, wallType)
         renderWalls(texturex, textureoffset, xx, yy, height)
---        print_r (distArray)
         drawSprites(distArray)
 
         --Intensity = Object Intensity/Distance * Multiplier

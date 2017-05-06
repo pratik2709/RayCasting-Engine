@@ -20,10 +20,11 @@ function love.load(arg)
     tablechairData = "gfx/tablechairs.png"
     image = love.graphics.newImage( imageData )
     floorImage = love.graphics.newImage( floorData )
+    tablechairImage = love.graphics.newImage( tablechairData )
     addSprite({
         id          ="table2",
-        x           = 10,
-        y           = 7,
+        x           = screenWidth/2,
+        y           = screenHeight/2,
         spriteAtlas = "tablechairs.png",
         isMoving=false,
         drawOnMiniMap=false,
@@ -38,8 +39,8 @@ function love.load(arg)
         spriteOffsetY=0,
         spriteWidth=64,
         spriteHeight=64,
-        spriteScaleX=1,
-        spriteScaleY=1,
+        spriteScaleX=16,
+        spriteScaleY=10,
         hitlist={},
         playerCrossHair,
         spriteAtlasImage
