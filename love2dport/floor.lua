@@ -57,10 +57,11 @@ function renderFloor(height, yy, xx, xHit, yHit, dist, rayAngle)
 end
 
 
-function castVerticalFloorRay(x,angulo, dist, stripHeight)
+function castVerticalFloorRay(x,angulo, dist, yy, height)
     local mapScale = 512
-    local fy0 = screenHeight * 0.6
-	for y=fy0,screenHeight,stripHeight do
+    local fheight = (screenHeight - height)/2
+    local foffset = yy + height
+	for y=foffset,screenHeight,2 do
 		local cos_of_rayangle = math.cos(angulo-player.rot)
 		if cos_of_rayangle ==0 then cos_of_rayangle =0.0001 end
 		local dist = (pdist(y)/ cos_of_rayangle)/mapScale
@@ -68,7 +69,7 @@ function castVerticalFloorRay(x,angulo, dist, stripHeight)
 		local py = player.y + math.sin(angulo) * dist
 		local piso = celda(px,py)
 		if piso>0 then
-            print "over jere"
+--            print "over jere"
             love.graphics.setColor(255,255,255)
 			love.graphics.setColor( piso,piso,piso)
 				love.graphics.rectangle( "fill",
