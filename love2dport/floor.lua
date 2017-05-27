@@ -89,8 +89,8 @@ end
 function celda(x,y)
 	fx =math.floor(x)
 	fy=math.floor(y)
-	if fx>10 or fy>10 then return 0 end
-	if fx<0 or fy<0 then return 0 end
+--	if fx>10 or fy>10 then return 0 end
+--	if fx<0 or fy<0 then return 0 end
 	return floor_map[fx][fy]
 end
 

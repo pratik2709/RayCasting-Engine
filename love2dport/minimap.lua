@@ -22,6 +22,7 @@ function updateMiniMap()
         (player.y + math.sin(player.rot) * 4) * miniMapScale)
 end
 
+-- todo: check if width comes first or height and fix floor map
 function drawFloorMiniMap()
 	local wall
 	for x=0,mapWidth-1, 1 do
