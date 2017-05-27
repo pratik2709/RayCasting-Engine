@@ -46,7 +46,7 @@ function love.load(arg)
         playerCrossHair,
         spriteAtlasImage
     });
-
+    createFloorMap()
 --    print_r(_sprites)
 end
 
@@ -144,6 +144,7 @@ function love.draw(dt)
 --    love.graphics.draw(floorImage, 1280/4, 720/4, 0, 1,1, 32,32)
 
 --    drawMiniMap()
+        drawFloorMiniMap()
 --    updateMiniMap()
 --    love.graphics.clear( )
     love.graphics.setBackgroundColor(128, 128, 128)

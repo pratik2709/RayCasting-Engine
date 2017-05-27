@@ -21,3 +21,20 @@ function updateMiniMap()
         (player.x + math.cos(player.rot) * 4) * miniMapScale,
         (player.y + math.sin(player.rot) * 4) * miniMapScale)
 end
+
+function drawFloorMiniMap()
+	local wall
+	for x=0,mapWidth-1, 1 do
+		for y=0,mapHeight-1, 1 do
+			wall=celda(x,y)
+			if (wall > 0)  then
+				love.graphics.setColor( wall,wall,wall)
+				love.graphics.rectangle( "fill",
+					x * miniMapScale,
+					y * miniMapScale,
+					miniMapScale,miniMapScale
+				)
+			end
+		end
+	end
+end

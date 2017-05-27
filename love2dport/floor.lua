@@ -85,9 +85,22 @@ function celda(x,y)
 	fy=math.floor(y)
 	if fx>10 or fy>10 then return 0 end
 	if fx<0 or fy<0 then return 0 end
-	return map1[fx][fy]
+	return floor_map[fx][fy]
 end
 
 function pdist(y)
 	return viewDist*(screenHeight*0.5)/(y-screenHeight*0.5)
 end
+
+function createFloorMap()
+        for i=0,10 do
+        floor_map[i]={}
+        for j=0,10 do
+            valor =math.random(0,255)
+            floor_map[i][j]= valor
+            --valor = 1-valor
+        end
+    end
+end
+
+
