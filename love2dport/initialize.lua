@@ -87,3 +87,13 @@ floorTextureMapping = { [0]={[0]=0,128} }
 spriteDrawOffsetX = 0.5
 spriteDrawOffsetY = 0.5
 _sprites = {}
+
+map1 = {}
+for i=0,10 do
+    map1[i]={}
+    for j=0,10 do
+        valor =math.random(0,255)
+        map1[i][j]= valor
+        --valor = 1-valor
+    end
+end

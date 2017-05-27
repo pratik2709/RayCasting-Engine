@@ -13,6 +13,7 @@ function love.load(arg)
     require "walls"
     require "raycast"
     require "sprite"
+    require "floor"
 
     imageData = "gfx/walls.png"
     floorData = "gfx/eagle.png"
@@ -155,3 +156,6 @@ function love.draw(dt)
 --    love.graphics.print(pi, 200, 200)
 --    updateMiniMap()
 end
+
+
+

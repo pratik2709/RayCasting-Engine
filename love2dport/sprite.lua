@@ -27,8 +27,13 @@ end
 function drawSprites(distArray)
     if not check_sprite_array_contains_sprites()
         then
+        print "nothing"
         return
+        else
+        print "contains sprites"
+        print_r(distArray)
     end
+    os.exit()
 
     local sprite_distances = {}
     -- get distaces from the player
