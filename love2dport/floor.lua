@@ -70,6 +70,11 @@ function castVerticalFloorRay(x,angulo, dist, yy, height)
 		local piso = celda(px,py)
 		if piso>0 then
 --            print "over jere"
+--            local floorTextureX = ((px*textureWidth)%textureWidth)
+--            local floorTextureY = ((py*textureHeight)%textureHeight)
+--            local qq = love.graphics.newQuad( floorTextureX, floorTextureY, 64, 64, floorImage:getDimensions())
+--            love.graphics.draw(floorImage, qq, x*stripWidth, y,0, stripWidth, 1)
+
             love.graphics.setColor(255,255,255)
 			love.graphics.setColor( piso,piso,piso)
 				love.graphics.rectangle( "fill",
@@ -94,9 +99,9 @@ function pdist(y)
 end
 
 function createFloorMap()
-        for i=0,10 do
+        for i=0,mapWidth-1, 1 do
         floor_map[i]={}
-        for j=0,10 do
+        for j=0,mapHeight-1 do
             valor =math.random(0,255)
             floor_map[i][j]= valor
             --valor = 1-valor
