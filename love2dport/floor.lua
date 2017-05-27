@@ -58,12 +58,15 @@ end
 
 
 function castVerticalFloorRay(x,angulo, dist, yy, height)
+    -- why mapscale
     local mapScale = 512
     local fheight = (screenHeight - height)/2
     local foffset = yy + height
 	for y=foffset,screenHeight,2 do
 		local cos_of_rayangle = math.cos(angulo-player.rot)
 		if cos_of_rayangle ==0 then cos_of_rayangle =0.0001 end
+
+        --mapscale could be related to the fweight ?
 		local dist = (pdist(y)/ cos_of_rayangle)/mapScale
 		local px = player.x + math.cos(angulo) * dist
 		local py = player.y + math.sin(angulo) * dist
