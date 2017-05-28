@@ -68,6 +68,7 @@ function castVerticalFloorRay(x,angulo, dist, yy, height)
 
         --mapscale could be related to the fweight ?
 		local dist = (pdist(y)/ cos_of_rayangle)/mapScale
+    -- cos and sin are giving a direction vector which multiplied by magnitude dist?
 		local px = player.x + math.cos(angulo) * dist
 		local py = player.y + math.sin(angulo) * dist
 		local piso = celda(px,py)
