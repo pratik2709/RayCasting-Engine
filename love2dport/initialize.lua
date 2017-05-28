@@ -28,8 +28,8 @@ map = { [0]=
 pi = math.pi
 twopi = math.pi*2
 player = {
-    x = 16,
-    y = 10,
+    x = 2,
+    y = 2,
     dir = 0,
     rot = 0,
     speed = 0,

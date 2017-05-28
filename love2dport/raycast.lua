@@ -9,7 +9,7 @@ end
 function castRays()
 
     local vds = viewDist * viewDist
-    local s =0
+    local index =0
     local distArray = {}
     for i = 0, numRays - 1, 1 do
         --understand?
@@ -20,8 +20,10 @@ function castRays()
         local ang1 = raynumber * angle_between_rays
         local ang = player.rot + ang1
         local a = rayAngle + player.rot
-        castSingleRay(a, s, distArray) --slightly confusing
-        s = s + 1
+        local xx, yy, height, textureoffset, dist, texturex, rayAngle = castSingleRay(a, index, distArray) --slightly confusing
+        renderWalls(texturex, textureoffset, xx, yy, height)
+        castVerticalFloorRay(index, rayAngle, dist, yy, height)
+        index = index + 1
     end
 end
 
@@ -181,10 +183,7 @@ function castSingleRay(rayAngle, index, distArray)
     if dist then
         table.insert(distArray, dist)
         local xx, yy, height, textureoffset = calculateWallRenderValues(dist, rayAngle, textureoffset, index, wallType)
-        renderWalls(texturex, textureoffset, xx, yy, height)
-        castVerticalFloorRay(index, rayAngle, dist, yy, height)
---        drawSprites(distArray)
-
+        return xx, yy, height, textureoffset, dist, texturex, rayAngle
 
     end
 end
