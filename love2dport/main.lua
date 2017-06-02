@@ -23,9 +23,9 @@ function love.load(arg)
     floorImage = love.graphics.newImage( floorData )
     tablechairImage = love.graphics.newImage( tablechairData )
     addSprite({
-        id          ="table2",
-        x           = screenWidth/2,
-        y           = screenHeight/2,
+        id          ="dining_table",
+        x           = 10,
+        y           = 7,
         spriteAtlas = "tablechairs.png",
         isMoving=false,
         drawOnMiniMap=false,
