@@ -1,3 +1,4 @@
+-- sprites are added to the list rather than create a sprite map
 function addSprite(initial_sprite_state)
     if not initial_sprite_state
         then
@@ -25,43 +26,52 @@ function tmerge(first_table, second_table)
 end
 
 function drawSprites(distArray)
+--    print_r(_sprites)
     if not check_sprite_array_contains_sprites()
         then
-        print "nothing"
         return
-        else
-        print "contains sprites"
-        print_r(distArray)
+--        else
+--        print "contains sprites"
     end
-    os.exit()
 
     local sprite_distances = {}
     -- get distaces from the player
     -- distance between 2 points
     if tcount(_sprites) == 1
         then
+--        print "over here in 1 sprite"
         sprite_distances[_sprites[1].id] = getDistanceToPlayer(_sprites[1])
     else
+--        print "over here in more than 1 sprites"
         -- get sorted distance
         -- still intermediate
         -- this path wont be called
         table.sort(_sprites, spriteDistances)
     end
 
+
     --make available to players
     player.spriteDistances = sprite_distances
+
     local crossHairSize = player.crossHairSize
     local screenMiddle = screenWidth/2
     local playerCrossHairHit = {}
 
     -- go through all the sprites
     -- draw the far away ones first
+    -- since this starts from 1 added 1 to count of sprites so that 1 < 2
+    -- check if lua for loops include greater than or equal as well
     for i=1, tcount(_sprites), 1
         do
+        print "inside loop"
+
         local sprite = _sprites[i]
+
+
         -- pick up the sprite one by one to draw
         local distSprite = sprite_distances[sprite.id]
-        -- whats xsprite and ysprite
+
+        -- whats xsprite and ysprite?
         --
         local xSprite = sprite.x - spriteDrawOffsetX
         local ySprite = sprite.y - spriteDrawOffsetY
@@ -71,17 +81,27 @@ function drawSprites(distArray)
         -- this is a vector calculation ?
         xSprite = xSprite - player.x
         ySprite = ySprite - player.y
+
+
         local spriteAngle = math.atan2(ySprite, xSprite) - player.rot
         -- size of the sprite
+--        local size = viewDist/(math.cos(spriteAngle)*distSprite)
+        local viewDist = 277.1281292110204
         local size = viewDist/(math.cos(spriteAngle)*distSprite)
 
         -- inverted loop condition
         if not (size <= 0)
             then
+
             -- no idea whats happening
             -- assuming get x and y location of the sprite
+            local screenWidth = 320
+            local screenHeight = 200
+            sprite.spriteScaleX = 1
+            sprite.spriteScaleY = 1
             local x = math.floor(screenWidth/2 + math.tan(spriteAngle) * viewDist - size * sprite.spriteScaleX/2)
             local y = math.floor(screenHeight/2 + - ((0.55 + sprite.spriteScaleY - 1) * size))
+
 
             -- calculate the scale
             local sx = math.floor(size * sprite.spriteScaleX)
@@ -106,6 +126,7 @@ function drawSprites(distArray)
             --all sprites collected
             local execute_draw = false
 
+            -- sprite.hitlist = []
 
             for j=0, strips - 1, 1
                 do
@@ -114,12 +135,16 @@ function drawSprites(distArray)
                 -- no idea
                 cumulativeDS = cumulativeDS + stripWidth
                 cumulativeTS = math.floor(cumulativeDS * sprite.spriteWidth/sx)
+
                 if cumulativeTS > sprite.spriteWidth then
                     cumulativeTS = sprite.spriteWidth
                     else
                     cumulativeTS = cumulativeTS
                 end
 
+                print_r(cumulativeDS)
+                print_r(cumulativeTS)
+                os.exit()
                 --index in distance list ?
                 -- no idea
 
@@ -229,28 +254,5 @@ function check_sprite_array_contains_sprites()
     end
 end
 
---
---
---local colors = {}
---colors[1] = "red"
---colors[2] = {"blue"}
---colors[3] = "green"
---
---local otherColors = {}
---otherColors[1] = {"blue"}
---otherColors[2] = "magenta"
---otherColors[3] = "yellow"
---otherColors[4] = "key"
---
---function joinMyTables(t1, t2)
---    for k,v in ipairs(t2) do
---        table.insert(t1, v)
---    end
---    return t1
---end
---
---print_r(colors)
---joinMyTables(colors, otherColors)
---print_r(colors)
 
 
