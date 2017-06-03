@@ -1,7 +1,7 @@
 # RayCasting Engine
 
 ## Introduction
-This is a Lua implementation of the Ray casting technique. It uses Love2D as the game engine framework.
+This is a Lua implementation of the Ray Casting technique. It uses Love2D as the game engine framework.
 
 ## What is Ray Casting ?
 Ray-casting is a technique that transforms a limited form of data (a very simplified map or floor plan) into a 3D projection by tracing rays from the view point into the viewing volume
