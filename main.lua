@@ -109,10 +109,13 @@ function love.update(dt)
     --left
     if love.keyboard.isDown("left") then
         player.dir = -1;
+        -- player is rotating so the plane needs to rotate ?
+        manipulate_player_plane()
     end
     --right
     if love.keyboard.isDown("right") then
         player.dir = 1;
+        manipulate_player_plane()
     end
     --up
     if love.keyboard.isDown("up") then
