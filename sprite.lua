@@ -99,6 +99,9 @@ function drawSprites(distArray)
             local screenHeight = 200
             sprite.spriteScaleX = 1
             sprite.spriteScaleY = 1
+
+            --no idea whats happening here ?
+            -- different from whats explained in the tutorial
             local x = math.floor(screenWidth/2 + math.tan(spriteAngle) * viewDist - size * sprite.spriteScaleX/2)
             local y = math.floor(screenHeight/2 + - ((0.55 + sprite.spriteScaleY - 1) * size))
 
@@ -128,73 +131,73 @@ function drawSprites(distArray)
 
             -- sprite.hitlist = []
 
-            for j=0, strips - 1, 1
-                do
-
-                --cumulative sizes??
-                -- no idea
-                cumulativeDS = cumulativeDS + stripWidth
-                cumulativeTS = math.floor(cumulativeDS * sprite.spriteWidth/sx)
-
-                if cumulativeTS > sprite.spriteWidth then
-                    cumulativeTS = sprite.spriteWidth
-                    else
-                    cumulativeTS = cumulativeTS
-                end
-
-                print_r(cumulativeDS)
-                print_r(cumulativeTS)
-                os.exit()
-                --index in distance list ?
-                -- no idea
-
-                local distIndex = math.floor((x+cumulativeDS) * (tcount(distArray))/(screenWidth))
-                --error because this is negative?
---                print (distIndex)
-                --distance of wall for this strip
-                local distWall = distArray[distIndex]
-                local distDelta
-
-                if distWall
-                    then
-                    distDelta = distWall - distSprite
-                end
-
-                --cannot compare number with nil!
-                if not distWall or (distDelta < -0.1 * distSprite)
-                    then
-                    if drawing
-                        then
-                        execute_draw = true
-                    end
-                    drawing = false
-                else
-                    if not drawing
-                        then
-                        drawing = true
-                        x = x + cumulativeDS;
-                        tx = tx + cumulativeTS;
-                        cumulativeDS = 0;
-                        cumulativeTS = 0;
-                    end
-
-
-                end
-                if execute_draw
-                    then
-                    renderSprite(sprite, tx,cumulativeTS,x,cumulativeDS,sy, y)
-                    execute_draw = false
-                    drawing = false
-                elseif j+1 >= strips and drawing
-                    then
-                    renderSprite(sprite, tx,cumulativeTS,x,cumulativeDS,sy, y);
-                    break
-                else
-
-                end
-
-                --
-            end
+--            for j=0, strips - 1, 1
+--                do
+--
+--                --cumulative sizes??
+--                -- no idea
+--                cumulativeDS = cumulativeDS + stripWidth
+--                cumulativeTS = math.floor(cumulativeDS * sprite.spriteWidth/sx)
+--
+--                if cumulativeTS > sprite.spriteWidth then
+--                    cumulativeTS = sprite.spriteWidth
+--                    else
+--                    cumulativeTS = cumulativeTS
+--                end
+--
+--                print_r(cumulativeDS)
+--                print_r(cumulativeTS)
+--                os.exit()
+--                --index in distance list ?
+--                -- no idea
+--
+--                local distIndex = math.floor((x+cumulativeDS) * (tcount(distArray))/(screenWidth))
+--                --error because this is negative?
+----                print (distIndex)
+--                --distance of wall for this strip
+--                local distWall = distArray[distIndex]
+--                local distDelta
+--
+--                if distWall
+--                    then
+--                    distDelta = distWall - distSprite
+--                end
+--
+--                --cannot compare number with nil!
+--                if not distWall or (distDelta < -0.1 * distSprite)
+--                    then
+--                    if drawing
+--                        then
+--                        execute_draw = true
+--                    end
+--                    drawing = false
+--                else
+--                    if not drawing
+--                        then
+--                        drawing = true
+--                        x = x + cumulativeDS;
+--                        tx = tx + cumulativeTS;
+--                        cumulativeDS = 0;
+--                        cumulativeTS = 0;
+--                    end
+--
+--
+--                end
+--                if execute_draw
+--                    then
+--                    renderSprite(sprite, tx,cumulativeTS,x,cumulativeDS,sy, y)
+--                    execute_draw = false
+--                    drawing = false
+--                elseif j+1 >= strips and drawing
+--                    then
+--                    renderSprite(sprite, tx,cumulativeTS,x,cumulativeDS,sy, y);
+--                    break
+--                else
+--
+--                end
+--
+--                --
+--            end
 
 
         end
