@@ -19,9 +19,11 @@ function love.load(arg)
     floorData = "gfx/eagle.png"
     gaurdSpriteAtlas = "gfx/guard.png"
     tablechairData = "gfx/tablechairs.png"
+    lampData = "gfx/lamp.png"
     image = love.graphics.newImage( imageData )
     floorImage = love.graphics.newImage( floorData )
     tablechairImage = love.graphics.newImage( tablechairData )
+    lampImage = love.graphics.newImage( lampData )
     addSprite({
         id          ="dining_table",
         x           = 10,
@@ -110,12 +112,12 @@ function love.update(dt)
     if love.keyboard.isDown("left") then
         player.dir = -1;
         -- player is rotating so the plane needs to rotate ?
-        manipulate_player_plane()
+--        manipulate_player_plane()
     end
     --right
     if love.keyboard.isDown("right") then
         player.dir = 1;
-        manipulate_player_plane()
+--        manipulate_player_plane()
     end
     --up
     if love.keyboard.isDown("up") then
@@ -159,6 +161,9 @@ function love.draw(dt)
 --    love.graphics.rectangle( "fill", 0, 0, 100, 100 )
 --    love.graphics.print(pi, 200, 200)
 --    updateMiniMap()
+--        love.graphics.setColor(255,255,255)
+--        local q = love.graphics.newQuad( 10, 10, 64, 64, image:getDimensions())
+--        love.graphics.draw(floorImage, q, 10, 10 ,0, 1, 1)
 end
 
 

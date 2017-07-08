@@ -39,7 +39,9 @@ player = {
     playerCrossHairHit={},
     spriteDistances={},
     planeX = 0,
-    planeY = 0.66
+    planeY = 0.66,
+    dirX = -1,
+    dirY = 0
 }
 
 default_initial_sprite_state = {
