@@ -57,7 +57,7 @@ function drawSprites101(distArray)
 
         local x = math.tan(spriteAngle) * viewDist
 
-        local left = screenMiddle + x
+        local left = screenMiddle - size/2 + x
 
         local top = (screenHeight - size)/2
 
@@ -68,14 +68,14 @@ function drawSprites101(distArray)
         local z = -math.floor(blockdist*1000)
 
         -- do a draw call
-        print(size)
-        print("render")
+--        print(x)
+--        print("render")
 --        print(left)
 --        print(top)
     if not (size <= 0) then
         love.graphics.setColor(255,255,255)
         local q = love.graphics.newQuad( 0, 0, 64, 64, image:getDimensions())
-        love.graphics.draw(floorImage, q, left, top ,0, size/64, size/64)
+        love.graphics.draw(tableImage, q, left, top ,0, size/64, size/64)
     end
 
 
