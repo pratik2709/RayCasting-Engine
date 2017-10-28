@@ -1,0 +1,7 @@
+-- anything greater than 0 is a wall
+-- need an enemy class
+-- enemy player collision detection
+-- enemy sprite rendering in the raycasting world
+-- enemy sprite movement in the raycasting world
+-- select a number in the matrix and instatiate the enemy on the map
+-- more ghosts chasing player than pacman ?
