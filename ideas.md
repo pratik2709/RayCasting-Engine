@@ -5,4 +5,4 @@
 -- enemy sprite movement in the raycasting world
 -- select a number in the matrix and instatiate the enemy on the map
 -- more ghosts chasing player than pacman ?
--- need to render sprites fully
+-- need to render sprites fully - D

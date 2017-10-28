@@ -74,8 +74,8 @@ function drawSprites101(distArray)
 --        print(top)
     if not (size <= 0) then
         love.graphics.setColor(255,255,255)
-        local q = love.graphics.newQuad( 0, 0, 64, 64, image:getDimensions())
-        love.graphics.draw(tableImage, q, left, top ,0, size/64, size/64)
+        local q = love.graphics.newQuad( 0, 0, 64, 64, armorImage:getDimensions())
+        love.graphics.draw(armorImage, q, left, top ,0, size/64, size/64)
     end
 
 

@@ -19,11 +19,11 @@ function love.load(arg)
     imageData = "gfx/walls.png"
     floorData = "gfx/eagle.png"
     gaurdSpriteAtlas = "gfx/guard.png"
-    tableData = "gfx/armor.png"
+    armorData = "gfx/armor.png"
     lampData = "gfx/lamp.png"
     image = love.graphics.newImage( imageData )
     floorImage = love.graphics.newImage( floorData )
-    tableImage = love.graphics.newImage( tableData )
+    armorImage = love.graphics.newImage( armorData )
     lampImage = love.graphics.newImage( lampData )
     addSprite({
         id          ="dining_table",
@@ -162,9 +162,7 @@ function love.draw(dt)
 --    love.graphics.rectangle( "fill", 0, 0, 100, 100 )
 --    love.graphics.print(pi, 200, 200)
 --    updateMiniMap()
-        love.graphics.setColor(255,255,255)
-        local q = love.graphics.newQuad( 10, 10, 64, 64, image:getDimensions())
-        love.graphics.draw(tableImage, q, 10, 10 ,0, 0.5, 0.5)
+
 end
 
 
