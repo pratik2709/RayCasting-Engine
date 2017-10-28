@@ -14,6 +14,7 @@ function love.load(arg)
     require "raycast"
     require "sprite"
     require "floor"
+    require "enemy"
 
     imageData = "gfx/walls.png"
     floorData = "gfx/eagle.png"
@@ -131,8 +132,8 @@ function love.update(dt)
            move(dt)
       end
 
-
-
+    -- update the sprite position
+    movement()
 
 end
 

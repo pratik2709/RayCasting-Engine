@@ -93,3 +93,12 @@ spriteDrawOffsetY = 0.5
 _sprites = {}
 
 floor_map = {}
+
+-- initialize different directions
+right = 0
+left = 1
+up = 2
+down = 3
+initial_direction = -1
+random_direction_number = love.math.random(1, 4)
+

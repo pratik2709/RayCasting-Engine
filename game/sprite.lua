@@ -235,3 +235,4 @@ function handle_multiple_sprites()
     table.sort(_sprites, spriteDistances)
 end
 
+
