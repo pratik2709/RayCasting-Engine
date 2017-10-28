@@ -133,7 +133,7 @@ function love.update(dt)
       end
 
     -- update the sprite position
-    movement()
+--    movement()
 
 end
 

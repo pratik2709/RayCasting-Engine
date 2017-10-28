@@ -5,4 +5,9 @@
 -- enemy sprite movement in the raycasting world
 -- select a number in the matrix and instatiate the enemy on the map
 -- more ghosts chasing player than pacman ?
+
+-- Rendering specific::
+-- billboard sprite direction wise rendering
+-- hiding the sprite behind walls
+-- animate the sprites according to the sprite sheet
 -- need to render sprites fully - D
