@@ -12,6 +12,7 @@ function love.load(arg)
     require "player"
     require "walls"
     require "raycast"
+    require "spriteRenderUtils"
     require "sprite"
     require "floor"
     require "enemy"
