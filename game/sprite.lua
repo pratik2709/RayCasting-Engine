@@ -61,7 +61,7 @@ function drawSprites101(distArray)
             do
             love.graphics.setColor(255,255,255)
             local q = love.graphics.newQuad( i, 0, stripWidth, 64, armorImage:getDimensions())
-            love.graphics.draw(armorImage, q, left, top ,0, size/64, size/64)
+            love.graphics.draw(armorImage, q, left+i, top+i ,0, size/64, size/64)
         end
 
         -- draw the sprite in 1 go
