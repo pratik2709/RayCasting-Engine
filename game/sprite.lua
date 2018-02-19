@@ -39,37 +39,48 @@ function drawSprites101(distArray)
 
         local x = math.tan(spriteAngle) * viewDist
 
-        local left = screenMiddle - size/2 + x
+        local left = screenMiddle - size / 2 + x
 
-        local top = (screenHeight - size)/2
+        local top = (screenHeight/2 - (0.55) * size)
+        local sy = (64 * 0.01 * size) + (0.45)*size
 
         local dbx = sprite.x - player.x
         local dby = sprite.y - player.y
 
         -- assume this is the distance between sprite and player?
 
-        local blockdist = dbx*dbx + dby*dby
-        local z = -math.floor(blockdist*1000)
+        local blockdist = dbx * dbx + dby * dby
+        local z = -math.floor(blockdist * 1000)
 
 
 
         if not (size <= 0) then
-
-        -- draw sprite strip by strip
-        local strips = size / stripWidth
-        for i = 1, strips, stripWidth
+            local cumulativeDS = 0
+            local cumulativeTS = 0
+            -- draw sprite strip by strip
+            local strips = size / stripWidth
+            local q
+--            print("***")
+            for i = 0, size, 1
             do
-            love.graphics.setColor(255,255,255)
-            local q = love.graphics.newQuad( i, 0, stripWidth, 64, armorImage:getDimensions())
-            love.graphics.draw(armorImage, q, left+i, top+i ,0, size/64, size/64)
-        end
+                cumulativeDS = (cumulativeDS + (stripWidth))/size
+                cumulativeTS = cumulativeTS+math.floor(cumulativeDS/(size))
+                if cumulativeTS > stripWidth
+                    then
+                    cumulativeTS = stripWidth
+                end
 
-        -- draw the sprite in 1 go
---            love.graphics.setColor(255,255,255)
---            local q = love.graphics.newQuad( 0, 0, 64, 64, armorImage:getDimensions())
---            love.graphics.draw(armorImage, q, left, top ,0, size/64, size/64)
-        end
+                love.graphics.setColor(255, 255, 255)
+                q = love.graphics.newQuad(cumulativeDS, 0, size/stripWidth, 64, armorImage:getDimensions())
+                love.graphics.draw(armorImage, q, left + cumulativeDS, top, 0, size / 64, size / 64)
+            end
+--            print("***")
 
+            -- draw the sprite in 1 go
+--                        love.graphics.setColor(255,255,255)
+--                        local q = love.graphics.newQuad( 0, 0, 64, 64, armorImage:getDimensions())
+--                        love.graphics.draw(armorImage, q, left, top ,0, size/64, sy/64)
+        end
     end
 end
 

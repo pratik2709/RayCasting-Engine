@@ -23,9 +23,9 @@ function castRays()
         local xx, yy, height, textureoffset, dist, texturex, rayAngle = castSingleRay(a, index, distArray) --slightly confusing
         renderWalls(texturex, textureoffset, xx, yy, height)
         castVerticalFloorRay(index, rayAngle, dist, yy, height)
-        drawSprites101(distArray)
         index = index + 1
     end
+    drawSprites101(distArray)
 end
 
 round = function(num)
