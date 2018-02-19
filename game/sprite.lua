@@ -63,23 +63,17 @@ function drawSprites101(distArray)
 --            print("***")
             for i = 0, size, 1
             do
-                cumulativeDS = (cumulativeDS + (stripWidth))/size
-                cumulativeTS = cumulativeTS+math.floor(cumulativeDS/(size))
-                if cumulativeTS > stripWidth
-                    then
-                    cumulativeTS = stripWidth
-                end
-
+                cumulativeDS = (cumulativeDS + (stripWidth))
                 love.graphics.setColor(255, 255, 255)
-                q = love.graphics.newQuad(cumulativeDS, 0, size/stripWidth, 64, armorImage:getDimensions())
-                love.graphics.draw(armorImage, q, left + cumulativeDS, top, 0, size / 64, size / 64)
+                q = love.graphics.newQuad(cumulativeDS/size, 0, 64, 64, armorImage:getDimensions())
+                love.graphics.draw(armorImage, q, left + cumulativeDS/size, top, 0, size/64, size / 64)
             end
 --            print("***")
 
             -- draw the sprite in 1 go
 --                        love.graphics.setColor(255,255,255)
 --                        local q = love.graphics.newQuad( 0, 0, 64, 64, armorImage:getDimensions())
---                        love.graphics.draw(armorImage, q, left, top ,0, size/64, sy/64)
+--                        love.graphics.draw(armorImage, q, left, top ,0, size/64, size/64)
         end
     end
 end
