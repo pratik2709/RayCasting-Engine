@@ -1,6 +1,6 @@
 function calculateWallRenderValues(dist, rayAngle, textureoffset, index, wallType)
-    dist = math.sqrt(dist);
-    dist = dist * math.cos(player.rot - rayAngle);
+    dist = math.sqrt(dist)
+    dist = dist * math.cos(player.rot - rayAngle)
     -- actual wall height is considered 1
     local height = round(viewDist / (dist))
     local xx = index * stripWidth
@@ -19,7 +19,7 @@ function calculateWallRenderValues(dist, rayAngle, textureoffset, index, wallTyp
         textureoffset = wallTextureMapping[0]
     end
 
-    return xx, yy, height, textureoffset
+    return xx, yy, height, textureoffset, dist
 
 end
 

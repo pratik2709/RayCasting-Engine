@@ -182,8 +182,9 @@ function castSingleRay(rayAngle, index, distArray)
         end
 
     if dist then
+
+        local xx, yy, height, textureoffset, dist = calculateWallRenderValues(dist, rayAngle, textureoffset, index, wallType)
         table.insert(distArray, dist)
-        local xx, yy, height, textureoffset = calculateWallRenderValues(dist, rayAngle, textureoffset, index, wallType)
         return xx, yy, height, textureoffset, dist, texturex, rayAngle
 
     end

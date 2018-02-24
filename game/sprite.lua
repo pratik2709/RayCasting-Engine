@@ -53,19 +53,28 @@ function drawSprites101(distArray)
         local z = -math.floor(blockdist * 1000)
 
 
-
         if not (size <= 0) then
             local cumulativeDS = 0
+            local spareds = 0
             local strips = math.floor(size / stripWidth)
             for i = 0, strips, 1
             do
-                cumulativeDS = (cumulativeDS + (stripWidth*64/size))
-                love.graphics.setColor(255, 255, 255)
-                left = left + (2)
-                local q = love.graphics.newQuad(cumulativeDS, 0, stripWidth*64/size, 64, armorImage:getDimensions())
-                love.graphics.draw(armorImage, q, math.floor(left), top, 0, size / 64, size / 64)
-            end
+                spareds = spareds + 2
+                cumulativeDS = (cumulativeDS + (stripWidth * 64 / size))
+                left = left + 2
+                distIndex = math.floor((left + cumulativeDS) * (#distArray) / (screenWidth));
+                print(distIndex)
+                local distWall = distArray[distIndex];
+                if distWall ~= nil then
+                     local distDelta = distWall - distSprite
+                    if distDelta > -0.1*distSprite then
+                        love.graphics.setColor(255, 255, 255)
 
+                        local q = love.graphics.newQuad(cumulativeDS, 0, stripWidth * 64 / size, 64, armorImage:getDimensions())
+                        love.graphics.draw(armorImage, q, math.floor(left), top, 0, size / 64, size / 64)
+                    end
+                end
+            end
         end
     end
 end
