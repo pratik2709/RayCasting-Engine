@@ -12,6 +12,10 @@
 -- animate the sprites according to the sprite sheet
 -- need to render sprites fully - D
 
+git checkout <your branch>
+git rebase master
+git checkout master
+git merge <your branch>
 
 context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
 
