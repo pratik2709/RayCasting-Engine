@@ -64,18 +64,17 @@ function drawSprites101(distArray)
                         print("***")
             for i = 0, strips, 1
             do
-                cumulativeDS = (cumulativeDS + (stripWidth))
+                cumulativeDS = (cumulativeDS + (stripWidth*64/size))
 --                if cumulativeTS > sprite.spriteWidth then
 --                    cumulativeTS = sprite.spriteWidth
 --                end
 
                 love.graphics.setColor(255, 255, 255)
-                left = left + (size/cumulativeDS)
+                left = left + (2)
 --                print(math.floor(left))
 --                print("-----")
-                print(math.ceil((cumulativeDS*2/size)))
-                local q = love.graphics.newQuad(cumulativeDS, 0, stripWidth, 64, armorImage:getDimensions())
-                love.graphics.draw(armorImage, q, math.floor(left), top, 0, size*2 / 64, size / 64)
+                local q = love.graphics.newQuad(cumulativeDS, 0, stripWidth*64/size, 64, armorImage:getDimensions())
+                love.graphics.draw(armorImage, q, math.floor(left), top, 0, size / 64, size / 64)
                 cumulativeTS = 0
             end
                         print("***")
