@@ -61,7 +61,7 @@ function drawSprites101(distArray)
                 local calc = stripWidth * 64 / size
                 cumulativeDS = (cumulativeDS + calc)
                 left = left + 2
-                distIndex = math.floor((left + cumulativeDS) * (334) / (screenWidth));
+                distIndex = math.floor((left) * (334) / (screenWidth));
                 local distWall = distArray[distIndex];
                 if distWall ~= nil then
                     local distDelta = distWall - distSprite
