@@ -62,49 +62,49 @@ function drawSprites101(distArray)
             local strips = math.floor(size / stripWidth)
 --            print(strips)
             --            print("***")
---            for i = 0, strips, 1
---            do
---                cumulativeDS = (cumulativeDS + (stripWidth))
---                cumulativeTS = math.floor(cumulativeDS * sprite.spriteWidth / size)
+            for i = 0, strips, 1
+            do
+                cumulativeDS = (cumulativeDS + (stripWidth))
 --                if cumulativeTS > sprite.spriteWidth then
 --                    cumulativeTS = sprite.spriteWidth
 --                end
---
---                love.graphics.setColor(255, 255, 255)
---                left = left + cumulativeTS
---                local q = love.graphics.newQuad(cumulativeDS, 0, stripWidth, 64, armorImage:getDimensions())
---                love.graphics.draw(armorImage, q, left, top, 0, size / 64, size / 64)
---                cumulativeTS = 0
---                cumulativeDS = 0
---            end
+
+                love.graphics.setColor(255, 255, 255)
+                left = left + size/(cumulativeDS)
+                local q = love.graphics.newQuad(cumulativeDS, 0, stripWidth, 64, armorImage:getDimensions())
+                love.graphics.draw(armorImage, q, left, top, 0, size / 64, size / 64)
+                cumulativeTS = 0
+            end
             --            print("***")
 
             -- draw the sprite in 1 go
-
-            love.graphics.setColor(255, 255, 255)
-            local q = love.graphics.newQuad(16, 0, 8, 64, armorImage:getDimensions())
-            left = left + size
-            love.graphics.draw(armorImage, q, left, top, 0, size / 64, size / 64)
-            print("***")
-            print(left)
-            love.graphics.setColor(255, 255, 255)
-            local q = love.graphics.newQuad(16, 0, 8, 64, armorImage:getDimensions())
-            left = left + size
-            love.graphics.draw(armorImage, q, left, top, 0, size / 64, size / 64)
-            print(left)
-            print("***")
+--            local left_new = screenMiddle - size / 2 + x
+--            love.graphics.setColor(255, 255, 255)
+--            local q = love.graphics.newQuad(0, 0, 64, 64, armorImage:getDimensions())
+--            love.graphics.draw(armorImage, q, left_new, top, 0, size / 64, size / 64)
+--            print("***")
+--            print(left)
+--            love.graphics.setColor(255, 255, 255)
+--            local q = love.graphics.newQuad(32, 0, 8, 64, armorImage:getDimensions())
+--            left = left + size/8
+--            love.graphics.draw(armorImage, q, left, top, 0, size / 64, size / 64)
+--            print(left)
+--            print("***")
 
 --            love.graphics.setColor(255, 255, 255)
 --            local q = love.graphics.newQuad(16, 0, 8, 64, armorImage:getDimensions())
---            love.graphics.draw(armorImage, q, left+24, top, 0, size / 64, size / 64)
+--            left = left + (24 / size)
+--            love.graphics.draw(armorImage, q, left, top, 0, size / 64, size / 64)
 --
 --            love.graphics.setColor(255, 255, 255)
---            local q = love.graphics.newQuad(16, 0, 8, 64, armorImage:getDimensions())
---            love.graphics.draw(armorImage, q, left + 32, top, 0, size / 64, size / 64)
+--            local q = love.graphics.newQuad(24, 0, 8, 64, armorImage:getDimensions())
+--            left = left + (32 / size)
+--            love.graphics.draw(armorImage, q, left, top, 0, size / 64, size / 64)
 --
 --            love.graphics.setColor(255, 255, 255)
---            local q = love.graphics.newQuad(16, 0, 8, 64, armorImage:getDimensions())
---            love.graphics.draw(armorImage, q, left + 40, top, 0, size / 64, size / 64)
+--            local q = love.graphics.newQuad(32, 0, 8, 64, armorImage:getDimensions())
+--            left = left + (40 / size)
+--            love.graphics.draw(armorImage, q, left, top, 0, size / 64, size / 64)
         end
     end
 end
