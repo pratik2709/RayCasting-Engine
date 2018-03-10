@@ -21,7 +21,10 @@ function castRays()
         local ang = player.rot + ang1
         local a = rayAngle + player.rot
         local xx, yy, height, textureoffset, dist, texturex, rayAngle = castSingleRay(a, index, distArray) --slightly confusing
-        renderWalls(texturex, textureoffset, xx, yy, height)
+        if dist
+            then
+            renderWalls(texturex, textureoffset, xx, yy, height)
+        end
         castVerticalFloorRay(index, rayAngle, dist, yy, height)
 
         index = index + 1
