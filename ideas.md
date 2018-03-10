@@ -56,3 +56,6 @@ cumulativeDS += stripWidth;
 height = sy =  Math.ceil(sprite.spriteHeight * 0.01 * size)
                                + (0.45 + sprite.spriteScaleY - 1)  * size;
 (Optional. The height of the image to use (stretch or reduce the image))
+
+
+* draw bottom up floor rendering

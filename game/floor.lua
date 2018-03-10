@@ -62,7 +62,9 @@ function castVerticalFloorRay(x,angulo, dist, yy, height)
     local mapScale = 400
     local fheight = (screenHeight - height)/2
     local foffset = yy + height
-	for y=foffset,screenHeight,2 do
+    local foffset2 = screenHeight
+	for y=foffset2, foffset, -2 do
+--        print_r(y)
 		local cos_of_rayangle = math.cos(angulo-player.rot)
 		if cos_of_rayangle ==0 then cos_of_rayangle =0.0001 end
 
