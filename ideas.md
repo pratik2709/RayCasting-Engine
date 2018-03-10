@@ -59,3 +59,4 @@ height = sy =  Math.ceil(sprite.spriteHeight * 0.01 * size)
 
 
 * draw bottom up floor rendering
+* when ray reaches bottom of the wall use available data to draw the line on top of existing wall
