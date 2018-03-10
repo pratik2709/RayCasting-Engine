@@ -54,7 +54,7 @@ function drawSprites101(distArray)
 
 
         if not (size <= 0) then
-            local cumulativeDS = 0
+            cumulativeDS = cumulativeDS + 64
             local strips = math.floor(size / stripWidth)
             for i = 0, strips-1, 1
             do
@@ -72,6 +72,10 @@ function drawSprites101(distArray)
                         love.graphics.draw(armorImage, q, left, top, 0, size / 64, size / 64)
                     end
                 end
+            end
+            if cumulativeDS > 256
+                then
+                cumulativeDS = 0
             end
         end
     end

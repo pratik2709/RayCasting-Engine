@@ -24,7 +24,7 @@ function love.load(arg)
     lampData = "gfx/lamp.png"
     image = love.graphics.newImage( imageData )
     floorImage = love.graphics.newImage( floorData )
-    armorImage = love.graphics.newImage( armorData )
+    armorImage = love.graphics.newImage( gaurdSpriteAtlas )
     lampImage = love.graphics.newImage( lampData )
     addSprite({
         id          ="dining_table",

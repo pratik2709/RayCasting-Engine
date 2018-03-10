@@ -23,6 +23,7 @@ function castRays()
         local xx, yy, height, textureoffset, dist, texturex, rayAngle = castSingleRay(a, index, distArray) --slightly confusing
         renderWalls(texturex, textureoffset, xx, yy, height)
         castVerticalFloorRay(index, rayAngle, dist, yy, height)
+
         index = index + 1
     end
     drawSprites101(distArray)
@@ -179,12 +180,14 @@ function castSingleRay(rayAngle, index, distArray)
 
             x = x + dXHor
             y = y + dYHor
-        end
+    end
+
 
     if dist then
 
         local xx, yy, height, textureoffset, dist = calculateWallRenderValues(dist, rayAngle, textureoffset, index, wallType)
         table.insert(distArray, dist)
+--        renderFloor(height, yy, xx, xHit, yHit, dist, rayAngle)
         return xx, yy, height, textureoffset, dist, texturex, rayAngle
 
     end

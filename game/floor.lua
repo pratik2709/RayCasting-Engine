@@ -59,7 +59,7 @@ end
 
 function castVerticalFloorRay(x,angulo, dist, yy, height)
     -- why mapscale
-    local mapScale = 512
+    local mapScale = 400
     local fheight = (screenHeight - height)/2
     local foffset = yy + height
 	for y=foffset,screenHeight,2 do
