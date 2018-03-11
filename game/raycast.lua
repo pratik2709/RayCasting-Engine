@@ -9,23 +9,22 @@ end
 function castRays()
 
     local vds = viewDist * viewDist
-    local index =0
+    local index = 0
     local distArray = {}
     for i = 0, numRays - 1, 1 do
         --understand?
         local raynumber = -numRays / 2 + i;
-        local rayScreenPos = (-numRays / 2 + i)* stripWidth;
-        local rayViewDist = math.sqrt(rayScreenPos*rayScreenPos + vds);
+        local rayScreenPos = (-numRays / 2 + i) * stripWidth;
+        local rayViewDist = math.sqrt(rayScreenPos * rayScreenPos + vds);
         local rayAngle = math.asin(rayScreenPos / rayViewDist);
         local ang1 = raynumber * angle_between_rays
         local ang = player.rot + ang1
         local a = rayAngle + player.rot
         local xx, yy, height, textureoffset, dist, texturex, rayAngle = castSingleRay(a, index, distArray) --slightly confusing
-        if dist
-            then
+        if dist then
             renderWalls(texturex, textureoffset, xx, yy, height)
         end
-        castVerticalFloorRay(index, rayAngle, dist, yy, height)
+        --        castVerticalFloorRay(index, rayAngle, dist, yy, height)
 
         index = index + 1
     end
@@ -33,7 +32,7 @@ function castRays()
 end
 
 round = function(num)
-	return math.floor(num+.5)
+    return math.floor(num + .5)
 end
 
 function castSingleRay(rayAngle, index, distArray)
@@ -96,24 +95,21 @@ function castSingleRay(rayAngle, index, distArray)
 
         wallY = math.floor(y)
 
-        if (map[wallY][wallX] > 0) then
+        if (map[wallY][wallX] ~= nil and map[wallY][wallX] > 0) then
+            local vals = {}
             local distX = x - player.x
             local distY = y - player.y
 
             dist = (distX * distX) + (distY * distY)
             wallType = map[wallY][wallX];
-            texturex = y%1
-            if not right
-                then
+            texturex = y % 1
+            if not right then
                 texturex = 1 - texturex
             end
 
 
             xHit = x
             yHit = y
-
-
-            break
         end
 
         x = x + dXVer
@@ -155,44 +151,43 @@ function castSingleRay(rayAngle, index, distArray)
 
         wallX = math.floor(x)
 
+--        print(wallY)
+--        print(wallX)
+--        print(map[5][-1])
+        if (wallY >= 0) then
+            if (map[wallY][wallX] ~= nil and map[wallY][wallX] > 0) then
+                local distX = x - player.x
+                local distY = y - player.y
 
-        if (map[wallY][wallX] > 0) then
-            local distX = x - player.x
-            local distY = y - player.y
+                local blockdist = distX * distX + distY * distY
+                -- FUCK THIS: 0 does not evaluate to false in LUA!!!!
+                --> print(not 0) false
+                if (dist == 0) or (blockdist < dist) then
+                    dist = blockdist
+                    xHit = x
+                    yHit = y
 
-            local blockdist = distX * distX + distY * distY
+                    texturex = x % 1
+                    if up then
+                        texturex = 1 - texturex
+                    end
 
-
-        -- FUCK THIS: 0 does not evaluate to false in LUA!!!!
-        --> print(not 0) false
-            if (dist == 0) or (blockdist < dist) then
-                dist = blockdist
-                xHit = x
-                yHit = y
-
-                texturex = x%1
-                if up
-                    then
-                    texturex = 1 - texturex
+                    wallType = map[wallY][wallX];
                 end
-
-                wallType = map[wallY][wallX];
             end
-            break
         end
 
-            x = x + dXHor
-            y = y + dYHor
+        x = x + dXHor
+        y = y + dYHor
     end
 
 
     if dist then
-
+        --        drawRay(xHit, yHit)
         local xx, yy, height, textureoffset, dist = calculateWallRenderValues(dist, rayAngle, textureoffset, index, wallType)
         table.insert(distArray, dist)
---        renderFloor(height, yy, xx, xHit, yHit, dist, rayAngle)
+        --        renderFloor(height, yy, xx, xHit, yHit, dist, rayAngle)
         return xx, yy, height, textureoffset, dist, texturex, rayAngle
-
     end
 end
 
