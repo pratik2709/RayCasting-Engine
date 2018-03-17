@@ -234,7 +234,9 @@ function castSingleRay(rayAngle, index, distArray)
                     index,
                     last_horizontal_element['wallType'])
                 renderWalls(last_horizontal_element['texturex'], textureoffset, xx, yy, height)
-           elseif last_horizontal_element['dist'] > last_vertical_element['dist']
+                horizontal_stack:pop()
+                vertical_stack:pop()
+            elseif last_horizontal_element['dist'] > last_vertical_element['dist']
                 then
                 local last_vertical_element = vertical_stack:peek()
                 local xx, yy, height, textureoffset, dist
@@ -246,10 +248,8 @@ function castSingleRay(rayAngle, index, distArray)
                 renderWalls(last_vertical_element['texturex'], textureoffset, xx, yy, height)
                 horizontal_stack:pop()
                 vertical_stack:pop()
-
             end
-            horizontal_stack:pop()
-            vertical_stack:pop()
+
         end
 
     elseif(horizontal_stack_size > vertical_stack_size)
