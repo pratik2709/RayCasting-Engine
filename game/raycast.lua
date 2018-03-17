@@ -20,15 +20,15 @@ function castRays()
         local ang1 = raynumber * angle_between_rays
         local ang = player.rot + ang1
         local a = rayAngle + player.rot
-        local xx, yy, height, textureoffset, dist, texturex, rayAngle = castSingleRay(a, index, distArray) --slightly confusing
-        if dist then
-            renderWalls(texturex, textureoffset, xx, yy, height)
-        end
+        castSingleRay(a, index, distArray) --slightly confusing
+--        if dist then
+--            renderWalls(texturex, textureoffset, xx, yy, height)
+--        end
         --        castVerticalFloorRay(index, rayAngle, dist, yy, height)
 
         index = index + 1
     end
-    drawSprites101(distArray)
+--    drawSprites101(distArray)
 end
 
 round = function(num)
@@ -179,8 +179,8 @@ function castSingleRay(rayAngle, index, distArray)
                 local blockdist = distX * distX + distY * distY
                 -- FUCK THIS: 0 does not evaluate to false in LUA!!!!
                 --> print(not 0) false
-                if (dist == 0) or (blockdist < dist) then
-                    dist = blockdist
+--                if (dist == 0) or (blockdist < dist) then
+--                    dist = blockdist
                     xHit = x
                     yHit = y
 
@@ -190,9 +190,9 @@ function castSingleRay(rayAngle, index, distArray)
                     end
 
                     wallType = map[wallY][wallX];
-                end
+--                end
 
-                horizontal_info['dist'] = dist
+                horizontal_info['dist'] = blockdist
                 horizontal_info['wallType'] = wallType
                 horizontal_info['texturex'] = texturex
                 horizontal_stack:push(horizontal_info)
@@ -207,15 +207,135 @@ function castSingleRay(rayAngle, index, distArray)
 --    print_r(vertical_stack)
 --    print("****************")
 --    print_r(horizontal_stack)
+--    print("****************")
+--    print(#horizontal_stack)
+--    print(#vertical_stack)
 --    os.exit()
 
+    local horizontal_stack_size = #horizontal_stack
+    local vertical_stack_size = #vertical_stack
+    if(horizontal_stack_size == vertical_stack_size)
+        then
+        while #horizontal_stack ~= 0 do
+            local last_horizontal_element = horizontal_stack:peek()
+            local last_vertical_element = vertical_stack:peek()
+            if last_horizontal_element['dist'] < last_vertical_element['dist']
+                then
+                local xx, yy, height, textureoffset, dist
+                = calculateWallRenderValues(last_horizontal_element['dist'],
+                    rayAngle,
+                    textureoffset,
+                    index,
+                    last_horizontal_element['wallType'])
+                renderWalls(last_horizontal_element['texturex'], textureoffset, xx, yy, height)
+            end
+            horizontal_stack:pop()
+            vertical_stack:pop()
+        end
 
-    if dist then
-        --        drawRay(xHit, yHit)
-        local xx, yy, height, textureoffset, dist = calculateWallRenderValues(dist, rayAngle, textureoffset, index, wallType)
-        table.insert(distArray, dist)
-        --        renderFloor(height, yy, xx, xHit, yHit, dist, rayAngle)
-        return xx, yy, height, textureoffset, dist, texturex, rayAngle
+    elseif(horizontal_stack_size > vertical_stack_size)
+        then
+        while #horizontal_stack ~= 0 do
+            local last_horizontal_element = horizontal_stack:peek()
+            local last_vertical_element = vertical_stack:peek()
+            if #horizontal_stack ~= #vertical_stack
+                then
+                local last_horizontal_element = horizontal_stack:peek()
+                local xx, yy, height, textureoffset, dist
+                = calculateWallRenderValues(last_horizontal_element['dist'],
+                    rayAngle,
+                    textureoffset,
+                    index,
+                    last_horizontal_element['wallType'])
+                renderWalls(last_horizontal_element['texturex'], textureoffset, xx, yy, height)
+                horizontal_stack:pop()
+            end
+            if #horizontal_stack ~= 0 and (#horizontal_stack == #vertical_stack)
+                then
+                if last_horizontal_element['dist'] < last_vertical_element['dist']
+                    then
+                    local last_horizontal_element = horizontal_stack:peek()
+                    local xx, yy, height, textureoffset, dist
+                    = calculateWallRenderValues(last_horizontal_element['dist'],
+                        rayAngle,
+                        textureoffset,
+                        index,
+                        last_horizontal_element['wallType'])
+                    renderWalls(last_horizontal_element['texturex'], textureoffset, xx, yy, height)
+                    horizontal_stack:pop()
+                    vertical_stack:pop()
+
+                elseif last_horizontal_element['dist'] > last_vertical_element['dist']
+                    then
+                    local last_vertical_element = vertical_stack:peek()
+                    local xx, yy, height, textureoffset, dist
+                    = calculateWallRenderValues(last_vertical_element['dist'],
+                        rayAngle,
+                        textureoffset,
+                        index,
+                        last_vertical_element['wallType'])
+                    renderWalls(last_vertical_element['texturex'], textureoffset, xx, yy, height)
+                    horizontal_stack:pop()
+                    vertical_stack:pop()
+                end
+            end
+        end
+
+
+    elseif(horizontal_stack_size < vertical_stack_size)
+        then
+        while #vertical_stack ~= 0 do
+            local last_horizontal_element = horizontal_stack:peek()
+            local last_vertical_element = vertical_stack:peek()
+            if #horizontal_stack ~= #vertical_stack
+                then
+                local last_vertical_element = vertical_stack:peek()
+                local xx, yy, height, textureoffset, dist
+                = calculateWallRenderValues(last_vertical_element['dist'],
+                    rayAngle,
+                    textureoffset,
+                    index,
+                    last_vertical_element['wallType'])
+                renderWalls(last_vertical_element['texturex'], textureoffset, xx, yy, height)
+                vertical_stack:pop()
+            end
+            if #horizontal_stack ~= 0 and (#horizontal_stack == #vertical_stack)
+                then
+                if last_horizontal_element['dist'] < last_vertical_element['dist']
+                    then
+                    local last_horizontal_element = horizontal_stack:peek()
+                    local xx, yy, height, textureoffset, dist
+                    = calculateWallRenderValues(last_horizontal_element['dist'],
+                        rayAngle,
+                        textureoffset,
+                        index,
+                        last_horizontal_element['wallType'])
+                    renderWalls(last_horizontal_element['texturex'], textureoffset, xx, yy, height)
+                    horizontal_stack:pop()
+                    vertical_stack:pop()
+
+                elseif last_horizontal_element['dist'] > last_vertical_element['dist']
+                    then
+                    local last_vertical_element = vertical_stack:peek()
+                    local xx, yy, height, textureoffset, dist
+                    = calculateWallRenderValues(last_vertical_element['dist'],
+                        rayAngle,
+                        textureoffset,
+                        index,
+                        last_vertical_element['wallType'])
+                    renderWalls(last_vertical_element['texturex'], textureoffset, xx, yy, height)
+                    horizontal_stack:pop()
+                    vertical_stack:pop()
+                end
+            end
+        end
     end
+
+
+    --        drawRay(xHit, yHit)
+
+--    table.insert(distArray, dist)
+    --        renderFloor(height, yy, xx, xHit, yHit, dist, rayAngle)
+
 end
 
