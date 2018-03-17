@@ -44,7 +44,16 @@ function castSingleRay(rayAngle, index, distArray)
     local right = (rayAngle > (twopi * 0.75) or rayAngle < (twopi * 0.25))
     local up = (rayAngle < 0 or rayAngle > pi)
 
-
+    local vertical_stack = Stack.new()
+    local vertical_info = {}
+    local horizontal_stack = Stack.new()
+    local horizontal_info = {}
+--    s:push(1)
+--    s:push(2)
+--    s:push(3)
+--    print_r(s)
+--    s:pop()
+--    print_r(s)
 
     local textureoffset
 
@@ -112,6 +121,12 @@ function castSingleRay(rayAngle, index, distArray)
 
             xHit = x
             yHit = y
+
+            vertical_info['dist'] = dist
+            vertical_info['wallType'] = wallType
+            vertical_info['texturex'] = texturex
+            vertical_stack:push(vertical_info)
+            vertical_info = {}
         end
 
         x = x + dXVer
@@ -176,12 +191,23 @@ function castSingleRay(rayAngle, index, distArray)
 
                     wallType = map[wallY][wallX];
                 end
+
+                horizontal_info['dist'] = dist
+                horizontal_info['wallType'] = wallType
+                horizontal_info['texturex'] = texturex
+                horizontal_stack:push(horizontal_info)
+                horizontal_info = {}
             end
         end
 
         x = x + dXHor
         y = y + dYHor
     end
+
+--    print_r(vertical_stack)
+--    print("****************")
+--    print_r(horizontal_stack)
+--    os.exit()
 
 
     if dist then
