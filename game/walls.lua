@@ -8,7 +8,7 @@ function calculateWallRenderValues(dist, rayAngle, textureoffset, index, wallTyp
     -- divide screenheight by half, and then go half of the wall distance
     if(wallType == 5)
         then
-        yy = round((screenHeight + height) / 2)- (height*0.2)
+        yy = round((screenHeight + height) / 2) - (height*0.2)
     else
         yy = round((screenHeight - height) / 2)
     end
@@ -32,10 +32,13 @@ function calculateWallRenderValues(dist, rayAngle, textureoffset, index, wallTyp
         return xx, yy, height, textureoffset, dist
     end
 
-
-
 end
 
+
+--function renderWalls(texturex, textureoffset, xx, yy, height)
+--    love.graphics.setColor(255,255,255)
+--    love.graphics.rectangle( "fill", xx, yy, stripWidth*3, height )
+--end
 
 function renderWalls(texturex, textureoffset, xx, yy, height)
     love.graphics.setColor(255,255,255)

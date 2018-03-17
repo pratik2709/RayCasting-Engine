@@ -220,6 +220,17 @@ function castSingleRay(rayAngle, index, distArray)
 
     local horizontal_stack_size = #horizontal_stack
     local vertical_stack_size = #vertical_stack
+--    if (vertical_stack_size - horizontal_stack_size == -1 or
+--            vertical_stack_size - horizontal_stack_size == 1)
+--        then
+--
+--    else
+--    print_r(vertical_stack)
+--    print("****************")
+--    print_r(horizontal_stack)
+--        os.exit()
+--    end
+
     if(horizontal_stack_size == vertical_stack_size)
         then
         while #horizontal_stack ~= 0 do
@@ -259,8 +270,6 @@ function castSingleRay(rayAngle, index, distArray)
             local last_vertical_element = vertical_stack:peek()
             if #horizontal_stack ~= #vertical_stack
                 then
-
-                local last_horizontal_element = horizontal_stack:peek()
                 local xx, yy, height, textureoffset, dist
                 = calculateWallRenderValues(last_horizontal_element['dist'],
                     rayAngle,
@@ -274,7 +283,6 @@ function castSingleRay(rayAngle, index, distArray)
                 then
                 if last_horizontal_element['dist'] < last_vertical_element['dist']
                     then
-                    local last_horizontal_element = horizontal_stack:peek()
                     local xx, yy, height, textureoffset, dist
                     = calculateWallRenderValues(last_horizontal_element['dist'],
                         rayAngle,
@@ -287,7 +295,6 @@ function castSingleRay(rayAngle, index, distArray)
 
                 elseif last_horizontal_element['dist'] > last_vertical_element['dist']
                     then
-                    local last_vertical_element = vertical_stack:peek()
                     local xx, yy, height, textureoffset, dist
                     = calculateWallRenderValues(last_vertical_element['dist'],
                         rayAngle,
@@ -309,7 +316,6 @@ function castSingleRay(rayAngle, index, distArray)
             local last_vertical_element = vertical_stack:peek()
             if #horizontal_stack ~= #vertical_stack
                 then
-                local last_vertical_element = vertical_stack:peek()
                 local xx, yy, height, textureoffset, dist
                 = calculateWallRenderValues(last_vertical_element['dist'],
                     rayAngle,
@@ -322,7 +328,6 @@ function castSingleRay(rayAngle, index, distArray)
                 then
                 if last_horizontal_element['dist'] < last_vertical_element['dist']
                     then
-                    local last_horizontal_element = horizontal_stack:peek()
                     local xx, yy, height, textureoffset, dist
                     = calculateWallRenderValues(last_horizontal_element['dist'],
                         rayAngle,
@@ -335,7 +340,6 @@ function castSingleRay(rayAngle, index, distArray)
 
                 elseif last_horizontal_element['dist'] > last_vertical_element['dist']
                     then
-                    local last_vertical_element = vertical_stack:peek()
                     local xx, yy, height, textureoffset, dist
                     = calculateWallRenderValues(last_vertical_element['dist'],
                         rayAngle,
