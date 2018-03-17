@@ -234,6 +234,19 @@ function castSingleRay(rayAngle, index, distArray)
                     index,
                     last_horizontal_element['wallType'])
                 renderWalls(last_horizontal_element['texturex'], textureoffset, xx, yy, height)
+           elseif last_horizontal_element['dist'] > last_vertical_element['dist']
+                then
+                local last_vertical_element = vertical_stack:peek()
+                local xx, yy, height, textureoffset, dist
+                = calculateWallRenderValues(last_vertical_element['dist'],
+                    rayAngle,
+                    textureoffset,
+                    index,
+                    last_vertical_element['wallType'])
+                renderWalls(last_vertical_element['texturex'], textureoffset, xx, yy, height)
+                horizontal_stack:pop()
+                vertical_stack:pop()
+
             end
             horizontal_stack:pop()
             vertical_stack:pop()
@@ -246,6 +259,7 @@ function castSingleRay(rayAngle, index, distArray)
             local last_vertical_element = vertical_stack:peek()
             if #horizontal_stack ~= #vertical_stack
                 then
+
                 local last_horizontal_element = horizontal_stack:peek()
                 local xx, yy, height, textureoffset, dist
                 = calculateWallRenderValues(last_horizontal_element['dist'],
@@ -255,8 +269,8 @@ function castSingleRay(rayAngle, index, distArray)
                     last_horizontal_element['wallType'])
                 renderWalls(last_horizontal_element['texturex'], textureoffset, xx, yy, height)
                 horizontal_stack:pop()
-            end
-            if #horizontal_stack ~= 0 and (#horizontal_stack == #vertical_stack)
+
+            elseif (#horizontal_stack == #vertical_stack)
                 then
                 if last_horizontal_element['dist'] < last_vertical_element['dist']
                     then
@@ -304,8 +318,7 @@ function castSingleRay(rayAngle, index, distArray)
                     last_vertical_element['wallType'])
                 renderWalls(last_vertical_element['texturex'], textureoffset, xx, yy, height)
                 vertical_stack:pop()
-            end
-            if #horizontal_stack ~= 0 and (#horizontal_stack == #vertical_stack)
+            elseif (#horizontal_stack == #vertical_stack)
                 then
                 if last_horizontal_element['dist'] < last_vertical_element['dist']
                     then
