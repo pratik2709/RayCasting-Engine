@@ -44,6 +44,8 @@ function castSingleRay(rayAngle, index, distArray)
     local right = (rayAngle > (twopi * 0.75) or rayAngle < (twopi * 0.25))
     local up = (rayAngle < 0 or rayAngle > pi)
 
+
+
     local textureoffset
 
     local wallType = 0;

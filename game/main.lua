@@ -53,6 +53,15 @@ function love.load(arg)
     });
     createFloorMap()
 --    print_r(_sprites)
+
+    local s = Stack.new()
+    s:push(1)
+    s:push(2)
+    s:push(3)
+    print_r(s)
+    s:pop()
+    print_r(s)
+
 end
 
 function love.update(dt)
