@@ -160,11 +160,17 @@ function castSingleRay(rayAngle, index, distArray)
     do
         local wallX
         local wallY
+
         if up then
             wallY = math.floor(y - 1)
         else
             wallY = math.floor(y)
         end
+
+--        print("****")
+--        print_r(y)
+--        print_r(wallY)
+--        print("****")
 
         wallX = math.floor(x)
 

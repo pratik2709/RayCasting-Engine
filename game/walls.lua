@@ -1,11 +1,18 @@
 function calculateWallRenderValues(dist, rayAngle, textureoffset, index, wallType)
+    local yy = 0
     dist = math.sqrt(dist)
     dist = dist * math.cos(player.rot - rayAngle)
     -- actual wall height is considered 1
     local height = round(viewDist / (dist))
     local xx = index * stripWidth
     -- divide screenheight by half, and then go half of the wall distance
-    local yy = round((screenHeight - height) / 2)
+    if(wallType == 5)
+        then
+        height = height - 50
+        yy = round((screenHeight - height) / 2) + 50
+    else
+        yy = round((screenHeight - height) / 2)
+    end
 
     if (wallType == 1) then
         textureoffset = wallTextureMapping[0]
@@ -19,7 +26,14 @@ function calculateWallRenderValues(dist, rayAngle, textureoffset, index, wallTyp
         textureoffset = wallTextureMapping[0]
     end
 
-    return xx, yy, height, textureoffset, dist
+    if(wallType == 5)
+    then
+        return xx, yy, height, textureoffset, dist
+    else
+        return xx, yy, height, textureoffset, dist
+    end
+
+
 
 end
 
