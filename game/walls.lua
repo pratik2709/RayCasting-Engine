@@ -6,7 +6,7 @@ function calculateWallRenderValues(dist, rayAngle, textureoffset, index, wallTyp
     local height = round(viewDist / (dist))
     local xx = index * stripWidth
     -- divide screenheight by half, and then go half of the wall distance
-    if(wallType == 5)
+    if(wallType == 1)
         then
         yy = round((screenHeight + height) / 2) - (height*5)
     else
@@ -25,7 +25,7 @@ function calculateWallRenderValues(dist, rayAngle, textureoffset, index, wallTyp
         textureoffset = wallTextureMapping[0]
     end
 
-    if(wallType == 5)
+    if(wallType == 1)
     then
         return xx, yy, height*5, textureoffset, dist
     else

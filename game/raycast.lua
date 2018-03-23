@@ -253,70 +253,70 @@ function castSingleRay(rayAngle, index, distArray)
 --    print_r(horizontal_stack)
 --        os.exit()
 
-    if(#horizontal_stack == #vertical_stack)
-        then
-        while #horizontal_stack ~= 0 do
-            local last_horizontal_element = horizontal_stack:peek()
-            local last_vertical_element = vertical_stack:peek()
-            if last_horizontal_element['dist'] < last_vertical_element['dist']
-                    and last_horizontal_element['dist'] ~= 0
-                then
-                local xx, yy, height, textureoffset, dist
-                = calculateWallRenderValues(last_horizontal_element['dist'],
-                    rayAngle,
-                    textureoffset,
-                    index,
-                    last_horizontal_element['wallType'])
-                renderWalls(last_horizontal_element['texturex'], textureoffset, xx, yy, height)
-                horizontal_stack:pop()
-                vertical_stack:pop()
-            elseif last_horizontal_element['dist'] > last_vertical_element['dist']
-                and last_vertical_element['dist'] ~= 0
-                then
-                local last_vertical_element = vertical_stack:peek()
-                local xx, yy, height, textureoffset, dist
-                = calculateWallRenderValues(last_vertical_element['dist'],
-                    rayAngle,
-                    textureoffset,
-                    index,
-                    last_vertical_element['wallType'])
-                renderWalls(last_vertical_element['texturex'], textureoffset, xx, yy, height)
-                horizontal_stack:pop()
-                vertical_stack:pop()
-            elseif last_vertical_element['dist'] == 0
-                then
-                local xx, yy, height, textureoffset, dist
-                = calculateWallRenderValues(last_horizontal_element['dist'],
-                    rayAngle,
-                    textureoffset,
-                    index,
-                    last_horizontal_element['wallType'])
-                renderWalls(last_horizontal_element['texturex'], textureoffset, xx, yy, height)
-                horizontal_stack:pop()
-                vertical_stack:pop()
-            elseif last_horizontal_element['dist'] == 0
-                then
-                local last_vertical_element = vertical_stack:peek()
-                local xx, yy, height, textureoffset, dist
-                = calculateWallRenderValues(last_vertical_element['dist'],
-                    rayAngle,
-                    textureoffset,
-                    index,
-                    last_vertical_element['wallType'])
-                renderWalls(last_vertical_element['texturex'], textureoffset, xx, yy, height)
-                horizontal_stack:pop()
-                vertical_stack:pop()
-            else
-                print("no idea")
-                print_r(vertical_stack)
-                print("****************")
-                print_r(horizontal_stack)
-                os.exit()
-            end
-        end
-    else
-        print("no idea2")
-    end
+--    if(#horizontal_stack == #vertical_stack)
+--        then
+--        while #horizontal_stack ~= 0 do
+--            local last_horizontal_element = horizontal_stack:peek()
+--            local last_vertical_element = vertical_stack:peek()
+--            if last_horizontal_element['dist'] < last_vertical_element['dist']
+--                    and last_horizontal_element['dist'] ~= 0
+--                then
+--                local xx, yy, height, textureoffset, dist
+--                = calculateWallRenderValues(last_horizontal_element['dist'],
+--                    rayAngle,
+--                    textureoffset,
+--                    index,
+--                    last_horizontal_element['wallType'])
+--                renderWalls(last_horizontal_element['texturex'], textureoffset, xx, yy, height)
+--                horizontal_stack:pop()
+--                vertical_stack:pop()
+--            elseif last_horizontal_element['dist'] > last_vertical_element['dist']
+--                and last_vertical_element['dist'] ~= 0
+--                then
+--                local last_vertical_element = vertical_stack:peek()
+--                local xx, yy, height, textureoffset, dist
+--                = calculateWallRenderValues(last_vertical_element['dist'],
+--                    rayAngle,
+--                    textureoffset,
+--                    index,
+--                    last_vertical_element['wallType'])
+--                renderWalls(last_vertical_element['texturex'], textureoffset, xx, yy, height)
+--                horizontal_stack:pop()
+--                vertical_stack:pop()
+--            elseif last_vertical_element['dist'] == 0
+--                then
+--                local xx, yy, height, textureoffset, dist
+--                = calculateWallRenderValues(last_horizontal_element['dist'],
+--                    rayAngle,
+--                    textureoffset,
+--                    index,
+--                    last_horizontal_element['wallType'])
+--                renderWalls(last_horizontal_element['texturex'], textureoffset, xx, yy, height)
+--                horizontal_stack:pop()
+--                vertical_stack:pop()
+--            elseif last_horizontal_element['dist'] == 0
+--                then
+--                local last_vertical_element = vertical_stack:peek()
+--                local xx, yy, height, textureoffset, dist
+--                = calculateWallRenderValues(last_vertical_element['dist'],
+--                    rayAngle,
+--                    textureoffset,
+--                    index,
+--                    last_vertical_element['wallType'])
+--                renderWalls(last_vertical_element['texturex'], textureoffset, xx, yy, height)
+--                horizontal_stack:pop()
+--                vertical_stack:pop()
+--            else
+--                print("no idea")
+--                print_r(vertical_stack)
+--                print("****************")
+--                print_r(horizontal_stack)
+--                os.exit()
+--            end
+--        end
+--    else
+--        print("no idea2")
+--    end
 
 
 
@@ -412,7 +412,7 @@ function castSingleRay(rayAngle, index, distArray)
 --    end
 
 
-    --        drawRay(xHit, yHit)
+            drawRay(xHit, yHit)
 
 --    table.insert(distArray, dist)
     --        renderFloor(height, yy, xx, xHit, yHit, dist, rayAngle)
