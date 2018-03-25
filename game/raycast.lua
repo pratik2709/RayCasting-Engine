@@ -9,7 +9,7 @@ end
 function castRays()
 
     local vds = viewDist * viewDist
-    local index = 0
+    local index = 1
     local distArray = {}
     for i = 0, numRays - 1, 1 do
         --understand?
@@ -94,7 +94,7 @@ function castSingleRay(rayAngle, index, distArray)
     end
 
     y = player.y + (x - player.x) * slopeVer
-    while (x >= 0 and x < mapWidth and y >= 0 and y < mapHeight)
+    while (x >= 0 and x < mapWidth  and y >= 0 and y < mapHeight)
     do
         local wallX
         local wallY
@@ -127,6 +127,7 @@ function castSingleRay(rayAngle, index, distArray)
             vertical_info['texturex'] = texturex
             vertical_stack:push(vertical_info)
             vertical_info = {}
+--            break
         end
 
         x = x + dXVer
@@ -253,70 +254,83 @@ function castSingleRay(rayAngle, index, distArray)
 --    print_r(horizontal_stack)
 --        os.exit()
 
---    if(#horizontal_stack == #vertical_stack)
---        then
---        while #horizontal_stack ~= 0 do
---            local last_horizontal_element = horizontal_stack:peek()
---            local last_vertical_element = vertical_stack:peek()
---            if last_horizontal_element['dist'] < last_vertical_element['dist']
---                    and last_horizontal_element['dist'] ~= 0
---                then
---                local xx, yy, height, textureoffset, dist
---                = calculateWallRenderValues(last_horizontal_element['dist'],
---                    rayAngle,
---                    textureoffset,
---                    index,
---                    last_horizontal_element['wallType'])
---                renderWalls(last_horizontal_element['texturex'], textureoffset, xx, yy, height)
---                horizontal_stack:pop()
---                vertical_stack:pop()
---            elseif last_horizontal_element['dist'] > last_vertical_element['dist']
---                and last_vertical_element['dist'] ~= 0
---                then
---                local last_vertical_element = vertical_stack:peek()
---                local xx, yy, height, textureoffset, dist
---                = calculateWallRenderValues(last_vertical_element['dist'],
---                    rayAngle,
---                    textureoffset,
---                    index,
---                    last_vertical_element['wallType'])
---                renderWalls(last_vertical_element['texturex'], textureoffset, xx, yy, height)
---                horizontal_stack:pop()
---                vertical_stack:pop()
---            elseif last_vertical_element['dist'] == 0
---                then
---                local xx, yy, height, textureoffset, dist
---                = calculateWallRenderValues(last_horizontal_element['dist'],
---                    rayAngle,
---                    textureoffset,
---                    index,
---                    last_horizontal_element['wallType'])
---                renderWalls(last_horizontal_element['texturex'], textureoffset, xx, yy, height)
---                horizontal_stack:pop()
---                vertical_stack:pop()
---            elseif last_horizontal_element['dist'] == 0
---                then
---                local last_vertical_element = vertical_stack:peek()
---                local xx, yy, height, textureoffset, dist
---                = calculateWallRenderValues(last_vertical_element['dist'],
---                    rayAngle,
---                    textureoffset,
---                    index,
---                    last_vertical_element['wallType'])
---                renderWalls(last_vertical_element['texturex'], textureoffset, xx, yy, height)
---                horizontal_stack:pop()
---                vertical_stack:pop()
---            else
---                print("no idea")
---                print_r(vertical_stack)
---                print("****************")
---                print_r(horizontal_stack)
---                os.exit()
---            end
---        end
---    else
---        print("no idea2")
---    end
+    if(#horizontal_stack == #vertical_stack)
+        then
+        while #horizontal_stack ~= 0 do
+            local last_horizontal_element = horizontal_stack:peek()
+            local last_vertical_element = vertical_stack:peek()
+            if last_horizontal_element['dist'] < last_vertical_element['dist']
+                    and last_horizontal_element['dist'] ~= 0
+                then
+                local xx, yy, height, textureoffset, dist
+                = calculateWallRenderValues(last_horizontal_element['dist'],
+                    rayAngle,
+                    textureoffset,
+                    index,
+                    last_horizontal_element['wallType'])
+                renderWallsGreen(last_horizontal_element['texturex'], textureoffset, xx, yy, height, index)
+                horizontal_stack:pop()
+                vertical_stack:pop()
+                print("1st: pick horizontal")
+                print(dist)
+            elseif last_horizontal_element['dist'] > last_vertical_element['dist']
+                and last_vertical_element['dist'] ~= 0
+                then
+                local last_vertical_element = vertical_stack:peek()
+                local xx, yy, height, textureoffset, dist
+                = calculateWallRenderValues(last_vertical_element['dist'],
+                    rayAngle,
+                    textureoffset,
+                    index,
+                    last_vertical_element['wallType'])
+                renderWallsRed(last_vertical_element['texturex'], textureoffset, xx, yy, height, index)
+                horizontal_stack:pop()
+                vertical_stack:pop()
+                print("2nd: pick vertical")
+            elseif last_vertical_element['dist'] == 0
+                then
+                local xx, yy, height, textureoffset, dist
+                = calculateWallRenderValues(last_horizontal_element['dist'],
+                    rayAngle,
+                    textureoffset,
+                    index,
+                    last_horizontal_element['wallType'])
+                renderWallsWhite(last_horizontal_element['texturex'], textureoffset, xx, yy, height, index)
+            print("3rd: vertical is 0")
+            if(player.x > 25 and player.y > 21)
+                then
+                print(index)
+                print(player.x, player.y)
+                print_r(horizontal_stack)
+                print_r(vertical_stack)
+
+            end
+                horizontal_stack:pop()
+                vertical_stack:pop()
+            elseif last_horizontal_element['dist'] == 0
+                then
+                local last_vertical_element = vertical_stack:peek()
+                local xx, yy, height, textureoffset, dist
+                = calculateWallRenderValues(last_vertical_element['dist'],
+                    rayAngle,
+                    textureoffset,
+                    index,
+                    last_vertical_element['wallType'])
+                renderWallsBlue(last_vertical_element['texturex'], textureoffset, xx, yy, height, index)
+                horizontal_stack:pop()
+                vertical_stack:pop()
+                print("4th: horizontal is 0")
+            else
+                print("no idea")
+                print_r(vertical_stack)
+                print("****************")
+                print_r(horizontal_stack)
+                os.exit()
+            end
+        end
+    else
+        print("no idea2")
+    end
 
 
 

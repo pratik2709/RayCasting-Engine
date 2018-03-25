@@ -4,9 +4,10 @@ function calculateWallRenderValues(dist, rayAngle, textureoffset, index, wallTyp
     dist = dist * math.cos(player.rot - rayAngle)
     -- actual wall height is considered 1
     local height = round(viewDist / (dist))
-    local xx = index * stripWidth
+    cumulativeStrip = cumulativeStrip + stripWidth
+    local xx = (index*stripWidth)
     -- divide screenheight by half, and then go half of the wall distance
-    if(wallType == 1)
+    if(wallType == 5)
         then
         yy = round((screenHeight + height) / 2) - (height*5)
     else
@@ -25,7 +26,7 @@ function calculateWallRenderValues(dist, rayAngle, textureoffset, index, wallTyp
         textureoffset = wallTextureMapping[0]
     end
 
-    if(wallType == 1)
+    if(wallType == 5)
     then
         return xx, yy, height*5, textureoffset, dist
     else
@@ -34,16 +35,30 @@ function calculateWallRenderValues(dist, rayAngle, textureoffset, index, wallTyp
 
 end
 
+function renderWallsBlue(texturex, textureoffset, xx, yy, height)
+    love.graphics.setColor(0,0,255)
+    love.graphics.rectangle( "fill", xx, yy, stripWidth, height )
+end
 
---function renderWalls(texturex, textureoffset, xx, yy, height)
---    love.graphics.setColor(255,255,255)
---    love.graphics.rectangle( "fill", xx, yy, stripWidth*3, height )
---end
+function renderWallsGreen(texturex, textureoffset, xx, yy, height)
+    love.graphics.setColor(0,255,0)
+    love.graphics.rectangle( "fill", xx, yy, stripWidth, height )
+end
 
-function renderWalls(texturex, textureoffset, xx, yy, height)
+function renderWallsRed(texturex, textureoffset, xx, yy, height)
+    love.graphics.setColor(255,0,0)
+    love.graphics.rectangle( "fill", xx, yy, stripWidth, height )
+end
+
+function renderWallsWhite(texturex, textureoffset, xx, yy, height)
+    love.graphics.setColor(255,255,255)
+    love.graphics.rectangle( "fill", xx, yy, stripWidth, height )
+end
+
+function renderWalls(texturex, textureoffset, xx, yy, height, index)
     love.graphics.setColor(255,255,255)
     local q = love.graphics.newQuad( textureoffset[0]+(texturex*textureWidth), textureoffset[1], 64, 64, image:getDimensions())
-    love.graphics.draw(image, q, xx, yy,0, stripWidth/64, height/64)
+    love.graphics.draw(image, q, xx, yy,0, (stripWidth)/(64), height/64)
 end
 
 --function renderWalls(texturex, textureoffset, xx, yy, height)

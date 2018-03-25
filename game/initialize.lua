@@ -102,3 +102,4 @@ down = 3
 initial_direction = -1
 random_direction_number = love.math.random(1, 4)
 cumulativeDS = 0
+cumulativeStrip = 0
