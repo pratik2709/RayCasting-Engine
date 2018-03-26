@@ -232,16 +232,16 @@ function castSingleRay(rayAngle, index, distArray)
 --    print_r(#horizontal_stack)
 --        os.exit()
 --    end
-    while(#horizontal_stack ~= #vertical_stack)
+    while(tablelength(horizontal_stack) ~= tablelength(vertical_stack))
     do
 
-        if(#horizontal_stack > #vertical_stack)
+        if(tablelength(horizontal_stack) > tablelength(vertical_stack))
             then
             vertical_info['dist'] = 0
             vertical_info['wallType'] = 0
             vertical_info['texturex'] = 0
             vertical_stack:push(vertical_info)
-        elseif(#horizontal_stack < #vertical_stack)
+        elseif(tablelength(horizontal_stack) < tablelength(vertical_stack))
             then
             horizontal_info['dist'] = 0
             horizontal_info['wallType'] = 0
@@ -255,9 +255,9 @@ function castSingleRay(rayAngle, index, distArray)
 --    print_r(horizontal_stack)
 --        os.exit()
 
-    if(#horizontal_stack == #vertical_stack)
+    if(tablelength(horizontal_stack) == tablelength(vertical_stack))
         then
-        while #horizontal_stack ~= 0 do
+        while tablelength(horizontal_stack) ~= 0 do
             local last_horizontal_element = horizontal_stack:peek()
             local last_vertical_element = vertical_stack:peek()
             if last_horizontal_element['dist'] < last_vertical_element['dist']

@@ -53,3 +53,9 @@ function manipulate_player_plane()
     player.planeX = player.planeX * math.cos(turnSpeed) - player.planeY * math.sin(turnSpeed)
     player.planeY = oldPlaneX * math.sin(turnSpeed) + player.planeY * math.cos(turnSpeed)
 end
+
+function tablelength(T)
+  local count = 0
+  for _ in pairs(T) do count = count + 1 end
+  return count
+end
