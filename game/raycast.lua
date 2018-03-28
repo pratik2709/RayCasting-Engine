@@ -257,18 +257,11 @@ function castSingleRay(rayAngle, index, distArray)
         end
 
     end
-    if(index == 197)
-        then
-    print_r(vertical_stack)
-    print("****************")
-    print_r(horizontal_stack)
-        os.exit()
-    end
+--    if(index == 197)
+--        then
 --    print_r(vertical_stack)
 --    print("****************")
 --    print_r(horizontal_stack)
---        os.exit()
-
     if(tablelength(horizontal_stack) == tablelength(vertical_stack))
         then
         while tablelength(horizontal_stack) ~= 0 do
@@ -277,13 +270,26 @@ function castSingleRay(rayAngle, index, distArray)
             if last_horizontal_element['dist'] < last_vertical_element['dist']
                     and last_horizontal_element['dist'] ~= 0
                 then
+
+                -- render the discared wall first if it has a bigger height
+                if(last_vertical_element['wallType'] == 5)
+                    then
+                    local xx, yy, height, textureoffset, dist
+                    = calculateWallRenderValues(last_vertical_element['dist'],
+                        rayAngle,
+                        textureoffset,
+                        index,
+                        last_vertical_element['wallType'])
+                    renderWalls(last_vertical_element['texturex'], textureoffset, xx, yy, height, index)
+                end
+
                 local xx, yy, height, textureoffset, dist
                 = calculateWallRenderValues(last_horizontal_element['dist'],
                     rayAngle,
                     textureoffset,
                     index,
                     last_horizontal_element['wallType'])
-                renderWallsGreen(last_horizontal_element['texturex'], textureoffset, xx, yy, height, index)
+                renderWalls(last_horizontal_element['texturex'], textureoffset, xx, yy, height, index)
                 horizontal_stack:pop()
                 vertical_stack:pop()
 --                print("1st: pick horizontal")
@@ -292,11 +298,29 @@ function castSingleRay(rayAngle, index, distArray)
                 and last_vertical_element['dist'] ~= 0
                 then
 
-
-                if(last_vertical_element['wallType'] == 5 and player.x >= 19 and player.x < 20
-                and player.y >= 15 and player.y < 16)
+                if(last_horizontal_element['wallType'] == 5)
                     then
+                    local xx, yy, height, textureoffset, dist
+                    = calculateWallRenderValues(last_horizontal_element['dist'],
+                        rayAngle,
+                        textureoffset,
+                        index,
+                        last_horizontal_element['wallType'])
+                    renderWalls(last_horizontal_element['texturex'], textureoffset, xx, yy, height, index)
+                end
 
+--                if(last_vertical_element['wallType'] == 5 and player.x >= 19 and player.x < 20
+--                and player.y >= 15 and player.y < 16)
+--                    then
+--
+--                local xx, yy, height, textureoffset, dist
+--                = calculateWallRenderValues(last_vertical_element['dist'],
+--                    rayAngle,
+--                    textureoffset,
+--                    index,
+--                    last_vertical_element['wallType'])
+--                renderWalls(last_vertical_element['texturex'], textureoffset, xx, yy, height, index)
+--                else
                 local xx, yy, height, textureoffset, dist
                 = calculateWallRenderValues(last_vertical_element['dist'],
                     rayAngle,
@@ -304,17 +328,7 @@ function castSingleRay(rayAngle, index, distArray)
                     index,
                     last_vertical_element['wallType'])
                 renderWalls(last_vertical_element['texturex'], textureoffset, xx, yy, height, index)
-                else
-                local xx, yy, height, textureoffset, dist
-                = calculateWallRenderValues(last_vertical_element['dist'],
-                    rayAngle,
-                    textureoffset,
-                    index,
-                    last_vertical_element['wallType'])
-
-
-                renderWallsRed(last_vertical_element['texturex'], textureoffset, xx, yy, height, index)
-                end
+--                end
                 horizontal_stack:pop()
                 vertical_stack:pop()
 --                print("2nd: pick vertical")
@@ -326,7 +340,7 @@ function castSingleRay(rayAngle, index, distArray)
                     textureoffset,
                     index,
                     last_horizontal_element['wallType'])
-                renderWallsWhite(last_horizontal_element['texturex'], textureoffset, xx, yy, height, index)
+                renderWalls(last_horizontal_element['texturex'], textureoffset, xx, yy, height, index)
 
                 horizontal_stack:pop()
                 vertical_stack:pop()
@@ -338,7 +352,7 @@ function castSingleRay(rayAngle, index, distArray)
                     textureoffset,
                     index,
                     last_vertical_element['wallType'])
-                renderWallsBlue(last_vertical_element['texturex'], textureoffset, xx, yy, height, index)
+                renderWalls(last_vertical_element['texturex'], textureoffset, xx, yy, height, index)
                 horizontal_stack:pop()
                 vertical_stack:pop()
 --                print("4th: horizontal is 0")
@@ -353,6 +367,15 @@ function castSingleRay(rayAngle, index, distArray)
     else
         print("no idea2")
     end
+--           love.timer.sleep(5)
+--        os.exit()
+--    end
+--    print_r(vertical_stack)
+--    print("****************")
+--    print_r(horizontal_stack)
+--        os.exit()
+
+
 
 
 
