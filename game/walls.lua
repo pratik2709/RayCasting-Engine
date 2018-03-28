@@ -4,7 +4,6 @@ function calculateWallRenderValues(dist, rayAngle, textureoffset, index, wallTyp
     dist = dist * math.cos(player.rot - rayAngle)
     -- actual wall height is considered 1
     local height = round(viewDist / (dist))
-    cumulativeStrip = cumulativeStrip + stripWidth
     local xx = (index*stripWidth)
 
     -- divide screenheight by half, and then go half of the wall distance
@@ -12,7 +11,7 @@ function calculateWallRenderValues(dist, rayAngle, textureoffset, index, wallTyp
         then
 --        print("index::" .. index)
 --        print("********")
-        yy = round((screenHeight + height) / 2) - (height*4)
+        yy = round((screenHeight + height) / 2) - (height*0.2)
 --        print(xx, yy)
 --        print("height::" .. height)
 --        print("********")
@@ -42,7 +41,7 @@ function calculateWallRenderValues(dist, rayAngle, textureoffset, index, wallTyp
 
     if(wallType == 5)
     then
-        return xx, yy, height*4, textureoffset, dist
+        return xx, yy, height*0.2, textureoffset, dist
 --    elseif (wallType == 7) then
 --        return xx, yy, height, textureoffset, dist
     else
