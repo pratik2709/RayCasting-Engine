@@ -64,4 +64,4 @@ height = sy =  Math.ceil(sprite.spriteHeight * 0.01 * size)
 
 * no textures check - D
 * 64 height check
-* 
+* ~/projects/RayCasting-Engine/love.app/Contents/MacOS/love ~/projects/RayCasting-Engine/game/

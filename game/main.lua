@@ -28,7 +28,7 @@ map = { [0]=
     {[0]= 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
 };
 local miniMapScale = 12
-local mapScale  = 512
+local mapScale  = 200
 screenWidth = 667 --diff
 screenHeight = 375
 local stripWidth = 2;
@@ -43,17 +43,18 @@ mapWidth = 32 --diff
 mapHeight = 24
 
 local function pdist(y)
-	return viewDist*player.h/(y-screenHeight*0.5)
+	return viewDist * (screenHeight * 0.5) / (y - screenHeight * 0.5)
 end
 
 local function celda(x,y)
 	fx =math.floor(x)
 	fy=math.floor(y)
+--print(fx,fy)
 --    if(x >= 0 and x < mapWidth  and y >= 0 and y < mapHeight)
 --        then
 --        return 0
 --    end
-	if fx>10 or fy>10 then return 0 end
+	if fx>mapWidth or fy>mapHeight then return 0 end
 	if fx<0 or fy<0 then return 0 end
 	return map[fx][fy]
 end
@@ -91,6 +92,7 @@ local function drawMiniMap()
 end
 
 function love.load()
+    love.graphics.setBackgroundColor(128, 128, 128)
 	--valor = 1
 --	for i=0,10 do
 --		map[i]={}
@@ -109,12 +111,12 @@ function love.load()
 
 end
 
-local function castVerticalFloorRay(x,angulo)
+local function castVerticalFloorRay(i,angulo)
 	local index = 0
 	for y=fy0,screenHeight,stripHeight do
 		local cos_of_rayangle = math.cos(angulo-player.rot)
 		if cos_of_rayangle ==0 then cos_of_rayangle =0.0001 end
-		local dist = (pdist(y)/ cos_of_rayangle)/mapScale
+		local dist = (pdist(y)/ cos_of_rayangle)/200
 		local px = player.x + math.cos(angulo) * dist
 		local py = player.y + math.sin(angulo) * dist
 		local piso = celda(px,py)
@@ -125,7 +127,8 @@ local function castVerticalFloorRay(x,angulo)
             dist = dist * math.cos(player.rot - angulo)
             -- actual wall height is considered 1
             local height = round(viewDist / (dist))
-            local xx = (index*stripWidth)
+--        print(height)
+            local xx = (i*stripWidth)
             local yy = round((screenHeight - height) / 2)
             love.graphics.setColor(0,0,255)
             love.graphics.rectangle( "fill", xx, yy, stripWidth, height)
