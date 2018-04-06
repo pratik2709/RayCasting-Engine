@@ -35,7 +35,7 @@ map = { [0]=
     {[0]= 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
     {[0]= 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
 }
-local miniMapScale = 12
+local miniMapScale = 6
 local mapScale = 512
 screenWidth = 667 --diff
 screenHeight = 375
@@ -70,15 +70,10 @@ end
 local function celda(x, y)
     fx = math.floor(x)
     fy = math.floor(y)
-    --print(fx,fy)
-    --    if(x >= 0 and x < mapWidth  and y >= 0 and y < mapHeight)
-    --        then
-    --        return 0
-    --    end
+
     if fx > mapWidth-1 or fy > mapHeight-1 then return 0 end
-    if fx < 1 or fy < 1 then return 0 end
---    print(fx,fy)
-    return map[fx][fy]
+    if fx < 0 or fy < 0 then return 0 end
+    return map[fy][fx]
 end
 
 local function drawHero()
@@ -94,12 +89,12 @@ end
 
 local function drawMiniMap()
     local wall
-    for x = 0, 10 do
-        for y = 0, 10 do
+    for x = 0, mapWidth-1 do
+        for y = 0, mapHeight-1 do
             wall = celda(x, y)
 
             if (wall > 0) then
-                love.graphics.setColor(wall, wall, wall)
+                love.graphics.setColor(0, 0, 0)
                 love.graphics.rectangle("fill",
                     x * miniMapScale,
                     y * miniMapScale,
@@ -130,7 +125,7 @@ end
 
 local function castVerticalFloorRay(i, angulo)
     local index = 0
-    for y = fy0, screenHeight, stripHeight do
+    for y = screenHeight, fy0, -2 do
         local cos_of_rayangle = math.cos(angulo - player.rot)
         if cos_of_rayangle == 0 then cos_of_rayangle = 0.0001 end
         local straightDist = pdist(y)
@@ -140,7 +135,7 @@ local function castVerticalFloorRay(i, angulo)
 
 --        if pcall(celda(px, py))
 --            then
-            local piso = celda(px, py)
+        local piso = celda(px, py)
 --        else
 --                local fx = math.floor(px)
 --                local fy = math.floor(py)
@@ -175,16 +170,10 @@ local function castVerticalFloorRay(i, angulo)
             local texturex = px % 1
             texturex = 1 - texturex
 
-            --            love.graphics.rectangle("fill", xx, yy, stripWidth, height)
-            love.graphics.setColor(255, 255, 255)
-            local q = love.graphics.newQuad(textureoffset[0] + (texturex * textureWidth), textureoffset[1], 64, 64, image:getDimensions())
-            love.graphics.draw(image, q, xx, yy, 0, (stripWidth) / (64), height / 64)
-            --			love.graphics.setColor( piso,piso,piso)
-            --				love.graphics.rectangle( "fill",
-            --					x * stripWidth,
-            --					y ,
-            --					stripWidth,1
-            --				)
+                        love.graphics.rectangle("fill", xx, yy, stripWidth, height)
+--            love.graphics.setColor(255, 255, 255)
+--            local q = love.graphics.newQuad(textureoffset[0] + (texturex * textureWidth), textureoffset[1], 64, 64, image:getDimensions())
+--            love.graphics.draw(image, q, xx, yy, 0, (stripWidth) / (64), height / 64)
         end
     end
 end
