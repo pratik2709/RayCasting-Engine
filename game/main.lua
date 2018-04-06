@@ -46,7 +46,7 @@ local numRays = math.ceil(screenWidth / stripWidth);
 local fovHalf = fov / 2;
 local viewDist = (screenWidth / 2) / math.tan((fov / 2));
 local twoPI = math.pi * 2;
-local fy0 = screenHeight * 0.6
+local fy0 = screenHeight * 0.5
 mapWidth = 32 --diff
 mapHeight = 24
 wallTextureMapping = { [0] = { [0] = 0, 1 }, { [0] = 0, 64 }, { [0] = 0, 128 }, { [0] = 0, 256 } }
@@ -169,11 +169,11 @@ local function castVerticalFloorRay(i, angulo)
 
             local texturex = px % 1
             texturex = 1 - texturex
+            love.graphics.rectangle("fill", xx, yy, stripWidth, height)
 
-                        love.graphics.rectangle("fill", xx, yy, stripWidth, height)
 --            love.graphics.setColor(255, 255, 255)
 --            local q = love.graphics.newQuad(textureoffset[0] + (texturex * textureWidth), textureoffset[1], 64, 64, image:getDimensions())
---            love.graphics.draw(image, q, xx, yy, 0, (stripWidth) / (64), height / 64)
+--            love.graphics.draw(image, q, xx, yy, 0, (stripWidth) , height )
         end
     end
 end
@@ -235,6 +235,11 @@ end
 
 
 local function isBlocking(x, y)
+    if(celda(x,y) > 0)
+        then
+        return true
+    end
+
     return false
 end
 
