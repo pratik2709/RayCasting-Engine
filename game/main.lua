@@ -1,6 +1,6 @@
 local player = {
-    x = 5,
-    y = 5,
+    x = 8.2632423522659,
+    y = 6.9649862353517,
     h = 200,
     dir = 0,
     rot = 0,
@@ -45,7 +45,7 @@ local fov = 60 * math.pi / 180;
 local numRays = math.ceil(screenWidth / stripWidth);
 local fovHalf = fov / 2;
 local viewDist = (screenWidth / 2) / math.tan((fov / 2));
-local twoPI = math.pi * 2;
+local twopi = math.pi * 2;
 local fy0 = screenHeight * 0.5
 mapWidth = 32 --diff
 mapHeight = 24
@@ -124,10 +124,13 @@ function love.load()
 end
 
 local function castVerticalFloorRay(i, angulo)
-    local index = 0
+    angulo = angulo % twopi
+    if angulo < 0 then
+        angulo = angulo + twopi
+    end
     for y = screenHeight, fy0, -2 do
         local cos_of_rayangle = math.cos(angulo - player.rot)
-        if cos_of_rayangle == 0 then cos_of_rayangle = 0.0001 end
+--        if cos_of_rayangle == 0 then cos_of_rayangle = 0.0001 end
         local straightDist = pdist(y)
         local dist = (straightDist / cos_of_rayangle) / mapScale
         local px = player.x + math.cos(angulo) * dist
@@ -135,16 +138,21 @@ local function castVerticalFloorRay(i, angulo)
 
 --        if pcall(celda(px, py))
 --            then
-        local piso = celda(px, py)
---        else
---                local fx = math.floor(px)
---                local fy = math.floor(py)
---                print(fx,fy)
---        end
+        -- if celda value is wrong walls wont render
+        fx = math.floor(px)
+        fy = math.floor(py)
 
+        if fx > mapWidth-1 or fy > mapHeight-1
+        then
+            break
+        end
+        if fx < 0 or fy < 0 then
+            break
+        end
 
-        index = index + 1
-        --        print(piso)
+        piso = map[fy][fx]
+--        print(piso)
+
         if piso > 0 then
 --            straightDist = math.sqrt(straightDist)
             dist = dist * math.cos(player.rot - angulo)
@@ -153,22 +161,25 @@ local function castVerticalFloorRay(i, angulo)
             --        print(height)
             local xx = (i * stripWidth)
             local yy = round((screenHeight - height) / 2)
+            drawRay(fx,fy)
             love.graphics.setColor(0, 0, 255)
-
-            if (piso == 1) then
-                textureoffset = wallTextureMapping[0]
-            elseif (piso == 2) then
-                textureoffset = wallTextureMapping[1]
-            elseif (piso == 3) then
-                textureoffset = wallTextureMapping[2]
-            elseif (piso == 4) then
-                textureoffset = wallTextureMapping[3]
-            else
-                textureoffset = wallTextureMapping[0]
-            end
-
-            local texturex = px % 1
-            texturex = 1 - texturex
+--            love.graphics.points( xx, yy )
+--            love.graphics.setColor(0, 0, 255)
+--
+--            if (piso == 1) then
+--                textureoffset = wallTextureMapping[0]
+--            elseif (piso == 2) then
+--                textureoffset = wallTextureMapping[1]
+--            elseif (piso == 3) then
+--                textureoffset = wallTextureMapping[2]
+--            elseif (piso == 4) then
+--                textureoffset = wallTextureMapping[3]
+--            else
+--                textureoffset = wallTextureMapping[0]
+--            end
+--
+--            local texturex = px % 1
+--            texturex = 1 - texturex
             love.graphics.rectangle("fill", xx, yy, stripWidth, height)
 
 --            love.graphics.setColor(255, 255, 255)
@@ -179,7 +190,7 @@ local function castVerticalFloorRay(i, angulo)
 end
 
 local function floorCasting()
-    for i = 0, numRays - 1 do
+    for i = 0, numRays - 1, 1 do
         local rayScreenPos = (-numRays / 2 + i) * stripWidth;
         local rayViewDist = math.sqrt(rayScreenPos * rayScreenPos + viewDist * viewDist);
         local rayAngle = math.asin(rayScreenPos / rayViewDist);
@@ -189,7 +200,7 @@ end
 
 
 function love.draw()
-    floorCasting()
+        floorCasting()
     	drawMiniMap()
     	drawHero()
 end
@@ -264,4 +275,13 @@ end
 
 round = function(num)
     return math.floor(num + .5)
+end
+
+function drawRay(rayX, rayY)
+
+    love.graphics.setColor(255,255,255)
+    love.graphics.line(player.x * miniMapScale,
+        player.y * miniMapScale,
+        rayX * miniMapScale,
+        rayY * miniMapScale)
 end
