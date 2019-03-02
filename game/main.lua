@@ -36,7 +36,7 @@ map = { [0]=
     {[0]= 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
 }
 local miniMapScale = 6
-local mapScale = 512
+local mapScale = 256
 screenWidth = 667 --diff
 screenHeight = 375
 local stripWidth = 2;
@@ -46,7 +46,7 @@ local numRays = math.ceil(screenWidth / stripWidth);
 local fovHalf = fov / 2;
 local viewDist = (screenWidth / 2) / math.tan((fov / 2));
 local twopi = math.pi * 2;
-local fy0 = screenHeight * 0.5
+local fy0 = screenHeight/2
 mapWidth = 32 --diff
 mapHeight = 24
 wallTextureMapping = { [0] = { [0] = 0, 1 }, { [0] = 0, 64 }, { [0] = 0, 128 }, { [0] = 0, 256 } }
@@ -68,12 +68,12 @@ local function pdist(y)
 end
 
 local function celda(x, y)
-    fx = math.floor(x)
-    fy = math.floor(y)
+    local celda_fx = math.floor(x)
+    local celda_fy = math.floor(y)
 
-    if fx > mapWidth-1 or fy > mapHeight-1 then return 0 end
-    if fx < 0 or fy < 0 then return 0 end
-    return map[fy][fx]
+    if celda_fx > mapWidth-1 or celda_fy > mapHeight-1 then return 0 end
+    if celda_fx < 0 or celda_fy < 0 then return 0 end
+    return map[celda_fy][celda_fx]
 end
 
 local function drawHero()
@@ -106,29 +106,28 @@ end
 
 function love.load()
     love.graphics.setBackgroundColor(128, 128, 128)
-    --valor = 1
-    --	for i=0,10 do
-    --		map[i]={}
-    --		for j=0,10 do
-    --			valor =math.random(0,255)
-    --			map[i][j]= valor
-    --			--valor = 1-valor
-    --		end
-    --	end
-
-    -- for i=0,10 do
-    -- for j=0,10 do
-    -- print(i,j,celda(i,j))
-    -- end
-    -- end
 end
 
-local function castVerticalFloorRay(i, angulo)
+local function floorCasting()
+    for i = 0, numRays - 1, 1 do
+        local vds = viewDist * viewDist
+        local rayScreenPos = (-numRays / 2 + i) * stripWidth;
+        local rayViewDist = math.sqrt((rayScreenPos *
+                rayScreenPos) + vds);
+        local rayAngle = math.asin(rayScreenPos / rayViewDist);
+        local ang = player.rot + rayAngle
+        castVerticalFloorRay(i, ang)
+    end
+end
+
+function castVerticalFloorRay(i, angulo)
     angulo = angulo % twopi
     if angulo < 0 then
         angulo = angulo + twopi
     end
-    for y = screenHeight, fy0, -2 do
+
+    for y = screenHeight, fy0, -0.5 do
+--        print(fy0,screenHeight,y)
         local cos_of_rayangle = math.cos(angulo - player.rot)
 --        if cos_of_rayangle == 0 then cos_of_rayangle = 0.0001 end
         local straightDist = pdist(y)
@@ -139,8 +138,8 @@ local function castVerticalFloorRay(i, angulo)
 --        if pcall(celda(px, py))
 --            then
         -- if celda value is wrong walls wont render
-        fx = math.floor(px)
-        fy = math.floor(py)
+        local fx = math.ceil(px)
+        local fy = math.ceil(py)
 
         if fx > mapWidth-1 or fy > mapHeight-1
         then
@@ -150,53 +149,26 @@ local function castVerticalFloorRay(i, angulo)
             break
         end
 
-        piso = map[fy][fx]
---        print(piso)
+--        local player_pos_height =
+        local piso = map[fy][fx]
+--        if piso ~= 0 then
+--            print(piso)
+--        end
 
+--         do current height check
         if piso > 0 then
---            straightDist = math.sqrt(straightDist)
-            dist = dist * math.cos(player.rot - angulo)
-            -- actual wall height is considered 1
             local height = round(viewDist / (dist))
-            --        print(height)
             local xx = (i * stripWidth)
             local yy = round((screenHeight - height) / 2)
-            drawRay(fx,fy)
-            love.graphics.setColor(0, 0, 255)
---            love.graphics.points( xx, yy )
---            love.graphics.setColor(0, 0, 255)
---
---            if (piso == 1) then
---                textureoffset = wallTextureMapping[0]
---            elseif (piso == 2) then
---                textureoffset = wallTextureMapping[1]
---            elseif (piso == 3) then
---                textureoffset = wallTextureMapping[2]
---            elseif (piso == 4) then
---                textureoffset = wallTextureMapping[3]
---            else
---                textureoffset = wallTextureMapping[0]
---            end
---
---            local texturex = px % 1
---            texturex = 1 - texturex
             love.graphics.rectangle("fill", xx, yy, stripWidth, height)
-
---            love.graphics.setColor(255, 255, 255)
---            local q = love.graphics.newQuad(textureoffset[0] + (texturex * textureWidth), textureoffset[1], 64, 64, image:getDimensions())
---            love.graphics.draw(image, q, xx, yy, 0, (stripWidth) , height )
+            drawRay(fx,fy)
+            y = y + height
+            break
         end
     end
 end
 
-local function floorCasting()
-    for i = 0, numRays - 1, 1 do
-        local rayScreenPos = (-numRays / 2 + i) * stripWidth;
-        local rayViewDist = math.sqrt(rayScreenPos * rayScreenPos + viewDist * viewDist);
-        local rayAngle = math.asin(rayScreenPos / rayViewDist);
-        castVerticalFloorRay(i, player.rot + rayAngle)
-    end
-end
+
 
 
 function love.draw()
