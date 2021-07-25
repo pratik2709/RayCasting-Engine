@@ -2,7 +2,7 @@
 
 ## Introduction
 This is a Lua implementation of the Ray Casting technique. It uses Love2D as the game engine framework.
-![Ray Casting Image](https://dl.dropboxusercontent.com/s/7zt7936gj2wqud1/raycasting.png?dl=0)
+![Ray Casting Image](https://github.com/pratik2709/RayCasting-Engine/blob/master/final_result.png)
 
 ## What is Ray Casting ?
 Ray-casting is a technique that transforms a limited form of data (a very simplified map or floor plan) into a 3D projection by tracing rays from the view point into the viewing volume
