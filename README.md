@@ -29,3 +29,5 @@ This code is based on the following sources:
 * Lode's Raycasting Tutorial by Lode Vandevenne http://lodev.org/cgtutor/index.html
 
 * https://github.com/krotik/gladiator_3d
+  
+  ./love.app/Contents/MacOS/love game 
